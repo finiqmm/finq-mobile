@@ -1,4 +1,4 @@
-package com.example.finq
+package co.finiq
 
 import io.flutter.embedding.android.FlutterActivity
 
