@@ -1,6 +1,10 @@
+import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/presentation/journeys/main/main_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'Routes.dart';
+import 'fade_page_route_builder.dart';
 
 class FinqApp extends StatefulWidget {
   FinqApp({Key? key}) : super(key: key);
@@ -16,7 +20,16 @@ class _FinqAppState extends State<FinqApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Finq App',
-      home: MainScreen(),
+      builder: (context, child) => child!,
+      initialRoute: RouteList.initial,
+      onGenerateRoute: (RouteSettings settings) {
+        final routes = Routes.getRoutes(settings);
+        final WidgetBuilder? builder = routes[settings.name];
+        return FadePageRouteBuilder(
+          builder: builder!,
+          settings: settings,
+        );
+      },
     );
   }
 }
