@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/no_params.dart';
-import 'package:finq/domain/usecases/check_if_first_time_user.dart';
-import 'package:finq/domain/usecases/finish_onboarding.dart';
+import 'package:finq/domain/usecases/onboarding/check_if_first_time_user.dart';
+import 'package:finq/domain/usecases/onboarding/finish_onboarding.dart';
 
 part 'onboarding_event.dart';
 part 'onboarding_state.dart';

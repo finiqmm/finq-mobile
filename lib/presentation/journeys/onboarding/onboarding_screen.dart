@@ -1,7 +1,7 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/onboarding/onboarding_bloc.dart';
-import 'package:finq/presentation/journeys/onboarding/onboarding.dart';
+import 'package:finq/presentation/journeys/onboarding/onboarding_ui_model.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_item.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_page_indicator.dart';
 import 'package:flutter/material.dart';

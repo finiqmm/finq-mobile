@@ -18,40 +18,40 @@ class FinqApp extends StatefulWidget {
 }
 
 class _FinqAppState extends State<FinqApp> {
-  late final OnboardingBloc _onboardingBloc;
-  late final AppBloc _appBloc;
+  late final AppBloc appBloc;
 
   @override
   void initState() {
     super.initState();
-    _onboardingBloc = getItInstance<OnboardingBloc>();
-    _appBloc = getItInstance<AppBloc>();
-    // _onboardingBloc.add(CheckUserPassesOnboardingEvent());
+    appBloc = getItInstance<AppBloc>();
+    appBloc.add(IsUserFinishedOnboarding());
   }
 
   @override
   void dispose() {
-    _onboardingBloc.close();
-    _appBloc.close();
+    appBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Finq App',
-      builder: (context, child) => child!,
-      initialRoute: RouteList.initial,
-      onGenerateRoute: (RouteSettings settings) {
-        final routes = Routes.getRoutes(settings);
-        final WidgetBuilder? builder = routes[settings.name];
-        return FadePageRouteBuilder(
-          builder: builder!,
-          settings: settings,
-        );
-      },
-    );
+
+  return BlocProvider(
+        create: (context) => appBloc,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Finq App',
+          builder: (context, child) => child!,
+          initialRoute: RouteList.initial,
+          onGenerateRoute: (RouteSettings settings) {
+            final routes = Routes.getRoutes(settings);
+            final WidgetBuilder? builder = routes[settings.name];
+            return FadePageRouteBuilder(
+              builder: builder!,
+              settings: settings,
+            );
+          },
+        ));
   }
 }

@@ -8,3 +8,5 @@ abstract class AppEvent extends Equatable {
 }
 
 class IsUserFinishedOnboarding extends AppEvent {}
+
+class AuthCheckRequested extends AppEvent {}

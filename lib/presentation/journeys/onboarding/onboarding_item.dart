@@ -1,4 +1,4 @@
-import 'package:finq/presentation/journeys/onboarding/onboarding.dart';
+import 'package:finq/presentation/journeys/onboarding/onboarding_ui_model.dart';
 import 'package:flutter/material.dart';
 
 class OnboaringItem extends StatelessWidget {
