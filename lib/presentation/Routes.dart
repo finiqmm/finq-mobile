@@ -1,5 +1,4 @@
 import 'package:finq/common/constants/route_constants.dart';
-import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/journeys/login/login_screen.dart';
 import 'package:finq/presentation/journeys/main/main_screen.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_screen.dart';
