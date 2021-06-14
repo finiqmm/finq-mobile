@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
+import 'package:flutter/material.dart';
 
 class ApplicationRepositoryImpl extends ApplicationRepository {
   final ApplicationDataSource applicationDataSource;
@@ -19,9 +20,10 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
   }
 
   @override
-  Future<Either<AppError, bool>> isOnboardingFinished() async {
+  Future<Either<AppError, bool>> isUserPassedOnboarding() async {
     try {
-      final response = await applicationDataSource.isOnboardingFinish();
+      final response = await applicationDataSource.isUserPassedOnboarding();
+      debugPrint(response.toString() +"dqwefqe");
       return Right(response);
     } on Exception {
       return Left(AppError(AppErrorType.database));

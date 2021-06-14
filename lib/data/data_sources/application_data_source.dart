@@ -3,7 +3,7 @@ import 'package:pedantic/pedantic.dart';
 
 abstract class ApplicationDataSource {
   Future<void> finishedOnboarding();
-  Future<bool> isOnboardingFinish();
+  Future<bool> isUserPassedOnboarding();
 }
 
 class ApplicationDataSourceImpl extends ApplicationDataSource {
@@ -14,7 +14,7 @@ class ApplicationDataSourceImpl extends ApplicationDataSource {
   }
 
   @override
-  Future<bool> isOnboardingFinish() async {
+  Future<bool> isUserPassedOnboarding() async {
     final appConfigBox = await Hive.openBox('appConfigBox');
     return appConfigBox.get('onboardingStatus') ?? false;
   }
