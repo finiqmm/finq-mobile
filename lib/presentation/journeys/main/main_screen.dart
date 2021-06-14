@@ -43,15 +43,16 @@ class _MainScreenState extends State<MainScreen> {
         },
         buildWhen: (previous, current) => current is OnboardingPassed,
         builder: (context, state) {
-          // debugPrint('State ${state.toString()}Build ');
-
-          return Scaffold(
-            appBar: AppBar(),
-            body: Container(),
-            bottomNavigationBar: MainBottomNavigationBar(
-              onSelectedIndexChange: (index) {},
-            ),
-          );
+          if (state is OnboardingPassed) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Container(),
+              bottomNavigationBar: MainBottomNavigationBar(
+                onSelectedIndexChange: (index) {},
+              ),
+            );
+          }
+          return SizedBox.shrink();
         },
       ),
     );

@@ -13,6 +13,4 @@ class OnboardingPassed extends AppState {}
 
 class FirstTimeUser extends AppState {}
 
-class UserAuthenticated extends AppState {}
-
 

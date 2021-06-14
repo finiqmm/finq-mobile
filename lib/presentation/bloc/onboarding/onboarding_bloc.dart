@@ -26,12 +26,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
         (l) => OnboardingFinished(),
         (r) => OnboardingFinished(),
       );
-    } else if (event is CheckUserPassesOnboardingEvent) {
-      final response = await checkIfFirstTimeUser(NoParams());
-      yield response.fold(
-        (l) => IsUserPassedOnboarding(false),
-        (r) => IsUserPassedOnboarding(r),
-      );
     }
   }
 }

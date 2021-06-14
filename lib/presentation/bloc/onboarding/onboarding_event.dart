@@ -8,5 +8,3 @@ abstract class OnboardingEvent extends Equatable {
 }
 
 class OnboardingFinishedEvent extends OnboardingEvent {}
-
-class CheckUserPassesOnboardingEvent extends OnboardingEvent {}
