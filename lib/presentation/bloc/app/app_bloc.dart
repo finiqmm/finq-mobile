@@ -40,7 +40,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield response.fold((l) => UnAuthenticated(), (r) => Authenticated());
     }
 
-    if (event is SignOut) {
+    if (event is SignOutPressedEvent) {
       await signOut(NoParams());
       yield UnAuthenticated();
     }
