@@ -10,6 +10,7 @@ import 'package:finq/domain/usecases/auth/authentication.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/auth/auth_bloc.dart';
 import 'package:finq/presentation/bloc/onboarding/onboarding_bloc.dart';
+import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -53,4 +54,6 @@ Future init() async {
   getItInstance.registerFactory<AppBloc>(
       () => AppBloc(getItInstance(), getItInstance(), getItInstance()));
   getItInstance.registerFactory<AuthBloc>(() => AuthBloc(getItInstance()));
+  getItInstance
+      .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
 }
