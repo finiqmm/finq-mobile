@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is SignInPressed) {
       yield SignInLoading();
       final result = await signIn(NoParams());
-      yield result.fold((l) => SignInError(), (r) => SignInSuccess());
+      yield result.fold((l) => SignInError(l.message), (r) => SignInSuccess());
     }
   }
 }

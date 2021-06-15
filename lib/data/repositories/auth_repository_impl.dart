@@ -22,10 +22,11 @@ class AuthRepositoryImpl extends AuthenticationRepository {
     try {
       final response = await authDataSource.loginWithGoogle();
       return Right(response);
-    } on FirebaseAuthException {
-      return Left(AppError(AppErrorType.network));
+    } on FirebaseAuthException catch (e) {
+      return Left(
+          AppError(AppErrorType.unauthorised, e.message ?? "Can't signIn"));
     } on Exception {
-      return Left(AppError(AppErrorType.network));
+      return Left(AppError(AppErrorType.unauthorised, "Can't sign in"));
     }
   }
 
@@ -34,17 +35,19 @@ class AuthRepositoryImpl extends AuthenticationRepository {
     try {
       final response = await authDataSource.logoutUser();
       return Right(response);
-    } on FirebaseAuthException {
-      return Left(AppError(AppErrorType.network));
+    } on FirebaseAuthException catch (e) {
+      return Left(
+          AppError(AppErrorType.unauthorised, e.message ?? "Can't sign out"));
     } on Exception {
-      return Left(AppError(AppErrorType.network));
+      return Left(AppError(AppErrorType.unauthorised, "Can't signIn"));
     }
   }
 
   @override
   Future<Either<AppError, UserEntity>> getCurrentUser() async {
     final currentUser = await authDataSource.getCurrentUser();
-    return currentUser.fold(() => Left(AppError(AppErrorType.network)),
+    return currentUser.fold(
+        () => Left(AppError(AppErrorType.unauthorised, "Can't get profile")),
         (a) => Right(UserEntity.fromUser(a)));
   }
 }

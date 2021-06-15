@@ -14,7 +14,7 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       final response = await applicationDataSource.finishedOnboarding();
       return Right(response);
     } on Exception {
-      return Left(AppError(AppErrorType.database));
+      return Left(AppError(AppErrorType.database, ""));
     }
   }
 
@@ -24,7 +24,7 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       final response = await applicationDataSource.isUserPassedOnboarding();
       return Right(response);
     } on Exception {
-      return Left(AppError(AppErrorType.database));
+      return Left(AppError(AppErrorType.database, ""));
     }
   }
 }

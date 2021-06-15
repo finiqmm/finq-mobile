@@ -1,3 +1,7 @@
+import 'package:finq/presentation/journeys/articles/article_screen.dart';
+import 'package:finq/presentation/journeys/home/home_screen.dart';
+import 'package:finq/presentation/journeys/loan_calculator/loan_calculator_screen.dart';
+import 'package:finq/presentation/journeys/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainNavbar {
@@ -15,4 +19,11 @@ final navBarItems = [
   MainNavbar(index: 0, title: 'Loan Calculator', iconData: Icons.calculate),
   MainNavbar(index: 0, title: 'Articles', iconData: Icons.article),
   MainNavbar(index: 0, title: 'Profile', iconData: Icons.person)
+];
+
+final mainScreens = [
+  HomeScreen(),
+  LoanCalculatorScreen(),
+  ArticleScreen(),
+  ProfileScreen()
 ];

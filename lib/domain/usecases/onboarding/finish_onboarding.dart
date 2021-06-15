@@ -2,7 +2,7 @@ import 'package:finq/domain/entities/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
-import 'package:finq/domain/usecases/usecase.dart';
+import 'package:finq/domain/usecases/use_case.dart';
 
 class FinishOnboarding extends UseCase<void, NoParams> {
   final ApplicationRepository _applicationRepository;

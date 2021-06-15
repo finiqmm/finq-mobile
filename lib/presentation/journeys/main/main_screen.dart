@@ -1,5 +1,5 @@
-
 import 'package:finq/presentation/journeys/main/main_bottom_navigation_bar.dart';
+import 'package:finq/presentation/journeys/main/main_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -8,7 +8,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
+  int _selectedPage = 0;
   @override
   void initState() {
     super.initState();
@@ -22,10 +22,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(),
+      body: mainScreens[_selectedPage],
       bottomNavigationBar: MainBottomNavigationBar(
-        onSelectedIndexChange: (index) {},
+        onSelectedIndexChange: (index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        },
       ),
     );
   }

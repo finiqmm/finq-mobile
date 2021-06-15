@@ -11,6 +11,10 @@ class AuthInitial extends AuthState {}
 
 class SignInLoading extends AuthState {}
 
-class SignInError extends AuthState {}
+class SignInError extends AuthState {
+  final String message;
+
+  SignInError(this.message);
+}
 
 class SignInSuccess extends AuthState {}
