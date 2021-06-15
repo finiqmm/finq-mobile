@@ -1,3 +1,4 @@
+import 'package:finq/data/tables/cache_user.dart';
 import 'package:finq/presentation/finq_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ void main() async {
   await Firebase.initializeApp();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
+  Hive.registerAdapter(CacheUserAdapter());
   unawaited(getIt.init());
   runApp(FinqApp());
 }
