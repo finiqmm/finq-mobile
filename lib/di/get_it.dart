@@ -34,7 +34,7 @@ Future init() async {
   getItInstance.registerLazySingleton<ApplicationRepository>(
       () => ApplicationRepositoryImpl(getItInstance()));
   getItInstance.registerLazySingleton<AuthenticationRepository>(
-      () => AuthRepositoryImpl(getItInstance()));
+      () => AuthRepositoryImpl(getItInstance(), getItInstance()));
 
   ///Usecase dependencies
   getItInstance.registerLazySingleton<FinishOnboarding>(

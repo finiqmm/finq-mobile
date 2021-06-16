@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:finq/data/tables/cache_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserEntity extends Equatable {
@@ -17,7 +18,15 @@ class UserEntity extends Equatable {
     return 'User $id//$name//$email';
   }
 
-  static UserEntity fromUser(User? firebaseUser) {
+  factory UserEntity.fromCacheUser(CacheUser cacheUser) {
+    return CacheUser(
+        id: cacheUser.id,
+        name: cacheUser.name,
+        email: cacheUser.email,
+        avatarUrl: cacheUser.avatarUrl);
+  }
+
+  static UserEntity fromFirebaseUser(User? firebaseUser) {
     if (firebaseUser == null) {
       return UserEntity(id: '');
     }

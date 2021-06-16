@@ -5,5 +5,5 @@ class AppConstants {
   static const String ONBOARDING_STATUS = 'onboardingStatus';
 
   static const String CACHED_USER_BOX = 'cachedUserBox';
-
+  static const String CACHED_USER = 'cachedUser';
 }

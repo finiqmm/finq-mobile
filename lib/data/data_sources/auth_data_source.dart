@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,7 +14,8 @@ class AuthDataSourceImpl extends AuthDataSource {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  AuthDataSourceImpl(this._firebaseAuth, this._googleSignIn);
+  AuthDataSourceImpl(
+      this._firebaseAuth, this._googleSignIn);
 
   @override
   Stream<User?> getAuthStated() {
