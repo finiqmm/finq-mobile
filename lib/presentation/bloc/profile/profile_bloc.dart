@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/entities/user_entity.dart';
-import 'package:finq/domain/usecases/auth/authentication.dart';
+import '../../../domain/usecases/use_case_imports.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

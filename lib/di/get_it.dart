@@ -3,16 +3,14 @@ import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/data/data_sources/article_data_source.dart';
 import 'package:finq/data/data_sources/auth_data_source.dart';
 import 'package:finq/data/repositories/application_repository_impl.dart';
+import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
+import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
-import 'package:finq/domain/usecases/onboarding/onboarding.dart';
-import 'package:finq/domain/usecases/auth/authentication.dart';
+import 'package:finq/domain/usecases/use_case_imports.dart';
 
-import 'package:finq/presentation/bloc/app/app_bloc.dart';
-import 'package:finq/presentation/bloc/auth/auth_bloc.dart';
-import 'package:finq/presentation/bloc/onboarding/onboarding_bloc.dart';
-import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,6 +40,8 @@ Future init() async {
   ///Repository dependencies
   getItInstance.registerLazySingleton<ApplicationRepository>(
       () => ApplicationRepositoryImpl(getItInstance()));
+  getItInstance.registerLazySingleton<ArticleRepository>(
+      () => ArticleRepositoryImpl(getItInstance()));
   getItInstance.registerLazySingleton<AuthenticationRepository>(
       () => AuthRepositoryImpl(getItInstance(), getItInstance()));
 
@@ -56,6 +56,8 @@ Future init() async {
       .registerLazySingleton<SignOut>(() => SignOut(authRepo: getItInstance()));
   getItInstance.registerLazySingleton<GetSignedInUser>(
       () => GetSignedInUser(authRepo: getItInstance()));
+  getItInstance
+      .registerLazySingleton<GetArticle>(() => GetArticle(getItInstance()));
 
   ///Bloc dependencies
   getItInstance.registerFactory<OnboardingBloc>(
@@ -65,4 +67,6 @@ Future init() async {
   getItInstance.registerFactory<AuthBloc>(() => AuthBloc(getItInstance()));
   getItInstance
       .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
+  getItInstance
+      .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
 }
