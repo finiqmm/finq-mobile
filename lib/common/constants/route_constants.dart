@@ -6,4 +6,5 @@ class RouteList {
   static const String onboarding = '/onboarding';
   static const String main = '/main';
   static const String profile = '/profile';
+  static const String article_detail = '/article_detail';
 }
