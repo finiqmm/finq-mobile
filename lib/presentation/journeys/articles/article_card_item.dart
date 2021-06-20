@@ -2,8 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/extension/date_formatter.dart';
 import 'package:finq/domain/entities/article_entity.dart';
+import 'package:finq/presentation/journeys/articles/widget_items/article_cover_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'widget_items/article_info_row.dart';
 
 class ArticleCardItem extends StatelessWidget {
   final ArticleEntity article;
@@ -12,7 +15,8 @@ class ArticleCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(RouteList.article_detail,arguments: article),
+      onTap: () => Navigator.of(context)
+          .pushNamed(RouteList.article_detail, arguments: article),
       child: Container(
         height: 180,
         margin: EdgeInsets.all(8.0),
@@ -21,25 +25,9 @@ class ArticleCardItem extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(18),
-              child: Container(
-                foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.white.withOpacity(0.3), Colors.black])),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) {
-                    return Center(child: CircularProgressIndicator());
-                  },
-                  imageUrl: article.coverPhoto!,
-                  width: double.infinity,
-                  height: 180,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            Hero(
+                tag: 'coverphoto',
+                child: ArticlCoverPhoto(coverPhotoUrl: article.coverPhoto!)),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -72,44 +60,10 @@ class ArticleCardItem extends StatelessWidget {
                     SizedBox(
                       height: 8,
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.userAlt,
-                          color: Colors.white,
-                          size: 12,
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          article.publisherName ?? "",
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.white),
-                        ),
-                        SizedBox(
-                          width: 16.0,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.clock,
-                          color: Colors.white,
-                          size: 12,
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          DateFormatter.convertMillisecondToString(
-                              milliSecond: article.createdDate),
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      ],
-                    )
+                    ArticleInfoRow(
+                        publisherName: article.publisherName ?? "",
+                        itemColor: Colors.white,
+                        createdDate: article.createdDate ?? 0)
                   ],
                 ),
               ),

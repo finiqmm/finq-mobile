@@ -45,7 +45,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
                 );
               }
               if (state is ArticleErrorState) {
-                return SizedBox.shrink();
+                return Center(
+                  child: Text(state.errorMessage),
+                );
               }
               return Center(
                 child: CircularProgressIndicator(),
