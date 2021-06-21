@@ -15,7 +15,6 @@ class ArticleDataSourceImpl extends ArticleDataSource {
   Future<List<ArticleModel>> getArticles() async {
     final response = await _apiClient.get();
     final articleResultModel = ArticleResultModel.fromJson(response);
-    print(articleResultModel.articles[0]);
     return articleResultModel.articles;
   }
 }

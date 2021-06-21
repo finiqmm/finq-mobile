@@ -19,8 +19,5 @@ void main() async {
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(CacheUserAdapter());
   unawaited(getIt.init());
-  final articleDatas = getIt.getItInstance<ArticleDataSource>();
-  final response = await articleDatas.getArticles();
-  debugPrint(response.toString());
   runApp(FinqApp());
 }
