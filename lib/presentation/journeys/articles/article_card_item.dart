@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finq/common/constants/route_constants.dart';
-import 'package:finq/common/extension/date_formatter.dart';
+import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/domain/entities/article_entity.dart';
 import 'package:finq/presentation/journeys/articles/widget_items/article_cover_photo.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:finq/common/extension/size_extension.dart';
 
 import 'widget_items/article_info_row.dart';
 
@@ -19,7 +18,8 @@ class ArticleCardItem extends StatelessWidget {
           .pushNamed(RouteList.article_detail, arguments: article),
       child: Container(
         height: 180,
-        margin: EdgeInsets.all(8.0),
+        margin: EdgeInsets.symmetric(horizontal: Sizes.dimen_8.w,
+        vertical: Sizes.dimen_8.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
         ),

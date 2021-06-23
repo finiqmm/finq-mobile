@@ -9,6 +9,9 @@ abstract class ApplicationDataSource {
   Future<void> cacheSignInUser(CacheUser cacheUser);
   Future<CacheUser?> getCacheUser();
   Future<void> deleteCacheUser();
+
+  Future<void> updateLanguage(String languageCode);
+  Future<String> getPreferredLanguage();
 }
 
 class ApplicationDataSourceImpl extends ApplicationDataSource {
@@ -40,5 +43,17 @@ class ApplicationDataSourceImpl extends ApplicationDataSource {
   Future<void> deleteCacheUser() async {
     final cachedUserBox = await Hive.openBox(AppConstants.CACHED_USER_BOX);
     await cachedUserBox.delete(AppConstants.CACHED_USER);
+  }
+
+  @override
+  Future<String> getPreferredLanguage() async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    return appConfigBox.get(AppConstants.PREFER_LANGUAGE) ?? 'en';
+  }
+
+  @override
+  Future<void> updateLanguage(String languageCode) async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    unawaited(appConfigBox.put(AppConstants.PREFER_LANGUAGE, languageCode));
   }
 }

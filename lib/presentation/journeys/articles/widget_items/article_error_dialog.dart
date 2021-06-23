@@ -1,5 +1,6 @@
 import 'package:finq/presentation/widgets/finq_button.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ArticleErrorDialog extends StatelessWidget {
   final String message;
@@ -14,6 +15,7 @@ class ArticleErrorDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(message),
+          Icon(Icons.wifi_off),
           FinqButton(onPressed: () => onPressed(), text: 'Retry')
         ],
       ),

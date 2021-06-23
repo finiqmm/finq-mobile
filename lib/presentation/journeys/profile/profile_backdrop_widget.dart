@@ -1,5 +1,7 @@
+import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
 import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
+import 'package:finq/common/extension/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +26,19 @@ class ProfileBackdropWidget extends StatelessWidget {
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(32)),
                     child: Container(
-                      color: Colors.red,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.1, 0.4, 0.7, 0.9],
+                          colors: [
+                            Color(0xFF3594DD),
+                            Color(0xFF4563DB),
+                            Color(0xFF5036D5),
+                            Color(0xFF5B16D0),
+                          ],
+                        ),
+                      ),
                       width: double.infinity,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,6 +51,7 @@ class ProfileBackdropWidget extends StatelessWidget {
                           Text(
                               'Life is short bro.Keep Going...,Life is short bro.Keep Going...,Life is short bro.Keep Going...',
                               maxLines: 3,
+                              style: TextStyle(color: Colors.white),
                               textAlign: TextAlign.center)
                         ],
                       ),
@@ -46,14 +61,8 @@ class ProfileBackdropWidget extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 90,
-                  width: 90,
-                  child: ClipOval(
-                    child: RoundedProfileIcon(imageUrl: userAvatarUrl),
-                  ),
-                ),
-              )
+                child: RoundedProfileIcon(imageUrl: userAvatarUrl),
+              ),
             ],
           );
         }

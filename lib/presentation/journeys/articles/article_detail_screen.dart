@@ -1,10 +1,8 @@
-import 'package:finq/common/extension/date_formatter.dart';
 import 'package:finq/domain/entities/article_entity.dart';
 import 'package:finq/presentation/journeys/articles/widget_items/article_cover_photo.dart';
 import 'package:finq/presentation/journeys/articles/widget_items/article_info_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ArticleDetaiScreen extends StatelessWidget {
   final ArticleEntity article;

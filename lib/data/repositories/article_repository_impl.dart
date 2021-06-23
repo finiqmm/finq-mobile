@@ -16,6 +16,8 @@ class ArticleRepositoryImpl extends ArticleRepository {
   Future<Either<AppError, List<ArticleEntity>>> getArticles() async {
     try {
       final articles = await articleDataSource.getArticles();
+      debugPrint('fetching article');
+
       return Right(articles);
     } on SocketException {
       debugPrint('SocketException');

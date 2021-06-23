@@ -27,4 +27,25 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       return Left(AppError(AppErrorType.database, ""));
     }
   }
+
+  @override
+  Future<Either<AppError, String>> getPreferredLanguage() async {
+    try {
+      final response = await applicationDataSource.getPreferredLanguage();
+      return Right(response);
+    } on Exception {
+      return Left(
+          AppError(AppErrorType.database, "Error in retrieving language."));
+    }
+  }
+
+  @override
+  Future<Either<AppError, void>> updateLanguage(String language) async {
+    try {
+      final response = await applicationDataSource.updateLanguage(language);
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Error is saving language."));
+    }
+  }
 }

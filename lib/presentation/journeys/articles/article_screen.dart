@@ -31,40 +31,41 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
         body: BlocProvider.value(
-          value: articleBloc,
-          child: BlocConsumer<ArticleBloc, ArticleState>(
-            listenWhen: (previous, current) => current is ArticleErrorState,
-            listener: (context, state) async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ArticleErrorDialog(
-                        (state as ArticleErrorState).errorMessage, () {
-                      Navigator.pop(context);
-                      articleBloc.add(ArticleLoadEvent());
-                    });
+      value: articleBloc,
+      child: BlocConsumer<ArticleBloc, ArticleState>(
+        listenWhen: (previous, current) => current is ArticleErrorState,
+        listener: (context, state) async {
+          debugPrint('${state.toString()}');
+          if (state is ArticleErrorState) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return ArticleErrorDialog((state).errorMessage, () {
+                    Navigator.pop(context);
+                    articleBloc.add(ArticleLoadEvent());
                   });
-            },
-            builder: (context, state) {
-              if (state is ArticleLoadedState) {
-                return ListView.builder(
-                  itemBuilder: (context, index) =>
-                      ArticleCardItem(article: state.articles[index]),
-                  shrinkWrap: true,
-                  itemCount: state.articles.length,
-                  scrollDirection: Axis.vertical,
-                );
-              }
-              if (state is ArticleLoadingState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return SizedBox.shrink();
-            },
-          ),
-        ));
+                });
+          }
+        },
+        builder: (context, state) {
+          if (state is ArticleLoadedState) {
+            return ListView.builder(
+              itemBuilder: (context, index) =>
+                  ArticleCardItem(article: state.articles[index]),
+              shrinkWrap: true,
+              itemCount: state.articles.length,
+              scrollDirection: Axis.vertical,
+            );
+          }
+          if (state is ArticleLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SizedBox.shrink();
+        },
+      ),
+    ));
   }
 }

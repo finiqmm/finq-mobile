@@ -26,8 +26,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
         items: navBarItems
             .map((e) => BottomNavigationBarItem(
                 icon: Icon(e.iconData),
-                label: e.title,
-                backgroundColor: Colors.blue))
+                label: e.title))
             .toList());
   }
 }

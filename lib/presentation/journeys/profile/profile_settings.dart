@@ -1,9 +1,10 @@
 import 'package:finq/common/constants/route_constants.dart';
+import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:finq/common/extension/size_extension.dart';
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key}) : super(key: key);
 
@@ -14,7 +15,7 @@ class ProfileSettings extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w,vertical: Sizes.dimen_16.h),
       child: ListView(
         children: [
           ListTile(

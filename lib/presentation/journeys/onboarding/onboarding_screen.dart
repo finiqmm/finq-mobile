@@ -5,6 +5,7 @@ import 'package:finq/presentation/journeys/onboarding/onboarding_ui_model.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_item.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_page_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:finq/common/extension/size_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -81,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               'Skip',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 16.0.sp,
                               ),
                             ),
                           ),
@@ -153,58 +154,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               if (_currentPage == onboardingItemList.length - 1)
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<OnboardingBloc>(context)
-                          .add(OnboardingFinishedEvent());
-                    },
-                    child: Container(
-                      height: 55,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: Center(
-                        child: Text(
-                          'Get started',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF5B16D0)),
-                        ),
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: TextButton(
+                      onPressed: () =>
+                          _onboardingBloc.add(OnboardingFinishedEvent()),
+                      child: Text(
+                        'Get started',
+                        style: TextStyle(fontSize: 20.0.sp),
                       ),
                     ),
+                    // child: Center(
+                    //   // child: Text(
+                    //   //   'Get started',
+                    //   //   style: Theme.of(context)
+                    //   //       .textTheme
+                    //   //       .headline6!
+                    //   //       .copyWith(color: AppColor.accent),
+                    //   // ),
+                    // ),
                   ),
                 ),
-              if (_currentPage == onboardingItemList.length - 1)
-                BlocListener<OnboardingBloc, OnboardingState>(
-                  listenWhen: (previous, current) =>
-                      current is OnboardingFinished,
-                  listener: (context, state) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteList.login, (route) => false);
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      onTap: () {
-                        _onboardingBloc.add(OnboardingFinishedEvent());
-                      },
-                      child: Container(
-                        height: 55,
-                        width: double.infinity,
-                        color: Colors.white,
-                        child: Center(
-                          child: Text(
-                            'Get started',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF5B16D0)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
             ],
           ),
         ));

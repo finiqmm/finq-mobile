@@ -1,6 +1,7 @@
+import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/journeys/onboarding/onboarding_ui_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:finq/common/extension/size_extension.dart';
 class OnboaringItem extends StatelessWidget {
   final Onboarding onboarding;
   const OnboaringItem({Key? key, required this.onboarding}) : super(key: key);
@@ -17,8 +18,8 @@ class OnboaringItem extends StatelessWidget {
               image: AssetImage(
                 onboarding.imagePath,
               ),
-              height: 300.0,
-              width: 300.0,
+              height: Sizes.dimen_300.h,
+              width: Sizes.dimen_300.w,
             ),
           ),
           SizedBox(height: 30.0),

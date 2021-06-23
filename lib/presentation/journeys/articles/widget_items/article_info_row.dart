@@ -1,4 +1,4 @@
-import 'package:finq/common/extension/date_formatter.dart';
+import 'package:finq/common/extension/int_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -42,7 +42,7 @@ class ArticleInfoRow extends StatelessWidget {
           width: 8.0,
         ),
         Text(
-          DateFormatter.convertMillisecondToString(milliSecond: createdDate),
+          createdDate.millisecondToString(),
           style:
               Theme.of(context).textTheme.caption?.copyWith(color: itemColor),
         ),
