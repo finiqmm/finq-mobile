@@ -42,10 +42,15 @@ class ProfileSettings extends StatelessWidget {
               return SizedBox.shrink();
             },
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.adjust),
-            title: Text('Themes'),
-            trailing: Icon(FontAwesomeIcons.chevronRight),
+          BlocBuilder<ThemeCubit,Themes>(
+            builder: (context, theme) {
+              return ListTile(
+                onTap: () => context.read<ThemeCubit>().toggleTheme(),
+                leading: Icon(FontAwesomeIcons.adjust),
+                title: Text('Themes'),
+                trailing: Icon(FontAwesomeIcons.chevronRight),
+              );
+            },
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.lock),

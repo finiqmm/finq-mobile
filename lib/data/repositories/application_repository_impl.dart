@@ -48,4 +48,24 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       return Left(AppError(AppErrorType.database, "Error is saving language."));
     }
   }
+
+  @override
+  Future<Either<AppError, String>> getPreferredTheme() async {
+    try {
+      final response = await applicationDataSource.getPreferredTheme();
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Error in retrieving theme"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, void>> updateTheme(String themeName) async {
+    try {
+      final response = await applicationDataSource.updateTheme(themeName);
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Error updating theme"));
+    }
+  }
 }

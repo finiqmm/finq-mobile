@@ -11,3 +11,6 @@ export 'onboarding/finish_onboarding.dart';
 export 'languages/get_preferred_language.dart';
 export 'languages/update_language.dart';
 
+///Theme
+export 'theme/get_preferred_theme.dart';
+export 'theme/update_theme.dart';

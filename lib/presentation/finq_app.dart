@@ -23,12 +23,14 @@ class FinqApp extends StatefulWidget {
 class _FinqAppState extends State<FinqApp> {
   late final AppBloc appBloc;
   late final LanguageBloc _languageBloc;
+  late final ThemeCubit _themeCubit;
 
   @override
   void initState() {
     super.initState();
     appBloc = getItInstance<AppBloc>();
     _languageBloc = getItInstance<LanguageBloc>();
+    _themeCubit = getItInstance<ThemeCubit>();
     appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
   }
@@ -37,6 +39,7 @@ class _FinqAppState extends State<FinqApp> {
   void dispose() {
     appBloc.close();
     _languageBloc.close();
+    _themeCubit.close();
     super.dispose();
   }
 
@@ -45,61 +48,49 @@ class _FinqAppState extends State<FinqApp> {
     ScreenUtil.init();
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(
+        BlocProvider<AppBloc>.value(
           value: appBloc,
         ),
-        BlocProvider.value(
+        BlocProvider<LanguageBloc>.value(
           value: _languageBloc,
         ),
-      ],
-      child: BlocProvider.value(
-        value: _languageBloc,
-        child: BlocBuilder<LanguageBloc, LanguageState>(
-          builder: (context, state) {
-            if (state is LanguageLoaded) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Finq App',
-                theme: ThemeData(
-                    appBarTheme: AppBarTheme(elevation: 0),
-                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                    scaffoldBackgroundColor: Colors.white,
-                    accentColor: AppColor.accent,
-                    primaryColor: AppColor.primary,
-                    iconTheme: IconThemeData(color: Colors.red),
-                    elevatedButtonTheme: ElevatedButtonThemeData(
-                        style: ElevatedButton.styleFrom(
-                            primary: AppColor.accent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)))),
-                    textButtonTheme: TextButtonThemeData(
-                        style: TextButton.styleFrom(primary: AppColor.accent)),
-                    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                        selectedItemColor: AppColor.accent,
-                        unselectedItemColor: Colors.black)),
-                locale: state.locale,
-                supportedLocales:
-                    Languages.languages.map((e) => Locale(e.code)).toList(),
-                localizationsDelegates: [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate
-                ],
-                builder: (context, child) => child!,
-                initialRoute: RouteList.initial,
-                onGenerateRoute: (RouteSettings settings) {
-                  final routes = Routes.getRoutes(settings);
-                  final WidgetBuilder? builder = routes[settings.name];
-                  return FadePageRouteBuilder(
-                    builder: builder!,
-                    settings: settings,
-                  );
-                },
-              );
-            }
-            return SizedBox.shrink();
-          },
+        BlocProvider<ThemeCubit>.value(
+          value: _themeCubit,
         ),
+      ],
+      child: BlocBuilder<ThemeCubit, Themes>(
+        builder: (context, theme) {
+          return BlocBuilder<LanguageBloc, LanguageState>(
+            builder: (context, state) {
+              if (state is LanguageLoaded) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Finq App',
+                  theme: finQTheme(theme),
+                  locale: state.locale,
+                  supportedLocales:
+                      Languages.languages.map((e) => Locale(e.code)).toList(),
+                  localizationsDelegates: [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate
+                  ],
+                  builder: (context, child) => child!,
+                  initialRoute: RouteList.initial,
+                  onGenerateRoute: (RouteSettings settings) {
+                    final routes = Routes.getRoutes(settings);
+                    final WidgetBuilder? builder = routes[settings.name];
+                    return FadePageRouteBuilder(
+                      builder: builder!,
+                      settings: settings,
+                    );
+                  },
+                );
+              }
+              return SizedBox.shrink();
+            },
+          );
+        },
       ),
     );
   }

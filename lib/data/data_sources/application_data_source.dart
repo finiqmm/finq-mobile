@@ -12,6 +12,9 @@ abstract class ApplicationDataSource {
 
   Future<void> updateLanguage(String languageCode);
   Future<String> getPreferredLanguage();
+
+  Future<void> updateTheme(String themeName);
+  Future<String> getPreferredTheme();
 }
 
 class ApplicationDataSourceImpl extends ApplicationDataSource {
@@ -55,5 +58,17 @@ class ApplicationDataSourceImpl extends ApplicationDataSource {
   Future<void> updateLanguage(String languageCode) async {
     final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
     unawaited(appConfigBox.put(AppConstants.PREFER_LANGUAGE, languageCode));
+  }
+
+   @override
+  Future<String> getPreferredTheme() async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    return appConfigBox.get(AppConstants.PREFER_THEME) ?? 'dark';
+  }
+
+  @override
+  Future<void> updateTheme(String themeName) async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    unawaited(appConfigBox.put(AppConstants.PREFER_THEME, themeName));
   }
 }
