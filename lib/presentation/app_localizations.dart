@@ -47,9 +47,11 @@ class _AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return Languages.languages
+    bool a = Languages.languages
         .map((e) => e.code)
         .toList()
         .contains(locale.languageCode);
+    // debugPrint('Is supported $a');
+    return a;
   }
 }

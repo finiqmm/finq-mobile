@@ -1,3 +1,4 @@
+import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/journeys/articles/article_screen.dart';
 import 'package:finq/presentation/journeys/home/home_screen.dart';
 import 'package:finq/presentation/journeys/loan_calculator/loan_calculator_screen.dart';
@@ -15,10 +16,20 @@ class MainNavbar {
 }
 
 final navBarItems = [
-  MainNavbar(index: 0, title: 'Home', iconData: Icons.home),
-  MainNavbar(index: 0, title: 'Loan Calculator', iconData: Icons.calculate),
-  MainNavbar(index: 0, title: 'Articles', iconData: Icons.article),
-  MainNavbar(index: 0, title: 'Profile', iconData: Icons.person)
+  MainNavbar(
+      index: 0, title: TranslationConstants.titleHome, iconData: Icons.home),
+  MainNavbar(
+      index: 0,
+      title: TranslationConstants.titleLoanCalculator,
+      iconData: Icons.calculate),
+  MainNavbar(
+      index: 0,
+      title: TranslationConstants.titleArticles,
+      iconData: Icons.article),
+  MainNavbar(
+      index: 0,
+      title: TranslationConstants.titleProfile,
+      iconData: Icons.person)
 ];
 
 final mainScreens = [

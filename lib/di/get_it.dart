@@ -54,6 +54,10 @@ Future init() async {
       .registerLazySingleton<SignIn>(() => SignIn(authRepo: getItInstance()));
   getItInstance
       .registerLazySingleton<SignOut>(() => SignOut(authRepo: getItInstance()));
+  getItInstance.registerLazySingleton<GetPreferredLanguage>(
+      () => GetPreferredLanguage(getItInstance()));
+  getItInstance.registerLazySingleton<UpdateLanguage>(
+      () => UpdateLanguage(getItInstance()));
   getItInstance.registerLazySingleton<GetSignedInUser>(
       () => GetSignedInUser(authRepo: getItInstance()));
   getItInstance
@@ -69,4 +73,6 @@ Future init() async {
       .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
   getItInstance
       .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
+  getItInstance.registerFactory<LanguageBloc>(() => LanguageBloc(
+      getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
 }

@@ -31,7 +31,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           return OnboardingPassed();
         }
         return FirstTimeUser();
-        // return r ? OnboardingPassed() : FirstTimeUser();
       });
     }
 

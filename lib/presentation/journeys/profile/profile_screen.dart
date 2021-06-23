@@ -1,3 +1,4 @@
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
 import 'package:finq/presentation/journeys/profile/profile_backdrop_widget.dart';
 import 'package:finq/presentation/journeys/profile/profile_settings.dart';
@@ -12,10 +13,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late final LanguageBloc _languageBloc;
+
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
+    _languageBloc = BlocProvider.of<LanguageBloc>(context);
+    _languageBloc.add(LoadPreferredLanguageEvent());
   }
 
   @override
@@ -31,7 +36,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 0.65,
-            child: ProfileSettings(),
+            child: BlocProvider.value(
+              value: _languageBloc,
+              child: ProfileSettings(),
+            ),
           ),
         ],
       ),

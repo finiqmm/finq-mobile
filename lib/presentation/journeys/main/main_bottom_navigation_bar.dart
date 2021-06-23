@@ -1,5 +1,6 @@
 import 'package:finq/presentation/journeys/main/main_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:finq/common/extension/string_extension.dart';
 
 class MainBottomNavigationBar extends StatefulWidget {
   final Function(int) onSelectedIndexChange;
@@ -26,7 +27,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
         items: navBarItems
             .map((e) => BottomNavigationBarItem(
                 icon: Icon(e.iconData),
-                label: e.title))
+                label: e.title.t(context)))
             .toList());
   }
 }
