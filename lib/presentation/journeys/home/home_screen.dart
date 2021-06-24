@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/expandable_fab.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -9,6 +11,19 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Text('Home Screen'),
+      ),
+      floatingActionButton: ExpandableFab(
+        distance: 75,
+        children: [
+          ActionButton(
+            icon: Icon(Icons.ac_unit),
+            onPressed: () {},
+          ),
+          ActionButton(
+            icon: Icon(Icons.ac_unit),
+            onPressed: () {},
+          )
+        ],
       ),
     );
   }
