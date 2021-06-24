@@ -98,20 +98,20 @@ class _LoanCalculatorScreenState extends State<LoanCalculatorScreen> {
                 controller: monthsTextController, label: "Loan Term (Months)"),
             SizedBox(height: 16.0),
             FinqButton(
-                onPressed: () {
-                  var value = calculate(
-                      double.parse(principalTextController.text),
-                      double.parse(interestTextController.text),
-                      double.parse(monthsTextController.text));
+              onPressed: () {
+                var value = calculate(
+                    double.parse(principalTextController.text),
+                    double.parse(interestTextController.text),
+                    double.parse(monthsTextController.text));
 
-                  print(value.toList()[0]);
-                  setState(() {
-                    emi_total = value.toList()[0];
-                    interest_total = value.toList()[1];
-                  });
-                },
-                title: "Calculate",
-                width: MediaQuery.of(context).size.width)
+                print(value.toList()[0]);
+                setState(() {
+                  emi_total = value.toList()[0];
+                  interest_total = value.toList()[1];
+                });
+              },
+              text: 'Calculate',
+            )
           ],
         ),
       ),

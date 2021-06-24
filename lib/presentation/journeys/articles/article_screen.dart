@@ -1,6 +1,7 @@
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/articles/article_card_item.dart';
+import 'package:finq/presentation/journeys/articles/widget_items/article_error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,19 @@ class _ArticleScreenState extends State<ArticleScreen> {
         appBar: AppBar(),
         body: BlocProvider.value(
           value: articleBloc,
-          child: BlocBuilder<ArticleBloc, ArticleState>(
+          child: BlocConsumer<ArticleBloc, ArticleState>(
+            listenWhen: (previous, current) => current is ArticleErrorState,
+            listener: (context, state) async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ArticleErrorDialog(
+                        (state as ArticleErrorState).errorMessage, () {
+                      Navigator.pop(context);
+                      articleBloc.add(ArticleLoadEvent());
+                    });
+                  });
+            },
             builder: (context, state) {
               if (state is ArticleLoadedState) {
                 return ListView.builder(
@@ -44,14 +57,12 @@ class _ArticleScreenState extends State<ArticleScreen> {
                   scrollDirection: Axis.vertical,
                 );
               }
-              if (state is ArticleErrorState) {
+              if (state is ArticleLoadingState) {
                 return Center(
-                  child: Text(state.errorMessage),
+                  child: CircularProgressIndicator(),
                 );
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return SizedBox.shrink();
             },
           ),
         ));
