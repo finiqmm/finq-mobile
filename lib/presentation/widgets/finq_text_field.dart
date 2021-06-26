@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'finq_text.dart';
 
 class FinQTextField extends StatelessWidget {
-  FinQTextField({
-    this.controller,
-    required this.label,
-  });
+  FinQTextField({this.controller, required this.label, this.keyboardType});
   final TextEditingController? controller;
   final String label;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,6 +23,7 @@ class FinQTextField extends StatelessWidget {
           height: 8.0,
         ),
         TextField(
+          keyboardType: keyboardType,
           controller: controller,
           decoration: InputDecoration(
               fillColor: Colors.white,

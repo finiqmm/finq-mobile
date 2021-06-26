@@ -15,4 +15,8 @@ class CalculatedLoanError extends CalculatedLoanState {
   CalculatedLoanError(this.message);
 }
 
-class CalculatedLoanSuccess extends CalculatedLoanState {}
+class CalculatedLoanSuccess extends CalculatedLoanState {
+  final CalculatedLoanEntity calculatedLoanEntity;
+
+  CalculatedLoanSuccess(this.calculatedLoanEntity);
+}

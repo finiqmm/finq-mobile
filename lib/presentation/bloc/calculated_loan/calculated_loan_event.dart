@@ -7,4 +7,10 @@ abstract class CalculatedLoanEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CalculatePressed extends CalculatedLoanEvent {}
+class CalculatePressed extends CalculatedLoanEvent {
+  final double p;
+  final double i;
+  final double y;
+
+  CalculatePressed(this.p, this.i, this.y);
+}
