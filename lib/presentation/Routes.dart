@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> getRoutes(RouteSettings settings) => {
-        RouteList.initial: (context) => LoanCalculatorScreen(),
+        RouteList.initial: (context) => SplashScreen(),
         RouteList.login: (context) => LoginScreen(),
         RouteList.onboarding: (context) => OnboardingScreen(),
         RouteList.main: (context) => MainScreen(),

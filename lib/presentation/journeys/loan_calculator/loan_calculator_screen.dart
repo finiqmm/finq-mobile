@@ -1,4 +1,6 @@
-import 'package:finq/data/core/loan_calculator_util.dart';
+import 'package:finq/common/constants/size_constants.dart';
+import 'package:finq/common/screenutil/screenutil.dart';
+import 'package:finq/common/extension/size_extension.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/calculated_loan/calculated_loan_bloc.dart';
 import 'package:finq/presentation/widgets/finq_button.dart';
@@ -40,111 +42,116 @@ class _LoanCalculatorScreenState extends State<LoanCalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      resizeToAvoidBottomInset: false,
       body: BlocProvider.value(
         value: calculatedLoanBloc,
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 100,
-                        padding: EdgeInsets.all(8.0),
-                        decoration:
-                            FinQGradiantBgBoxDecoration().createElement(),
-                        child: Column(
-                          children: [
-                            FinQText(
-                              title: "Monthly Repayment",
-                              fontWeight: FontWeight.bold,
-                              size: 12.0,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 32.0,
-                            ),
-                            BlocBuilder<CalculatedLoanBloc,
-                                CalculatedLoanState>(
-                              builder: (context, state) => FinQText(
-                                title: (state is CalculatedLoanSuccess)
-                                    ? state.calculatedLoanEntity.emi.toString()
-                                    : "0",
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: ScreenUtil.statusBarHeight + Sizes.dimen_4.h),
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 100,
+                          padding: EdgeInsets.all(8.0),
+                          decoration:
+                              FinQGradiantBgBoxDecoration().createElement(),
+                          child: Column(
+                            children: [
+                              FinQText(
+                                title: "Monthly Repayment",
                                 fontWeight: FontWeight.bold,
-                                size: 16.0,
+                                size: 12.0,
                                 color: Colors.white,
                               ),
-                            ),
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    width: 16.0,
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 100,
-                        padding: EdgeInsets.all(8.0),
-                        decoration:
-                            FinQGradiantBgBoxDecoration().createElement(),
-                        child: Column(
-                          children: [
-                            FinQText(
-                              title: "Monthly Repayment",
-                              fontWeight: FontWeight.bold,
-                              size: 12.0,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 32.0,
-                            ),
-                            BlocBuilder<CalculatedLoanBloc,
-                                CalculatedLoanState>(
-                              builder: (context, state) => FinQText(
-                                title: (state is CalculatedLoanSuccess)
-                                    ? state.calculatedLoanEntity.interestTotal
-                                        .toString()
-                                    : "0",
+                              SizedBox(
+                                height: 32.0,
+                              ),
+                              BlocBuilder<CalculatedLoanBloc,
+                                  CalculatedLoanState>(
+                                builder: (context, state) => FinQText(
+                                  title: (state is CalculatedLoanSuccess)
+                                      ? state.calculatedLoanEntity.emi
+                                          .toString()
+                                      : "0",
+                                  fontWeight: FontWeight.bold,
+                                  size: 16.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                    SizedBox(
+                      width: 16.0,
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 100,
+                          padding: EdgeInsets.all(8.0),
+                          decoration:
+                              FinQGradiantBgBoxDecoration().createElement(),
+                          child: Column(
+                            children: [
+                              FinQText(
+                                title: "Monthly Repayment",
                                 fontWeight: FontWeight.bold,
-                                size: 16.0,
+                                size: 12.0,
                                 color: Colors.white,
                               ),
-                            ),
-                          ],
-                        ),
-                      )),
-                ],
-              ),
-              SizedBox(height: 32.0),
-              FinQTextField(
-                  keyboardType: TextInputType.number,
-                  controller: principalTextController,
-                  label: "Loan Amount (Kyats)"),
-              SizedBox(height: 8.0),
-              FinQTextField(
-                  keyboardType: TextInputType.number,
-                  controller: interestTextController,
-                  label: "Monthly Interest Reate (%)"),
-              SizedBox(height: 8.0),
-              FinQTextField(
-                  keyboardType: TextInputType.number,
-                  controller: monthsTextController,
-                  label: "Loan Term (Months)"),
-              SizedBox(height: 16.0),
-              FinqButton(
-                onPressed: () {
-                  calculatedLoanBloc.add(CalculatePressed(
-                      double.parse(principalTextController.text),
-                      double.parse(interestTextController.text),
-                      double.parse(monthsTextController.text)));
-                },
-                text: 'Calculate',
-              )
-            ],
+                              SizedBox(
+                                height: 32.0,
+                              ),
+                              BlocBuilder<CalculatedLoanBloc,
+                                  CalculatedLoanState>(
+                                builder: (context, state) => FinQText(
+                                  title: (state is CalculatedLoanSuccess)
+                                      ? state.calculatedLoanEntity.interestTotal
+                                          .toString()
+                                      : "0",
+                                  fontWeight: FontWeight.bold,
+                                  size: 16.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+                SizedBox(height: 32.0),
+                FinQTextField(
+                    keyboardType: TextInputType.number,
+                    controller: principalTextController,
+                    label: "Loan Amount (Kyats)"),
+                SizedBox(height: 8.0),
+                FinQTextField(
+                    keyboardType: TextInputType.number,
+                    controller: interestTextController,
+                    label: "Monthly Interest Reate (%)"),
+                SizedBox(height: 8.0),
+                FinQTextField(
+                    keyboardType: TextInputType.number,
+                    controller: monthsTextController,
+                    label: "Loan Term (Months)"),
+                SizedBox(height: 16.0),
+                FinqButton(
+                  onPressed: () {
+                    calculatedLoanBloc.add(CalculatePressed(
+                        double.parse(principalTextController.text),
+                        double.parse(interestTextController.text),
+                        double.parse(monthsTextController.text)));
+                  },
+                  text: 'Calculate',
+                )
+              ],
+            ),
           ),
         ),
       ),
