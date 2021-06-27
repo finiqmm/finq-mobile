@@ -14,3 +14,4 @@ export 'languages/update_language.dart';
 ///Theme
 export 'theme/get_preferred_theme.dart';
 export 'theme/update_theme.dart';
+export 'loan_calculator/get_calculate_loan.dart';

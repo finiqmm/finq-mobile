@@ -2,12 +2,15 @@ import 'package:finq/data/core/api_client.dart';
 import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/data/data_sources/article_data_source.dart';
 import 'package:finq/data/data_sources/auth_data_source.dart';
+import 'package:finq/data/data_sources/loan_calculator_data_source.dart';
 import 'package:finq/data/repositories/application_repository_impl.dart';
 import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
+import 'package:finq/data/repositories/loan_calculator_repository_impl.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
+import 'package:finq/domain/repositories/loan_calculator_repository.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 
 import 'package:finq/presentation/bloc/blocs.dart';
@@ -36,6 +39,8 @@ Future init() async {
       () => AuthDataSourceImpl(getItInstance(), getItInstance()));
   getItInstance.registerLazySingleton<ArticleDataSource>(
       () => ArticleDataSourceImpl(getItInstance()));
+  getItInstance.registerLazySingleton<LoanCalculatorDataSource>(
+      () => LoanCalculatorDataSourceImpl());
 
   ///Repository dependencies
   getItInstance.registerLazySingleton<ApplicationRepository>(
@@ -44,6 +49,8 @@ Future init() async {
       () => ArticleRepositoryImpl(getItInstance()));
   getItInstance.registerLazySingleton<AuthenticationRepository>(
       () => AuthRepositoryImpl(getItInstance(), getItInstance()));
+  getItInstance.registerLazySingleton<LoanCalculatorRepository>(
+      () => LoanCalculatorRepositoryImpl(getItInstance()));
 
   ///Usecase dependencies
   getItInstance.registerLazySingleton<FinishOnboarding>(
@@ -66,6 +73,8 @@ Future init() async {
       () => GetSignedInUser(authRepo: getItInstance()));
   getItInstance
       .registerLazySingleton<GetArticle>(() => GetArticle(getItInstance()));
+  getItInstance.registerLazySingleton<GetCalculatedLoan>(
+      () => GetCalculatedLoan(getItInstance()));
 
   ///Bloc dependencies
   getItInstance.registerFactory<OnboardingBloc>(
@@ -84,4 +93,6 @@ Future init() async {
   ));
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
+  getItInstance.registerFactory<CalculatedLoanBloc>(
+      () => CalculatedLoanBloc(getItInstance()));
 }
