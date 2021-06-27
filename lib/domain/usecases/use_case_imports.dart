@@ -5,4 +5,4 @@ export 'auth/get_signed_in_user.dart';
 
 export 'onboarding/check_if_first_time_user.dart';
 export 'onboarding/finish_onboarding.dart';
-
+export 'loan_calculator/get_calculate_loan.dart';
