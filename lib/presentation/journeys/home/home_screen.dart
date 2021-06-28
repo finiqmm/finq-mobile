@@ -18,13 +18,11 @@ class HomeScreen extends StatelessWidget {
         distance: 75,
         children: [
           ActionButton(
-            bgColor: Colors.greenAccent,
-            icon: Icon(Icons.add),
-            onPressed: () {
+              bgColor: Colors.greenAccent,
+              icon: Icon(Icons.add),
+              onPressed: () {
                 _showTransactionBottomSheet(context);
-
-            }
-          ),
+              }),
           ActionButton(
             bgColor: Colors.redAccent,
             icon: Icon(Icons.add),
@@ -35,17 +33,29 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-
   _showTransactionBottomSheet(context) {
     showModalBottomSheet(
-       isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
         builder: (context) {
-          return Wrap(
-            children: [
-              AddTransaction()
-            ],
-          );
+          return AddTransaction();
+          // return FractionallySizedBox(heightFactor: 1,
+          //   child: AddTransaction(),
+          // );
+          // return DraggableScrollableSheet(
+          //     initialChildSize: 0.75, //set this as you want
+          //     minChildSize: 0.75,
+          //     maxChildSize: 1,
+          //     expand: true, //set t
+          //     builder: (context, controller) {
+          //       return SingleChildScrollView(
+          //           controller: controller, child: AddTransaction());
+          //     });
+          // return Wrap(
+          //   children: [
+          //     AddTransaction()
+          //   ],
+          // );
         });
   }
 }
