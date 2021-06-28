@@ -16,6 +16,11 @@ finQTheme(Themes theme) => ThemeData(
     accentColor: AppColor.accent,
     primaryColor: AppColor.primary,
     iconTheme: IconThemeData(color: Colors.red),
+    inputDecorationTheme: InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColor.accent, width: 2)),
+        border: OutlineInputBorder(borderSide: BorderSide(width: 2))),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
             primary: AppColor.accent,

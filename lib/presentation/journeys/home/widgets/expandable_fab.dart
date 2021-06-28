@@ -133,7 +133,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            child: const Icon(Icons.create),
+            child: const Icon(Icons.add),
           ),
         ),
       ),
@@ -188,10 +188,12 @@ class ActionButton extends StatelessWidget {
     Key? key,
     this.onPressed,
     required this.icon,
+    required this.bgColor
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final Widget icon;
+  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +201,7 @@ class ActionButton extends StatelessWidget {
     return Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: theme.accentColor,
+      color: bgColor,
       elevation: 4.0,
       child: IconTheme.merge(
         data: theme.accentIconTheme,
