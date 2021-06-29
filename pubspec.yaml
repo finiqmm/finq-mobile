@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^1.0.0
   google_sign_in: ^5.0.0
   flutter_html: ^2.1.0
+  
 
   flutter_localizations:
     sdk: flutter
@@ -49,6 +50,7 @@ dependencies:
   flutter_launcher_icons: ^0.9.0
   font_awesome_flutter: ^9.1.0
   intl: ^0.17.0
+  fluttertoast: ^8.0.7
 
 dev_dependencies:
   flutter_test:

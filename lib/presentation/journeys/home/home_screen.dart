@@ -37,25 +37,9 @@ class HomeScreen extends StatelessWidget {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
+        backgroundColor: Colors.transparent,
         builder: (context) {
           return AddTransaction();
-          // return FractionallySizedBox(heightFactor: 1,
-          //   child: AddTransaction(),
-          // );
-          // return DraggableScrollableSheet(
-          //     initialChildSize: 0.75, //set this as you want
-          //     minChildSize: 0.75,
-          //     maxChildSize: 1,
-          //     expand: true, //set t
-          //     builder: (context, controller) {
-          //       return SingleChildScrollView(
-          //           controller: controller, child: AddTransaction());
-          //     });
-          // return Wrap(
-          //   children: [
-          //     AddTransaction()
-          //   ],
-          // );
         });
   }
 }

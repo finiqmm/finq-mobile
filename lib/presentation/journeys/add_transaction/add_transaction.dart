@@ -1,9 +1,12 @@
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/common/constants/transaction_types.dart';
+import 'package:finq/presentation/journeys/add_transaction/amount_input_handler.dart';
 import 'package:finq/presentation/journeys/add_transaction/transaction_choice_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:finq/common/extension/size_extension.dart';
 import 'package:finq/common/extension/int_extension.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'numbers_table_widget.dart';
 
@@ -19,6 +22,11 @@ class _AddTransactionState extends State<AddTransaction> {
   String? selectedCategory;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     descriptionController.dispose();
     super.dispose();
@@ -26,17 +34,20 @@ class _AddTransactionState extends State<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return DraggableScrollableSheet(
+      maxChildSize: 0.9,
+      minChildSize: 0.5,
+      initialChildSize: 0.7,
+      builder: (context, scrollController) {
+        return Container(
           padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: const Radius.circular(25.0),
-          )),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+          child: ListView(
+              controller: scrollController,
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
               children: [
                 SizedBox(
                   height: 8,
@@ -62,21 +73,9 @@ class _AddTransactionState extends State<AddTransaction> {
                 SizedBox(
                   height: 16,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return TransactionChoiceChip(
-                              transactionCategories: expenseTransactions,
-                              onItemSelected: (selectedItem) {
-                                setState(() {
-                                  selectedCategory = selectedItem;
-                                });
-                              });
-                        });
-                  },
-                  child: Container(
+                ExpansionTile(
+                  tilePadding: EdgeInsets.all(0),
+                  title: Container(
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,8 +93,16 @@ class _AddTransactionState extends State<AddTransaction> {
                           ),
                         ],
                       )),
+                  children: [
+                    TransactionChoiceChip(
+                        transactionCategories: expenseTransactions,
+                        onItemSelected: (selectedItem) {
+                          setState(() {
+                            selectedCategory = selectedItem;
+                          });
+                        })
+                  ],
                 ),
-                
                 SizedBox(
                   height: 16,
                 ),
@@ -111,23 +118,35 @@ class _AddTransactionState extends State<AddTransaction> {
                     });
                   }),
                   child: Container(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Select Date',
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4.0),
-                            child: Text(
-                              selectedDate,
-                              style: Theme.of(context).textTheme.caption,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Select Date',
+                              style: Theme.of(context).textTheme.subtitle2,
                             ),
-                          ),
-                        ],
-                      )),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                selectedDate,
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          FontAwesomeIcons.chevronDown,
+                          size: 14,
+                          color: Colors.grey[500],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 16,
@@ -142,47 +161,56 @@ class _AddTransactionState extends State<AddTransaction> {
                     controller: descriptionController,
                   ),
                 ),
-
-                // TransactionChoiceChip(
-                //   transactionCategories: expenseTransactions,
-                //   onItemSelected: (selectedItem) {
-                //     debugPrint(selectedItem);
-                //   },
-                // ),
-                NumberTableWidget((int number) {
-                  debugPrint(number.toString());
+                NumberTableWidget(onNumberPressed: (String number) {
+                  if (number == '.') {
+                    setState(() {
+                      totalAmount = AmountInputHandler.onDotPressed(totalAmount);
+                    });
+                  } else {
+                    setState(() {
+                      totalAmount = AmountInputHandler.onNumberPressed(number,totalAmount);
+                    });
+                  }
+                }, onClearPressed: () {
                   setState(() {
-                    if (totalAmount != "0") {
-                      totalAmount = totalAmount + number.toString();
-                    } else {
-                      totalAmount = number.toString();
-                    }
-                  });
-                }, () {
-                  setState(() {
-                    totalAmount = "0";
+                    totalAmount = '0';
                   });
                 }),
-
+                
                 SizedBox(
                   height: 16,
                 ),
-                Container(
-                  padding: EdgeInsets.all(14),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Text(
-                    'Calculate',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(color: Colors.white),
-                    textAlign: TextAlign.center,
+                GestureDetector(
+                  onTap: () {
+                    if (descriptionController.text.isEmpty) {
+                      Fluttertoast.showToast(msg: 'Description is required');
+                      return;
+                    }
+                    if (selectedCategory == null) {
+                      Fluttertoast.showToast(msg: 'Category is required');
+                      return;
+                    }
+                    Fluttertoast.showToast(msg: 'Success');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(14),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Text(
+                      'Add',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 )
-              ])),
+              ]),
+        );
+      },
     );
   }
 }
