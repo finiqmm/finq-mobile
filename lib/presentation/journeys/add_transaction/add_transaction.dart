@@ -162,21 +162,18 @@ class _AddTransactionState extends State<AddTransaction> {
                   ),
                 ),
                 NumberTableWidget(onNumberPressed: (String number) {
-                  if (number == '.') {
-                    setState(() {
-                      totalAmount = AmountInputHandler.onDotPressed(totalAmount);
-                    });
-                  } else {
-                    setState(() {
-                      totalAmount = AmountInputHandler.onNumberPressed(number,totalAmount);
-                    });
-                  }
+                  if (totalAmount.length >= 7) return;
+                  setState(() {
+                    totalAmount = number == '.'
+                        ? AmountInputHandler.onDotPressed(totalAmount)
+                        : AmountInputHandler.onNumberPressed(
+                            number, totalAmount);
+                  });
                 }, onClearPressed: () {
                   setState(() {
                     totalAmount = '0';
                   });
                 }),
-                
                 SizedBox(
                   height: 16,
                 ),
