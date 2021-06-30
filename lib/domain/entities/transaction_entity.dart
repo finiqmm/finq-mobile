@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/data/tables/transaction.dart';
 
 class TransactionEntity extends Equatable {
-  final int id;
+  final int? id;
   final String description;
   final double amount;
   final DateTime transactionDate;
@@ -14,6 +15,16 @@ class TransactionEntity extends Equatable {
   @override
   String toString() {
     return '$id -- $description -- $amount';
+  }
+
+  Transaction toTransaction(TransactionEntity transaction) {
+    return Transaction(
+        transaction.id,
+        transaction.description,
+        transaction.categoryName,
+        transaction.amount,
+        transaction.transactionType,
+        transaction.transactionDate);
   }
 
   @override

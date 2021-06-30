@@ -16,7 +16,6 @@ class Routes {
         RouteList.onboarding: (context) => OnboardingScreen(),
         RouteList.main: (context) => MainScreen(),
         RouteList.profile: (context) => ProfileScreen(),
-        RouteList.add_transaction: (context) => AddTransaction(),
         RouteList.article_detail: (context) => ArticleDetaiScreen(
               article: settings.arguments as ArticleEntity,
             ),

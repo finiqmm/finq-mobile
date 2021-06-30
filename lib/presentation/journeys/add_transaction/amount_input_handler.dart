@@ -15,6 +15,11 @@ class AmountInputHandler {
     }
     return initialAmount + enterAmount;
   }
+
+  static bool isInputValid(String amount) {
+    final inputAmount = double.tryParse(amount);
+    return inputAmount != null && inputAmount != 0.0;
+  }
 }
 
 // - if input is 1,2,3 ***

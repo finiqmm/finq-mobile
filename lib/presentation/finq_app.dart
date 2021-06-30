@@ -4,6 +4,7 @@ import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/themes/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,11 +25,13 @@ class _FinqAppState extends State<FinqApp> {
   late final AppBloc appBloc;
   late final LanguageBloc _languageBloc;
   late final ThemeCubit _themeCubit;
+  late final TransactionBloc transactionBloc;
 
   @override
   void initState() {
     super.initState();
     appBloc = getItInstance<AppBloc>();
+
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
     appBloc.add(IsUserFinishedOnboarding());
@@ -57,6 +60,7 @@ class _FinqAppState extends State<FinqApp> {
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit,
         ),
+       
       ],
       child: BlocBuilder<ThemeCubit, Themes>(
         builder: (context, theme) {

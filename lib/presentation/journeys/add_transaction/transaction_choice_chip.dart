@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class TransactionChoiceChip extends StatefulWidget {
   final List<String> transactionCategories;
+  final String? initialSelectedChip;
   final Function(String) onItemSelected;
 
   TransactionChoiceChip(
       {Key? key,
+      required this.initialSelectedChip,
       required this.transactionCategories,
       required this.onItemSelected})
       : super(key: key);
@@ -16,6 +18,12 @@ class TransactionChoiceChip extends StatefulWidget {
 
 class _TransactionChoiceChipState extends State<TransactionChoiceChip> {
   String? selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedItem = widget.initialSelectedChip;
+  }
 
   @override
   Widget build(BuildContext context) {
