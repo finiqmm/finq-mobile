@@ -1,19 +1,7 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 
-// abstract class TransactionActionState {}
 
-// class TransactionUpdateState extends TransactionActionState {
-//   final TransactionEntity transactionEntity;
-
-//   TransactionUpdateState(this.transactionEntity) : super();
-// }
-
-// class TransactionInsertAction extends TransactionActionState {
-//   final TransactionType transactionType;
-
-//   TransactionInsertAction(this.transactionType) : super();
-// }
 
 class TransactionActionModel {
   final int? id;

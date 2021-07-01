@@ -61,7 +61,11 @@ class ProfileBackdropWidget extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RoundedProfileIcon(imageUrl: userAvatarUrl),
+                child: RoundedProfileIcon(
+                  imageUrl: userAvatarUrl,
+                  height: Sizes.dimen_40.h,
+                  width: Sizes.dimen_90.w,
+                ),
               ),
             ],
           );

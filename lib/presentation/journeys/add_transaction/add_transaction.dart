@@ -6,7 +6,6 @@ import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/journeys/add_transaction/amount_input_handler.dart';
 import 'package:finq/presentation/journeys/add_transaction/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/add_transaction/transaction_choice_chip.dart';
-import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:finq/common/extension/size_extension.dart';
 import 'package:finq/common/extension/int_extension.dart';
