@@ -12,8 +12,8 @@ finQTheme(Themes theme) => ThemeData(
     brightness: theme == Themes.dark ? Brightness.dark : Brightness.light,
     appBarTheme: AppBarTheme(elevation: 0),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    scaffoldBackgroundColor: Colors.white,
     accentColor: AppColor.accent,
+    scaffoldBackgroundColor: Colors.grey[300],
     primaryColor: AppColor.primary,
     iconTheme: IconThemeData(color: Colors.red),
     inputDecorationTheme: InputDecorationTheme(

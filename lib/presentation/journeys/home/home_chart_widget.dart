@@ -66,6 +66,7 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                         stops: [0.3, 1],
                         colors: [Colors.white.withOpacity(0.1), Colors.white])),
                 child: ListWheelScrollView(
+                  useMagnifier: true,
                     itemExtent: 38,
                     children: PieData.data
                         .map((e) => ChartDataItem(data: e))

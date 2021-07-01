@@ -6,6 +6,7 @@ import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
 import 'package:finq/presentation/journeys/add_transaction/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
+import 'package:finq/presentation/journeys/home/transaction_table.dart';
 import 'package:finq/presentation/journeys/home/widgets/trasaction_type_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,11 +43,19 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) => transactionBloc,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.grey[300],
           body: ListView(
+            physics: BouncingScrollPhysics(),
             children: [
               HomeChartWidget(),
-              TransactionTypeTab()
+              TransactionTypeTab(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  'Daily Transaction',
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
+              TransactionTable()
             ],
           ),
           floatingActionButton: ExpandableFab(

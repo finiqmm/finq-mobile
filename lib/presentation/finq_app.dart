@@ -68,6 +68,7 @@ class _FinqAppState extends State<FinqApp> {
             builder: (context, state) {
               if (state is LanguageLoaded) {
                 return MaterialApp(
+                  
                   debugShowCheckedModeBanner: false,
                   title: 'Finq App',
                   theme: finQTheme(theme),
