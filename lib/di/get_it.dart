@@ -7,7 +7,7 @@ import 'package:finq/data/repositories/application_repository_impl.dart';
 import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
 import 'package:finq/data/repositories/transaction_repository_impl.dart';
-import 'package:finq/database/finq_db.dart';
+import 'package:finq/database/database.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
@@ -30,9 +30,9 @@ Future init() async {
       .registerLazySingleton<ApiClient>(() => ApiClient(getItInstance()));
 
   ///Db dependencies
-  getItInstance.registerSingletonAsync<FinqDb>(() async {
-    return await $FloorFinqDb.databaseBuilder('finq.db').build();
-  });
+  // getItInstance.registerSingletonAsync<FinqDb>(() async {
+  //   return await $FloorFinqDb.databaseBuilder('finq.db').build();
+  // });
 
   getItInstance
       .registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
@@ -47,7 +47,7 @@ Future init() async {
   getItInstance.registerLazySingleton<ArticleDataSource>(
       () => ArticleDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<TransactionDataSource>(
-      () => TransactionDataSourceImpl(db: getItInstance()));
+      () => TransactionDataSourceImpl());
 
   ///Repository dependencies
   getItInstance.registerLazySingleton<ApplicationRepository>(

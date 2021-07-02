@@ -1,5 +1,5 @@
-import 'package:finq/data/tables/transaction.dart';
-import 'package:finq/database/finq_db.dart';
+import 'package:finq/database/database.dart';
+import 'package:finq/database/database.dart';
 
 abstract class TransactionDataSource {
   Future<void> insertNewTransaction(Transaction transaction);
@@ -7,16 +7,19 @@ abstract class TransactionDataSource {
 }
 
 class TransactionDataSourceImpl extends TransactionDataSource {
-  final FinqDb db;
-  TransactionDataSourceImpl({required this.db});
+  // final FinqDb db;
+  TransactionDataSourceImpl();
 
   @override
   Future<void> insertNewTransaction(Transaction transaction) {
-    return db.transactionDao.insertTransaction(transaction);
+    return Future.delayed(Duration(milliseconds: 2));
+    // return db.transactionDao.insertTransaction(transaction);
   }
 
   @override
   Future<void> updateTransaction(Transaction transaction) {
-    return db.transactionDao.updateTransaction(transaction);
+    return Future.delayed(Duration(milliseconds: 2));
+
+    // return db.transactionDao.updateTransaction(transaction);
   }
 }

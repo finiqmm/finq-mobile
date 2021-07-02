@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.1"
+  analyzer_plugin_fork:
+    dependency: transitive
+    description:
+      name: analyzer_plugin_fork
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   archive:
     dependency: transitive
     description:
@@ -302,27 +309,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.36.2"
-  floor:
-    dependency: "direct main"
-    description:
-      name: floor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
-  floor_annotation:
-    dependency: transitive
-    description:
-      name: floor_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  floor_generator:
-    dependency: "direct dev"
-    description:
-      name: floor_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -574,6 +560,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  moor:
+    dependency: transitive
+    description:
+      name: moor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.2"
+  moor_flutter:
+    dependency: "direct main"
+    description:
+      name: moor_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+  moor_generator:
+    dependency: "direct dev"
+    description:
+      name: moor_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.2"
   nested:
     dependency: transitive
     description:
@@ -728,6 +735,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -789,13 +803,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0+2"
-  sqflite_common_ffi:
-    dependency: transitive
-    description:
-      name: sqflite_common_ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0+1"
   sqlite3:
     dependency: transitive
     description:
@@ -803,6 +810,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  sqlparser:
+    dependency: transitive
+    description:
+      name: sqlparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.0"
   stack_trace:
     dependency: transitive
     description:

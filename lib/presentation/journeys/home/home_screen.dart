@@ -1,5 +1,6 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/database/database.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
