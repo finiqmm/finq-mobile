@@ -16,3 +16,20 @@ class TransactionError extends TransactionState {
 
   TransactionError(this.message);
 }
+
+class TotalIncomeAmountState extends TransactionState {
+  final double amount;
+  TotalIncomeAmountState(this.amount);
+}
+
+class TotalExpenseAmountState extends TransactionState {
+  final double amount;
+  TotalExpenseAmountState(this.amount);
+}
+
+// class TotalAmountState extends TransactionState {
+//   final double amount;
+//   final TransactionType transactionType;
+
+//   TotalAmountState(this.amount, this.transactionType):super();
+// }

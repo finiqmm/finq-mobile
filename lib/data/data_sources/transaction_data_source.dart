@@ -1,25 +1,30 @@
-import 'package:finq/database/database.dart';
-import 'package:finq/database/database.dart';
+import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/database/finq_db.dart';
 
 abstract class TransactionDataSource {
-  Future<void> insertNewTransaction(Transaction transaction);
-  Future<void> updateTransaction(Transaction transaction);
+  Future<void> insertNewTransaction(TransactionsCompanion transaction);
+  Future<void> updateTransaction(TransactionsCompanion transaction);
+  Future<double?> getTotalAmountOfType(TransactionType transactionType, DateTime startDate, DateTime endDate);
+  
 }
 
 class TransactionDataSourceImpl extends TransactionDataSource {
-  // final FinqDb db;
-  TransactionDataSourceImpl();
+  final FinqDb db;
+  TransactionDataSourceImpl(this.db);
 
   @override
-  Future<void> insertNewTransaction(Transaction transaction) {
-    return Future.delayed(Duration(milliseconds: 2));
-    // return db.transactionDao.insertTransaction(transaction);
+  Future<void> insertNewTransaction(TransactionsCompanion transaction) {
+    return db.insertNewTransaction(transaction);
   }
 
   @override
-  Future<void> updateTransaction(Transaction transaction) {
-    return Future.delayed(Duration(milliseconds: 2));
+  Future<void> updateTransaction(TransactionsCompanion transaction) {
+    return db.updateTransaction(transaction);
+  }
 
-    // return db.transactionDao.updateTransaction(transaction);
+  @override
+  Future<double?> getTotalAmountOfType(
+      TransactionType transactionType, DateTime startDate, DateTime endDate) {
+    return db.getTotalTransactionAmount(transactionType, startDate, endDate);
   }
 }

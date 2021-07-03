@@ -12,3 +12,25 @@ class NewTransactionInsertEvent extends TransactionEvent {
 
   NewTransactionInsertEvent(this.transactionEntity);
 }
+
+class GetTotalIncomeEvent extends TransactionEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  GetTotalIncomeEvent(this.startDate, this.endDate) : super();
+}
+
+class GetTotalExpenseEvent extends TransactionEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  GetTotalExpenseEvent(this.startDate, this.endDate) : super();
+}
+
+// class GetTotalAmountTransactionEvent extends TransactionEvent {
+//   final DateTime startDate;
+//   final DateTime endDate;
+//   final TransactionType transactionType;
+
+//   GetTotalAmountTransactionEvent(
+//       this.transactionType, this.startDate, this.endDate)
+//       : super();
+// }

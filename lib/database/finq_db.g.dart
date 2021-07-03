@@ -1,31 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'database.dart';
+part of 'finq_db.dart';
 
 // **************************************************************************
 // MoorGenerator
 // **************************************************************************
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
-class TransactionData extends DataClass implements Insertable<TransactionData> {
+class Transaction extends DataClass implements Insertable<Transaction> {
   final int id;
   final String description;
   final String categoryType;
   final double amount;
   final DateTime transactionDate;
   final TransactionType transactionType;
-  TransactionData(
+  Transaction(
       {required this.id,
       required this.description,
       required this.categoryType,
       required this.amount,
       required this.transactionDate,
       required this.transactionType});
-  factory TransactionData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory Transaction.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return TransactionData(
+    return Transaction(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       description: const StringType()
@@ -36,7 +35,7 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
       transactionDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}transaction_date'])!,
-      transactionType: $TransactionTable.$converter0.mapToDart(const IntType()
+      transactionType: $TransactionsTable.$converter0.mapToDart(const IntType()
           .mapFromDatabaseResponse(
               data['${effectivePrefix}transaction_type']))!,
     );
@@ -50,15 +49,15 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
     map['amount'] = Variable<double>(amount);
     map['transaction_date'] = Variable<DateTime>(transactionDate);
     {
-      final converter = $TransactionTable.$converter0;
+      final converter = $TransactionsTable.$converter0;
       map['transaction_type'] =
           Variable<int>(converter.mapToSql(transactionType)!);
     }
     return map;
   }
 
-  TransactionCompanion toCompanion(bool nullToAbsent) {
-    return TransactionCompanion(
+  TransactionsCompanion toCompanion(bool nullToAbsent) {
+    return TransactionsCompanion(
       id: Value(id),
       description: Value(description),
       categoryType: Value(categoryType),
@@ -68,10 +67,10 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
     );
   }
 
-  factory TransactionData.fromJson(Map<String, dynamic> json,
+  factory Transaction.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return TransactionData(
+    return Transaction(
       id: serializer.fromJson<int>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       categoryType: serializer.fromJson<String>(json['categoryType']),
@@ -94,14 +93,14 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
     };
   }
 
-  TransactionData copyWith(
+  Transaction copyWith(
           {int? id,
           String? description,
           String? categoryType,
           double? amount,
           DateTime? transactionDate,
           TransactionType? transactionType}) =>
-      TransactionData(
+      Transaction(
         id: id ?? this.id,
         description: description ?? this.description,
         categoryType: categoryType ?? this.categoryType,
@@ -111,7 +110,7 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
       );
   @override
   String toString() {
-    return (StringBuffer('TransactionData(')
+    return (StringBuffer('Transaction(')
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('categoryType: $categoryType, ')
@@ -136,7 +135,7 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is TransactionData &&
+      (other is Transaction &&
           other.id == this.id &&
           other.description == this.description &&
           other.categoryType == this.categoryType &&
@@ -145,14 +144,14 @@ class TransactionData extends DataClass implements Insertable<TransactionData> {
           other.transactionType == this.transactionType);
 }
 
-class TransactionCompanion extends UpdateCompanion<TransactionData> {
+class TransactionsCompanion extends UpdateCompanion<Transaction> {
   final Value<int> id;
   final Value<String> description;
   final Value<String> categoryType;
   final Value<double> amount;
   final Value<DateTime> transactionDate;
   final Value<TransactionType> transactionType;
-  const TransactionCompanion({
+  const TransactionsCompanion({
     this.id = const Value.absent(),
     this.description = const Value.absent(),
     this.categoryType = const Value.absent(),
@@ -160,7 +159,7 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
     this.transactionDate = const Value.absent(),
     this.transactionType = const Value.absent(),
   });
-  TransactionCompanion.insert({
+  TransactionsCompanion.insert({
     this.id = const Value.absent(),
     required String description,
     required String categoryType,
@@ -172,7 +171,7 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
         amount = Value(amount),
         transactionDate = Value(transactionDate),
         transactionType = Value(transactionType);
-  static Insertable<TransactionData> custom({
+  static Insertable<Transaction> custom({
     Expression<int>? id,
     Expression<String>? description,
     Expression<String>? categoryType,
@@ -190,14 +189,14 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
     });
   }
 
-  TransactionCompanion copyWith(
+  TransactionsCompanion copyWith(
       {Value<int>? id,
       Value<String>? description,
       Value<String>? categoryType,
       Value<double>? amount,
       Value<DateTime>? transactionDate,
       Value<TransactionType>? transactionType}) {
-    return TransactionCompanion(
+    return TransactionsCompanion(
       id: id ?? this.id,
       description: description ?? this.description,
       categoryType: categoryType ?? this.categoryType,
@@ -226,7 +225,7 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
       map['transaction_date'] = Variable<DateTime>(transactionDate.value);
     }
     if (transactionType.present) {
-      final converter = $TransactionTable.$converter0;
+      final converter = $TransactionsTable.$converter0;
       map['transaction_type'] =
           Variable<int>(converter.mapToSql(transactionType.value)!);
     }
@@ -235,7 +234,7 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
 
   @override
   String toString() {
-    return (StringBuffer('TransactionCompanion(')
+    return (StringBuffer('TransactionsCompanion(')
           ..write('id: $id, ')
           ..write('description: $description, ')
           ..write('categoryType: $categoryType, ')
@@ -247,11 +246,11 @@ class TransactionCompanion extends UpdateCompanion<TransactionData> {
   }
 }
 
-class $TransactionTable extends Transaction
-    with TableInfo<$TransactionTable, TransactionData> {
+class $TransactionsTable extends Transactions
+    with TableInfo<$TransactionsTable, Transaction> {
   final GeneratedDatabase _db;
   final String? _alias;
-  $TransactionTable(this._db, [this._alias]);
+  $TransactionsTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedIntColumn id = _constructId();
@@ -324,13 +323,13 @@ class $TransactionTable extends Transaction
   List<GeneratedColumn> get $columns =>
       [id, description, categoryType, amount, transactionDate, transactionType];
   @override
-  $TransactionTable get asDslTable => this;
+  $TransactionsTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? '"transaction"';
+  String get $tableName => _alias ?? 'transactions';
   @override
-  final String actualTableName = '"transaction"';
+  final String actualTableName = 'transactions';
   @override
-  VerificationContext validateIntegrity(Insertable<TransactionData> instance,
+  VerificationContext validateIntegrity(Insertable<Transaction> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -374,25 +373,39 @@ class $TransactionTable extends Transaction
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  TransactionData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return TransactionData.fromData(data, _db,
+  Transaction map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Transaction.fromData(data, _db,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $TransactionTable createAlias(String alias) {
-    return $TransactionTable(_db, alias);
+  $TransactionsTable createAlias(String alias) {
+    return $TransactionsTable(_db, alias);
   }
 
   static TypeConverter<TransactionType, int> $converter0 =
       const EnumIndexConverter<TransactionType>(TransactionType.values);
 }
 
-abstract class _$Database extends GeneratedDatabase {
-  _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  late final $TransactionTable transaction = $TransactionTable(this);
+abstract class _$FinqDb extends GeneratedDatabase {
+  _$FinqDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  late final $TransactionsTable transactions = $TransactionsTable(this);
+  Selectable<double> sumofTransactionAmount(
+      DateTime startDate, DateTime endDate, int transType) {
+    return customSelect(
+        'SELECT SUM(amount) FROM transactions WHERE transaction_date>=:startDate AND transaction_date<=:endDate AND transaction_type=:transType',
+        variables: [
+          Variable<DateTime>(startDate),
+          Variable<DateTime>(endDate),
+          Variable<int>(transType)
+        ],
+        readsFrom: {
+          transactions
+        }).map((QueryRow row) => row.read<double>('SUM(amount)'));
+  }
+
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [transaction];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [transactions];
 }

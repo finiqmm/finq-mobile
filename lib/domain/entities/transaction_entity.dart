@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:finq/common/constants/transaction_type.dart';
-import 'package:finq/database/database.dart';
+import 'package:finq/database/finq_db.dart';
 
 class TransactionEntity extends Equatable {
   final int? id;

@@ -1,4 +1,7 @@
+import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionTypeTab extends StatelessWidget {
   @override
@@ -15,8 +18,33 @@ class TransactionTypeTab extends StatelessWidget {
           length: 2,
           initialIndex: 1,
           child: TabBar(tabs: [
-            _buildRichTextTab(context, 'Income', '400000'),
-            _buildRichTextTab(context, 'Expense', '400000')
+            BlocBuilder<TransactionBloc, TransactionState>(
+              buildWhen: (previous, current) {
+                return current is TotalIncomeAmountState &&
+                    current is! TotalExpenseAmountState;
+              },
+              builder: (BuildContext context, TransactionState state) {
+                if (state is TotalIncomeAmountState) {
+                  return _buildRichTextTab(
+                      context, 'Income', state.amount.toString());
+                }
+                return SizedBox.shrink();
+              },
+            ),
+            BlocBuilder<TransactionBloc, TransactionState>(
+              buildWhen: (previous, current) {
+                return current is TotalExpenseAmountState &&
+                    current is! TotalIncomeAmountState;
+              },
+              builder: (BuildContext context, TransactionState state) {
+
+                if (state is TotalExpenseAmountState) {
+                  return _buildRichTextTab(
+                      context, 'Expense', state.amount.toStringAsFixed(3));
+                }
+                return SizedBox.shrink();
+              },
+            ),
           ]),
         ),
       ),

@@ -3,15 +3,17 @@ import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/data/data_sources/article_data_source.dart';
 import 'package:finq/data/data_sources/auth_data_source.dart';
 import 'package:finq/data/data_sources/transaction_data_source.dart';
+import 'package:finq/data/mapper/transaction_entity_mapper.dart';
 import 'package:finq/data/repositories/application_repository_impl.dart';
 import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
 import 'package:finq/data/repositories/transaction_repository_impl.dart';
-import 'package:finq/database/database.dart';
+import 'package:finq/database/finq_db.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:finq/domain/repositories/transaction_repository.dart';
+import 'package:finq/domain/usecases/transactions/get_total_transaction_type.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 
 import 'package:finq/presentation/bloc/blocs.dart';
@@ -29,15 +31,17 @@ Future init() async {
   getItInstance
       .registerLazySingleton<ApiClient>(() => ApiClient(getItInstance()));
 
-  ///Db dependencies
-  // getItInstance.registerSingletonAsync<FinqDb>(() async {
-  //   return await $FloorFinqDb.databaseBuilder('finq.db').build();
-  // });
-
   getItInstance
       .registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
   getItInstance.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
+
+  ///Db dependencies
+  getItInstance.registerLazySingleton<FinqDb>(() => FinqDb());
+
+  ///Mapper dependencies
+  getItInstance.registerLazySingleton<TransactionEntityMapper>(
+      () => TransactionEntityMapper());
 
   ///DataSource dependencies
   getItInstance.registerLazySingleton<ApplicationDataSource>(
@@ -47,7 +51,7 @@ Future init() async {
   getItInstance.registerLazySingleton<ArticleDataSource>(
       () => ArticleDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<TransactionDataSource>(
-      () => TransactionDataSourceImpl());
+      () => TransactionDataSourceImpl(getItInstance()));
 
   ///Repository dependencies
   getItInstance.registerLazySingleton<ApplicationRepository>(
@@ -57,7 +61,7 @@ Future init() async {
   getItInstance.registerLazySingleton<AuthenticationRepository>(
       () => AuthRepositoryImpl(getItInstance(), getItInstance()));
   getItInstance.registerLazySingleton<TransactionRepository>(
-      () => TransactionRepoImpl(getItInstance()));
+      () => TransactionRepoImpl(getItInstance(), getItInstance()));
 
   ///Usecase dependencies
   getItInstance.registerLazySingleton<FinishOnboarding>(
@@ -85,9 +89,14 @@ Future init() async {
   getItInstance.registerLazySingleton<UpdateTransaction>(
       () => UpdateTransaction(transactionRepository: getItInstance()));
 
+  getItInstance.registerLazySingleton<GetTotalTransactionType>(
+      () => GetTotalTransactionType(getItInstance()));
+
   ///Bloc dependencies
   getItInstance.registerFactory<TransactionBloc>(() => TransactionBloc(
-      insertTransaction: getItInstance(), updateTransaction: getItInstance()));
+      insertTransaction: getItInstance(),
+      updateTransaction: getItInstance(),
+      getTotalTransactionType: getItInstance()));
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
   getItInstance.registerFactory<AppBloc>(
