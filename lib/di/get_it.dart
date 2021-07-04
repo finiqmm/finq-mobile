@@ -13,11 +13,11 @@ import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:finq/domain/repositories/transaction_repository.dart';
-import 'package:finq/domain/usecases/transactions/get_total_transaction_type.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
+import 'package:finq/presentation/mapper/transaction_chart_ui_model_mapper.dart';
+import 'package:finq/presentation/mapper/transaction_ui_model_mapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,6 +42,10 @@ Future init() async {
   ///Mapper dependencies
   getItInstance.registerLazySingleton<TransactionEntityMapper>(
       () => TransactionEntityMapper());
+  getItInstance.registerLazySingleton<TransactionUiModelMapper>(
+      () => TransactionUiModelMapper());
+  getItInstance.registerLazySingleton<TransactionChartUiModelMapper>(
+      () => TransactionChartUiModelMapper());
 
   ///DataSource dependencies
   getItInstance.registerLazySingleton<ApplicationDataSource>(
@@ -88,15 +92,27 @@ Future init() async {
       () => InsertTransaction(transactionRepository: getItInstance()));
   getItInstance.registerLazySingleton<UpdateTransaction>(
       () => UpdateTransaction(transactionRepository: getItInstance()));
-
   getItInstance.registerLazySingleton<GetTotalTransactionType>(
       () => GetTotalTransactionType(getItInstance()));
 
+  getItInstance.registerLazySingleton<GetAllTransactionByFilterRange>(
+      () => GetAllTransactionByFilterRange(getItInstance()));
+
+  getItInstance.registerFactory<GetAllTransactionBetweenRange>(
+      () => GetAllTransactionBetweenRange(getItInstance()));
+
   ///Bloc dependencies
   getItInstance.registerFactory<TransactionBloc>(() => TransactionBloc(
+      getItInstance(), getItInstance(),
       insertTransaction: getItInstance(),
+      getAllTransactionByFilterRange: getItInstance(),
       updateTransaction: getItInstance(),
+      getAllTransactionBetweenRange: getItInstance(),
       getTotalTransactionType: getItInstance()));
+  getItInstance.registerFactory<HomeChartDataBloc>(() => HomeChartDataBloc(
+        mapper: getItInstance(),
+        getAllTransactionByFilterRange: getItInstance(),
+      ));
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
   getItInstance.registerFactory<AppBloc>(
@@ -111,6 +127,9 @@ Future init() async {
     getPreferredTheme: getItInstance(),
     updateTheme: getItInstance(),
   ));
+
+  getItInstance.registerSingleton<TransactionEntryCubit>(TransactionEntryCubit(
+      insertTransaction: getItInstance(), updateTransaction: getItInstance()));
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
 }

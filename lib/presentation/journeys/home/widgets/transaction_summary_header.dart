@@ -1,11 +1,12 @@
 import 'package:finq/presentation/journeys/home/ui_models/table_data_provider.dart';
+import 'package:finq/presentation/models/transaction_ui_model.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
 
 class TransactionSummaryHeader extends StatelessWidget {
-  final TableData tableData;
+  final TransactionUiModel uiModel;
 
-  TransactionSummaryHeader(this.tableData);
+  TransactionSummaryHeader(this.uiModel);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class TransactionSummaryHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Theme.of(context).accentColor)),
                 child: Text(
-                  tableData.dateString,
+                  uiModel.transactionDate,
                   style: Theme.of(context).textTheme.caption,
                 ),
               )
@@ -40,7 +41,7 @@ class TransactionSummaryHeader extends StatelessWidget {
                   .textTheme
                   .caption!
                   .copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
-              title: tableData.totalIncome,
+              title: uiModel.totalIncomeAmount,
             )),
         Expanded(
             flex: 2,
@@ -48,7 +49,7 @@ class TransactionSummaryHeader extends StatelessWidget {
               onPressed: () {},
               textStyle: Theme.of(context).textTheme.caption!.copyWith(
                   color: Colors.redAccent, fontWeight: FontWeight.w500),
-              title: tableData.totalExpense,
+              title: uiModel.totalExpenseAmount,
             )),
       ],
     );

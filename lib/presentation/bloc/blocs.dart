@@ -5,3 +5,6 @@ export 'profile/profile_bloc.dart';
 export 'articles/article_bloc.dart';
 export 'language/language_bloc.dart';
 export 'theme/theme_bloc.dart';
+export 'transaction/transaction_bloc.dart';
+export 'transaction_chart_data/home_chart_data_bloc.dart';
+export 'trasaction_entry/transaction_entry_cubit.dart';

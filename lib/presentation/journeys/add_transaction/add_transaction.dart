@@ -200,10 +200,10 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
                 BlocListener<TransactionBloc, TransactionState>(
                   listener: (context, state) {
-                    if (state is InsertSuccess) {
-                      Navigator.pop(context);
-                      return;
-                    }
+                    // if (state is InsertSuccess) {
+                    //   Navigator.pop(context);
+                    //   return;
+                    // }
                     if (state is TransactionError) {
                       Fluttertoast.showToast(msg: state.message);
                     }
@@ -222,18 +222,18 @@ class _AddTransactionState extends State<AddTransaction> {
                         Fluttertoast.showToast(msg: 'Enter valid amount');
                         return;
                       }
-                      var transitionEntity = TransactionEntity(
-                          null,
-                          descriptionController.text,
-                          double.parse(totalAmount),
-                          selectedDate,
-                          widget.transactionActionModel.transactionType,
-                          selectedCategory!);
+                      // var transitionEntity = TransactionEntity(
+                      //     null,
+                      //     descriptionController.text,
+                      //     double.parse(totalAmount),
+                      //     selectedDate,
+                      //     widget.transactionActionModel.transactionType,
+                      //     selectedCategory!);
 
-                      debugPrint(transitionEntity.toString());
-                      Fluttertoast.showToast(msg: 'Success');
-                      BlocProvider.of<TransactionBloc>(context)
-                          .add(NewTransactionInsertEvent(transitionEntity));
+                      // debugPrint(transitionEntity.toString());
+                      // Fluttertoast.showToast(msg: 'Success');
+                      // BlocProvider.of<TransactionBloc>(context)
+                      //     .add(NewTransactionInsertEvent(transitionEntity));
                     },
                     child: Container(
                       padding: EdgeInsets.all(14),

@@ -10,22 +10,32 @@ class TransactionEntity extends Equatable {
   final TransactionType transactionType;
   final String categoryName;
 
-  TransactionEntity(this.id, this.description, this.amount,
-      this.transactionDate, this.transactionType, this.categoryName);
+  TransactionEntity(
+      {required this.id,
+      required this.description,
+      required this.amount,
+      required this.transactionDate,
+      required this.transactionType,
+      required this.categoryName});
+
   @override
   String toString() {
     return '$id -- $description -- $amount';
   }
 
-  // Transaction toTransaction(TransactionEntity transaction) {
-  //   return Transaction(
-  //       transaction.id,
-  //       transaction.description,
-  //       transaction.categoryName,
-  //       transaction.amount,
-  //       transaction.transactionType,
-  //       transaction.transactionDate);
-  // }
+  TransactionEntity copyWith(
+      {String? description,
+      double? amount,
+      DateTime? transactionDate,
+      String? categoryName}) {
+    return TransactionEntity(
+        id: id,
+        description: description ?? this.description,
+        amount: amount ?? this.amount,
+        transactionDate: transactionDate ?? this.transactionDate,
+        categoryName: categoryName ?? this.categoryName,
+        transactionType: this.transactionType);
+  }
 
   @override
   List<Object?> get props =>

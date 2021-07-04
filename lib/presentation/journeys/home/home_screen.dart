@@ -22,14 +22,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
-  late FinqDb finqDb;
+  late HomeChartDataBloc homeChartDataBloc;
+  // late FinqDb finqDb;
 
   @override
   void initState() {
     super.initState();
-    debugPrint('fwefw');
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     transactionBloc = getItInstance<TransactionBloc>();
+    homeChartDataBloc = getItInstance<HomeChartDataBloc>();
+
+    homeChartDataBloc.add(HomeChartDataLoadEvent(
+        startDate: DateTime(DateTime.now().year, DateTime.now().month),
+        endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
+        type: TransactionType.INCOME));
 
     transactionBloc.add(GetTotalExpenseEvent(
         DateTime(DateTime.now().year, DateTime.now().month),
@@ -38,26 +44,30 @@ class _HomeScreenState extends State<HomeScreen> {
         DateTime(DateTime.now().year, DateTime.now().month),
         DateTime(DateTime.now().year, DateTime.now().month + 1)));
 
-    // finqDb = getItInstance<FinqDb>();
-    // finqDb
-    //     .watchTransactionsWithDates(
-    //         DateTime(DateTime.now().year, DateTime.now().month),
-    //         DateTime(DateTime.now().year, DateTime.now().month + 1))
-    //     .listen((event) {
-    //   debugPrint('$event fewf');
-    // });
+    // transactionBloc.add(LoadTransactionBetweenRange(
+    //     DateTime(DateTime.now().year, DateTime.now().month),
+    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
+
+    // transactionBloc.add(LoadHomeScreenChartData(
+    //     DateTime(DateTime.now().year, DateTime.now().month),
+    //     DateTime(DateTime.now().year, DateTime.now().month + 1),
+    //     TransactionType.INCOME));
   }
 
   @override
   void dispose() {
     transactionBloc.close();
+    homeChartDataBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => transactionBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => transactionBloc),
+        BlocProvider(create: (context) => homeChartDataBloc)
+      ],
       child: SafeArea(
         child: Scaffold(
           body: SingleChildScrollView(

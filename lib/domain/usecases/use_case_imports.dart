@@ -18,3 +18,6 @@ export 'theme/update_theme.dart';
 //Transaction
 export 'transactions/insert_transaction.dart';
 export 'transactions/update_transaction.dart';
+export 'transactions/get_total_transaction_type.dart';
+export 'transactions/get_all_transaction_between_range.dart';
+export 'transactions/get_all_transaction_by_filter_range.dart';

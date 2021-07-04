@@ -1,9 +1,11 @@
+import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/presentation/journeys/home/ui_models/table_data_provider.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
 
 class TransactionItemRow extends StatelessWidget {
-  final DataItem dataItem;
+  final TransactionEntity dataItem;
 
   const TransactionItemRow({Key? key, required this.dataItem})
       : super(key: key);
@@ -33,7 +35,7 @@ class TransactionItemRow extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Text(
-                dataItem.desc + dataItem.desc + dataItem.desc,
+                dataItem.description,
                 textAlign: TextAlign.start,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -43,9 +45,9 @@ class TransactionItemRow extends StatelessWidget {
           ),
           Expanded(
               flex: 2,
-              child: dataItem.transactionType == 0
+              child: dataItem.transactionType == TransactionType.INCOME
                   ? FinQCashLabel(
-                      title: dataItem.amount,
+                      title: dataItem.amount.toString(),
                       onPressed: () {},
                       textStyle: Theme.of(context)
                           .textTheme
@@ -55,9 +57,9 @@ class TransactionItemRow extends StatelessWidget {
                   : SizedBox()),
           Expanded(
               flex: 2,
-              child: dataItem.transactionType == 1
+              child: dataItem.transactionType == TransactionType.EXPENSE
                   ? FinQCashLabel(
-                      title: dataItem.amount,
+                      title: dataItem.amount.toString(),
                       onPressed: () {},
                       textStyle: Theme.of(context)
                           .textTheme

@@ -24,55 +24,77 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
       color: Colors.white,
       child: Stack(
         children: [
-          Row(
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.only(top: Sizes.dimen_24),
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData:
-                        PieTouchData(touchCallback: (pieTouchResponse) {
-                      setState(() {
-                        final desiredTouch =
-                            pieTouchResponse.touchInput is! PointerExitEvent &&
-                                pieTouchResponse.touchInput is! PointerUpEvent;
-                        if (desiredTouch &&
-                            pieTouchResponse.touchedSection != null) {
-                          touchedSectionIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        } else {
-                          touchedSectionIndex = -1;
-                        }
-                      });
-                    }),
-                    sectionsSpace: 3,
-                    centerSpaceRadius: 50,
-                    sections: getSections(touchedSectionIndex),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                  ),
-                  swapAnimationCurve: Curves.linear,
-                  swapAnimationDuration: Duration(milliseconds: 150),
-                ),
-              )),
-              Expanded(
-                  child: Container(
-                foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.center,
-                        end: Alignment.bottomCenter,
-                        stops: [0.3, 1],
-                        colors: [Colors.white.withOpacity(0.1), Colors.white])),
-                child: ListWheelScrollView(
-                  useMagnifier: true,
-                    itemExtent: 38,
-                    children: PieData.data
-                        .map((e) => ChartDataItem(data: e))
-                        .toList()),
-              ))
-            ],
+          BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
+            // buildWhen: (previus, current) =>
+            //     current is HomeChartDataLoaded,
+            builder: (context, state) {
+              if (state is HomeChartDataLoaded) {
+                return Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(top: Sizes.dimen_24),
+                      child: PieChart(
+                        PieChartData(
+                          pieTouchData:
+                              PieTouchData(touchCallback: (pieTouchResponse) {
+                            setState(() {
+                              final desiredTouch = pieTouchResponse.touchInput
+                                      is! PointerExitEvent &&
+                                  pieTouchResponse.touchInput
+                                      is! PointerUpEvent;
+                              if (desiredTouch &&
+                                  pieTouchResponse.touchedSection != null) {
+                                touchedSectionIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              } else {
+                                touchedSectionIndex = -1;
+                              }
+                            });
+                          }),
+                          sectionsSpace: 3,
+                          centerSpaceRadius: 50,
+                          sections: getSections(
+                              touchedSectionIndex, state.chartItems),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                        ),
+                        swapAnimationCurve: Curves.linear,
+                        swapAnimationDuration: Duration(milliseconds: 150),
+                      ),
+                    )),
+                    Expanded(
+                        child: Container(
+                      foregroundDecoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.center,
+                              end: Alignment.bottomCenter,
+                              stops: [
+                            0.3,
+                            1
+                          ],
+                              colors: [
+                            Colors.white.withOpacity(0.1),
+                            Colors.white
+                          ])),
+                      child: ListWheelScrollView(
+                          useMagnifier: true,
+                          itemExtent: 38,
+                          children: state.chartItems
+                              .map((e) => ChartDataItem(data: e))
+                              .toList()),
+                    ))
+                  ],
+                );
+              } else if (state is HomeChartDataLoading) {
+                return Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator());
+              }
+
+              return SizedBox.shrink();
+            },
           ),
           BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {

@@ -42,6 +42,13 @@ class FinqDb extends _$FinqDb {
   Future<double?> getTotalTransactionAmount(
           TransactionType type, DateTime startDate, DateTime endDate) =>
       sumofTransactionAmount(startDate, endDate, type.index).getSingleOrNull();
+  Future<List<Transaction>> getTransactionsByFilterAndRange(
+          TransactionType type, DateTime startDate, DateTime endDate) =>
+      (select(transactions)
+            ..where((tbl) =>
+                tbl.transactionDate.isBetweenValues(startDate, endDate))
+            ..where((tbl) => tbl.transactionType.equals(type.index)))
+          .get();
 
   Stream<List<Transaction>> watchTransactionsWithDates(
       DateTime startDate, DateTime endDate) {

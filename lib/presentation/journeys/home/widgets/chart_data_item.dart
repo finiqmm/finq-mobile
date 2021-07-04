@@ -1,8 +1,9 @@
 import 'package:finq/presentation/journeys/home/pie_data.dart';
+import 'package:finq/presentation/models/transaction_ui_chart_model.dart';
 import 'package:flutter/material.dart';
 
 class ChartDataItem extends StatelessWidget {
-  final Data data;
+  final TransactionChartUiModel data;
   const ChartDataItem({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class ChartDataItem extends StatelessWidget {
             border: Border.all(width: 4, color: data.color)),
       ),
       title: Text(
-        '${data.name} ${data.percent.floor()}%',
+        '${data.categoryName} ${data.percent.floor()}%',
         style: Theme.of(context).textTheme.subtitle2,
       ),
     );

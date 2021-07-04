@@ -25,12 +25,15 @@ class GetTotalExpenseEvent extends TransactionEvent {
   GetTotalExpenseEvent(this.startDate, this.endDate) : super();
 }
 
-// class GetTotalAmountTransactionEvent extends TransactionEvent {
-//   final DateTime startDate;
-//   final DateTime endDate;
-//   final TransactionType transactionType;
+class LoadTransactionBetweenRange extends TransactionEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  LoadTransactionBetweenRange(this.startDate, this.endDate);
+}
 
-//   GetTotalAmountTransactionEvent(
-//       this.transactionType, this.startDate, this.endDate)
-//       : super();
-// }
+class LoadHomeScreenChartData extends TransactionEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  final TransactionType type;
+  LoadHomeScreenChartData(this.startDate, this.endDate, this.type);
+}
