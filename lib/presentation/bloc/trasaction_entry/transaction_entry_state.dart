@@ -11,6 +11,9 @@ class TransactionEntryInitial extends TransactionEntryState {
   TransactionEntryInitial() : super();
 }
 
+class TransactionEntryProcessing extends TransactionEntryState {
+  TransactionEntryProcessing() : super();
+}
 class TransactionEntrySuccess extends TransactionEntryState {
   TransactionEntrySuccess() : super();
 }

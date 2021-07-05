@@ -17,18 +17,23 @@ class TransactionEntryCubit extends Cubit<TransactionEntryState> {
       : super(TransactionEntryInitial());
 
   void insertNewEntry(TransactionEntity transactionEntity) async {
+    emit(TransactionEntryProcessing());
     final response = await insertTransaction(transactionEntity);
     emit(response.fold((l) => TransactionEntryFailed(l.message),
         (r) => TransactionEntrySuccess()));
   }
 
   void updateExistingEntry(TransactionEntity transactionEntity) async {
+    emit(TransactionEntryProcessing());
+
     final response = await updateTransaction(transactionEntity);
     emit(response.fold((l) => TransactionEntryFailed(l.message),
         (r) => TransactionEntrySuccess()));
   }
 
   void deleteEntry(int id) async {
+    emit(TransactionEntryProcessing());
+
     final response = await deleteTransaction(id);
     emit(response.fold((l) => TransactionEntryFailed(l.message),
         (r) => TransactionEntrySuccess()));

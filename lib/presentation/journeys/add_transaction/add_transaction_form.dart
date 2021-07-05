@@ -17,8 +17,8 @@ import 'transaction_choice_chip.dart';
 class AddTrasactionForm extends StatefulWidget {
   final ScrollController scrollController;
   final TransactionActionModel transactionActionModel;
-  final Function(String? categoryName, String amount, String description,DateTime selectedDate)
-      onEntryUpsert;
+  final Function(String? categoryName, String amount, String description,
+      DateTime selectedDate) onEntryUpsert;
   final Function onDeletePressed;
 
   AddTrasactionForm(
@@ -42,7 +42,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
     totalAmount = widget.transactionActionModel.totalAmount.toString();
     descriptionController.text = widget.transactionActionModel.desc;
     selectedDate =
-        widget.transactionActionModel.transactionDate ?? DateTime.now();
+        widget.transactionActionModel.transactionDate ?? DateTime.now().getOnlyDate();
     selectedCategory = widget.transactionActionModel.categoryName;
   }
 
@@ -134,7 +134,8 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                       lastDate: DateTime(2222))
                   .then((value) {
                 setState(() {
-                  selectedDate = value ?? DateTime.now();
+                  selectedDate = value.getOnlyDate();
+                
                 });
               }),
               child: Container(
@@ -209,8 +210,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                       child: FinQButton(
                         onPressed: () {
                           widget.onEntryUpsert(selectedCategory, totalAmount,
-                              descriptionController.text,
-                              selectedDate);
+                              descriptionController.text, selectedDate);
                         },
                         text: 'Add',
                       ),
@@ -223,7 +223,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                         child: FinQButton(
                           onPressed: () {
                             widget.onEntryUpsert(selectedCategory, totalAmount,
-                                descriptionController.text,selectedDate);
+                                descriptionController.text, selectedDate);
                           },
                           text: 'Update',
                         ),
@@ -233,7 +233,6 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                           onPressed: () {
                             widget.onDeletePressed();
                           },
-                          
                           text: 'Delete',
                         ),
                       )
@@ -241,11 +240,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   )
               ],
             ),
-
-            
           ]),
     );
   }
-
-  
 }

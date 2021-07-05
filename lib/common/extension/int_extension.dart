@@ -15,10 +15,13 @@ extension DateExtension on DateTime? {
   String convertReadableDate() {
     return DateFormat('dd/MM/yyyy').format(this ?? DateTime.now());
   }
+
+  DateTime getOnlyDate() {
+    if (this != null) {
+      return DateTime(this!.year, this!.month, this!.day);
+    }
+    final currentDate = DateTime.now();
+    return DateTime(currentDate.year, currentDate.month, currentDate.day);
+  }
 }
 
-// extension NumFormat on num {
-//   aa() {
-//     NumberFormat.decimalPattern(this);
-//   }
-// }

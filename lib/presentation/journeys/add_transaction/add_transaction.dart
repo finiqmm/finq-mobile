@@ -47,6 +47,7 @@ class _AddTransactionState extends State<AddTransaction> {
             BlocProvider.value(value: transEntryCubit),
             BlocProvider.value(value: transEntryValidationBloc)
           ],
+          //Validation Bloc
           child: BlocListener<TransactionEntryValidationBloc,
                   TransitionEntryValidateState>(
               listenWhen: (previous, current) =>
@@ -68,7 +69,7 @@ class _AddTransactionState extends State<AddTransaction> {
                       id: widget.transactionActionModel.id,
                       description: state.desc,
                       amount: state.amount,
-                      transactionDate: DateTime.now(),
+                      transactionDate: state.transactionDate,
                       transactionType:
                           widget.transactionActionModel.transactionType,
                       categoryName: state.categoryName);
@@ -82,6 +83,7 @@ class _AddTransactionState extends State<AddTransaction> {
                           .updateExistingEntry(transitionEntity);
                 }
               },
+              //Add to Db bloc
               child: BlocListener<TransactionEntryCubit, TransactionEntryState>(
                   listener: (context, state) {
                     if (state is TransactionEntrySuccess) {
