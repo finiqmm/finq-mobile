@@ -4,7 +4,7 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'finq_db.g.dart';
 
 class Transactions extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  IntColumn get id => integer().nullable().autoIncrement()();
   TextColumn get description => text()();
   TextColumn get categoryType => text()();
   RealColumn get amount => real()();

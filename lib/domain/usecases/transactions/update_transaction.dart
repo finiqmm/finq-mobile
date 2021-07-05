@@ -11,6 +11,6 @@ class UpdateTransaction extends UseCase<void, TransactionEntity> {
   UpdateTransaction({required this.transactionRepository});
   @override
   Future<Either<AppError, void>> call(TransactionEntity params) {
-    return transactionRepository.insertTransaction(params);
+    return transactionRepository.updateTransaction(params);
   }
 }

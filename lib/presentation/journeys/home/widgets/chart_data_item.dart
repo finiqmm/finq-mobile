@@ -1,4 +1,3 @@
-import 'package:finq/presentation/journeys/home/pie_data.dart';
 import 'package:finq/presentation/models/transaction_ui_chart_model.dart';
 import 'package:flutter/material.dart';
 

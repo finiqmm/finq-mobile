@@ -1,6 +1,5 @@
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/journeys/home/pie_data.dart';
 import 'package:finq/presentation/journeys/home/widgets/chart_data_item.dart';
 import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
 import 'package:flutter/gestures.dart';

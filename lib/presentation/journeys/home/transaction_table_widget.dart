@@ -3,7 +3,6 @@ import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'ui_models/table_data_provider.dart';
 import 'widgets/transaction_item_row.dart';
 import 'widgets/transaction_summary_header.dart';
 import 'widgets/transaction_table_header.dart';

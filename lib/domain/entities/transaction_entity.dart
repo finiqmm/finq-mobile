@@ -23,6 +23,8 @@ class TransactionEntity extends Equatable {
     return '$id -- $description -- $amount';
   }
 
+  
+
   TransactionEntity copyWith(
       {String? description,
       double? amount,

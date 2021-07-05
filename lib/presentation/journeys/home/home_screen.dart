@@ -1,5 +1,4 @@
 import 'package:finq/common/constants/transaction_type.dart';
-import 'package:finq/database/finq_db.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
@@ -23,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
   late HomeChartDataBloc homeChartDataBloc;
+  late TransactionEntryCubit transactionEntryCubit;
   // late FinqDb finqDb;
 
   @override
@@ -31,33 +31,30 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     transactionBloc = getItInstance<TransactionBloc>();
     homeChartDataBloc = getItInstance<HomeChartDataBloc>();
+    transactionEntryCubit = getItInstance<TransactionEntryCubit>();
 
     homeChartDataBloc.add(HomeChartDataLoadEvent(
         startDate: DateTime(DateTime.now().year, DateTime.now().month),
         endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
         type: TransactionType.INCOME));
 
-    transactionBloc.add(GetTotalExpenseEvent(
-        DateTime(DateTime.now().year, DateTime.now().month),
-        DateTime(DateTime.now().year, DateTime.now().month + 1)));
-    transactionBloc.add(GetTotalIncomeEvent(
-        DateTime(DateTime.now().year, DateTime.now().month),
-        DateTime(DateTime.now().year, DateTime.now().month + 1)));
-
-    // transactionBloc.add(LoadTransactionBetweenRange(
+    // transactionBloc.add(GetTotalExpenseEvent(
+    //     DateTime(DateTime.now().year, DateTime.now().month),
+    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
+    // transactionBloc.add(GetTotalIncomeEvent(
     //     DateTime(DateTime.now().year, DateTime.now().month),
     //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
 
-    // transactionBloc.add(LoadHomeScreenChartData(
-    //     DateTime(DateTime.now().year, DateTime.now().month),
-    //     DateTime(DateTime.now().year, DateTime.now().month + 1),
-    //     TransactionType.INCOME));
+    transactionBloc.add(LoadTransactionBetweenRange(
+        DateTime(DateTime.now().year, DateTime.now().month),
+        DateTime(DateTime.now().year, DateTime.now().month + 1)));
   }
 
   @override
   void dispose() {
     transactionBloc.close();
     homeChartDataBloc.close();
+    transactionEntryCubit.close();
     super.dispose();
   }
 
@@ -66,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => transactionBloc),
-        BlocProvider(create: (context) => homeChartDataBloc)
+        BlocProvider(create: (context) => homeChartDataBloc),
+        BlocProvider(create: (context) => transactionEntryCubit)
       ],
       child: SafeArea(
         child: Scaffold(
@@ -112,19 +110,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showTransactionBottomSheet(context, TransactionType type) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return BlocProvider<TransactionBloc>.value(
-            value: transactionBloc,
-            child: AddTransaction(
-              transactionActionModel:
-                  TransactionActionModel(transactionType: type),
-            ),
-          );
-        });
-  }
+  _showTransactionBottomSheet(context, TransactionType type) =>
+      showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          backgroundColor: Colors.transparent,
+          builder: (context) {
+            return BlocProvider<TransactionEntryCubit>.value(
+              value: transactionEntryCubit,
+              child: AddTransaction(
+                transactionActionModel:
+                    TransactionActionModel(transactionType: type),
+              ),
+            );
+          });
 }

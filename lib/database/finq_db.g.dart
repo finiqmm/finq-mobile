@@ -8,14 +8,14 @@ part of 'finq_db.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Transaction extends DataClass implements Insertable<Transaction> {
-  final int id;
+  final int? id;
   final String description;
   final String categoryType;
   final double amount;
   final DateTime transactionDate;
   final TransactionType transactionType;
   Transaction(
-      {required this.id,
+      {this.id,
       required this.description,
       required this.categoryType,
       required this.amount,
@@ -25,8 +25,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Transaction(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
       categoryType: const StringType()
@@ -43,7 +42,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
     map['description'] = Variable<String>(description);
     map['category_type'] = Variable<String>(categoryType);
     map['amount'] = Variable<double>(amount);
@@ -58,7 +59,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
 
   TransactionsCompanion toCompanion(bool nullToAbsent) {
     return TransactionsCompanion(
-      id: Value(id),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       description: Value(description),
       categoryType: Value(categoryType),
       amount: Value(amount),
@@ -71,7 +72,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Transaction(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<int?>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       categoryType: serializer.fromJson<String>(json['categoryType']),
       amount: serializer.fromJson<double>(json['amount']),
@@ -84,7 +85,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<int?>(id),
       'description': serializer.toJson<String>(description),
       'categoryType': serializer.toJson<String>(categoryType),
       'amount': serializer.toJson<double>(amount),
@@ -145,7 +146,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
 }
 
 class TransactionsCompanion extends UpdateCompanion<Transaction> {
-  final Value<int> id;
+  final Value<int?> id;
   final Value<String> description;
   final Value<String> categoryType;
   final Value<double> amount;
@@ -172,7 +173,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
         transactionDate = Value(transactionDate),
         transactionType = Value(transactionType);
   static Insertable<Transaction> custom({
-    Expression<int>? id,
+    Expression<int?>? id,
     Expression<String>? description,
     Expression<String>? categoryType,
     Expression<double>? amount,
@@ -190,7 +191,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   }
 
   TransactionsCompanion copyWith(
-      {Value<int>? id,
+      {Value<int?>? id,
       Value<String>? description,
       Value<String>? categoryType,
       Value<double>? amount,
@@ -210,7 +211,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<int?>(id.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -255,7 +256,7 @@ class $TransactionsTable extends Transactions
   @override
   late final GeneratedIntColumn id = _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
+    return GeneratedIntColumn('id', $tableName, true,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 

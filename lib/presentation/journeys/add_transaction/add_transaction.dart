@@ -3,6 +3,7 @@ import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/common/constants/transaction_types.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/journeys/add_transaction/amount_input_handler.dart';
 import 'package:finq/presentation/journeys/add_transaction/transaction_action_state.dart';
@@ -30,16 +31,17 @@ class _AddTransactionState extends State<AddTransaction> {
   late DateTime selectedDate;
   String totalAmount = "0";
   String? selectedCategory;
-  late FinqDb finqDb;
+  // late FinqDb finqDb;
 
   @override
   void initState() {
     super.initState();
+    totalAmount = widget.transactionActionModel.totalAmount.toString();
     descriptionController.text = widget.transactionActionModel.desc;
     selectedDate =
         widget.transactionActionModel.transactionDate ?? DateTime.now();
     selectedCategory = widget.transactionActionModel.categoryName;
-    finqDb = getItInstance<FinqDb>();
+    // finqDb = getItInstance<FinqDb>();
   }
 
   @override
@@ -198,13 +200,13 @@ class _AddTransactionState extends State<AddTransaction> {
                 SizedBox(
                   height: 16,
                 ),
-                BlocListener<TransactionBloc, TransactionState>(
+                BlocListener<TransactionEntryCubit, TransactionEntryState>(
                   listener: (context, state) {
-                    // if (state is InsertSuccess) {
-                    //   Navigator.pop(context);
-                    //   return;
-                    // }
-                    if (state is TransactionError) {
+                    if (state is TransactionEntrySuccess) {
+                      Navigator.pop(context);
+                      return;
+                    }
+                    if (state is TransactionEntryFailed) {
                       Fluttertoast.showToast(msg: state.message);
                     }
                   },
@@ -222,18 +224,24 @@ class _AddTransactionState extends State<AddTransaction> {
                         Fluttertoast.showToast(msg: 'Enter valid amount');
                         return;
                       }
-                      // var transitionEntity = TransactionEntity(
-                      //     null,
-                      //     descriptionController.text,
-                      //     double.parse(totalAmount),
-                      //     selectedDate,
-                      //     widget.transactionActionModel.transactionType,
-                      //     selectedCategory!);
+                      final transitionEntity = TransactionEntity(
+                          id: widget.transactionActionModel.id,
+                          description: descriptionController.text,
+                          amount: double.parse(totalAmount),
+                          transactionDate: selectedDate,
+                          transactionType:
+                              widget.transactionActionModel.transactionType,
+                          categoryName: selectedCategory!);
 
-                      // debugPrint(transitionEntity.toString());
+                      debugPrint("feq" + transitionEntity.toString());
                       // Fluttertoast.showToast(msg: 'Success');
-                      // BlocProvider.of<TransactionBloc>(context)
-                      //     .add(NewTransactionInsertEvent(transitionEntity));
+                      transitionEntity.id == null
+                          ? context
+                              .read<TransactionEntryCubit>()
+                              .insertNewEntry(transitionEntity)
+                          : context
+                              .read<TransactionEntryCubit>()
+                              .updateExistingEntry(transitionEntity);
                     },
                     child: Container(
                       padding: EdgeInsets.all(14),
