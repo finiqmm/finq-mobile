@@ -19,7 +19,6 @@ class TransactionRepoImpl extends TransactionRepository {
           .insertNewTransaction(mapper.from(transactionEntity));
       return Right(result);
     } on Exception {
-      
       return Left(AppError(AppErrorType.database, 'Error inserting into db'));
     }
   }
@@ -28,11 +27,9 @@ class TransactionRepoImpl extends TransactionRepository {
   Future<Either<AppError, void>> updateTransaction(
       TransactionEntity transaction) async {
     try {
-
       final result = await transactionDataSource
           .updateTransaction(mapper.from(transaction));
       return Right(result);
-
     } on Exception {
       return Left(AppError(AppErrorType.database, 'Error inserting into db'));
     }
@@ -80,6 +77,17 @@ class TransactionRepoImpl extends TransactionRepository {
       return Right(result.map((e) => mapper.to(e)).toList());
     } on Exception {
       return Left(AppError(AppErrorType.database, ''));
+    }
+  }
+
+  @override
+  Future<Either<AppError, void>> deleteTransaction(int id) async {
+    try {
+      final result = await transactionDataSource
+          .deleteTransaction(id);
+      return Right(result);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, 'Error deleting from db'));
     }
   }
 }

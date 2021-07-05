@@ -92,6 +92,8 @@ Future init() async {
       () => InsertTransaction(transactionRepository: getItInstance()));
   getItInstance.registerLazySingleton<UpdateTransaction>(
       () => UpdateTransaction(transactionRepository: getItInstance()));
+  getItInstance.registerLazySingleton<DeleteTransaction>(
+      () => DeleteTransaction(transactionRepository: getItInstance()));
   getItInstance.registerLazySingleton<GetTotalTransactionType>(
       () => GetTotalTransactionType(getItInstance()));
 
@@ -113,6 +115,7 @@ Future init() async {
         mapper: getItInstance(),
         getAllTransactionByFilterRange: getItInstance(),
       ));
+  getItInstance.registerFactory<TransactionEntryValidationBloc>(() => TransactionEntryValidationBloc());
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
   getItInstance.registerFactory<AppBloc>(
@@ -129,7 +132,9 @@ Future init() async {
   ));
 
   getItInstance.registerSingleton<TransactionEntryCubit>(TransactionEntryCubit(
-      insertTransaction: getItInstance(), updateTransaction: getItInstance()));
+      insertTransaction: getItInstance(),
+      updateTransaction: getItInstance(),
+      deleteTransaction: getItInstance()));
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
 }

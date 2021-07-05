@@ -10,7 +10,7 @@ class AmountInputHandler {
 
   static String onNumberPressed(String enterAmount,
       [String initialAmount = "0"]) {
-    if (initialAmount == "0") {
+    if (initialAmount == "0" || initialAmount == '0.0') {
       return enterAmount;
     }
     return initialAmount + enterAmount;

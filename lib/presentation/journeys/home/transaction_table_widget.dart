@@ -7,7 +7,6 @@ import 'widgets/transaction_item_row.dart';
 import 'widgets/transaction_summary_header.dart';
 import 'widgets/transaction_table_header.dart';
 import 'package:finq/common/constants/size_constants.dart';
-import 'package:finq/common/extension/size_extension.dart';
 
 class TransactionTableWidget extends StatelessWidget {
   @override

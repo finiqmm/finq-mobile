@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 abstract class TransactionDataSource {
   Future<void> insertNewTransaction(TransactionsCompanion transaction);
   Future<void> updateTransaction(TransactionsCompanion transaction);
+  Future<void> deleteTransaction(int id);
+
   Future<double?> getTotalAmountOfType(
       TransactionType transactionType, DateTime startDate, DateTime endDate);
   Stream<List<Transaction>> getAllTransactionBetweenRange(
@@ -46,5 +48,10 @@ class TransactionDataSourceImpl extends TransactionDataSource {
         db.getTransactionsByFilterAndRange(type, startDate, endDate);
     debugPrint('DataSource ${response.toString()}');
     return response;
+  }
+
+  @override
+  Future<void> deleteTransaction(int id) {
+    return db.deleteTransaction(id);
   }
 }

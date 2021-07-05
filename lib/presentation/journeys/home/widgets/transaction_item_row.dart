@@ -3,7 +3,7 @@ import 'package:finq/di/get_it.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
-import 'package:finq/presentation/journeys/add_transaction/transaction_action_state.dart';
+import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,14 +27,17 @@ class TransactionItemRow extends StatelessWidget {
               context: context,
               backgroundColor: Colors.transparent,
               builder: (context) {
-                return BlocProvider<TransactionEntryCubit>.value(
-                  value: getItInstance<TransactionEntryCubit>(),
-                  // create: (context) =>
-                  //     BlocProvider.of<TransactionEntryCubit>(context),
-                  child: AddTransaction(
-                    transactionActionModel: item,
-                  ),
+                return AddTransaction(
+                  transactionActionModel: item,
                 );
+                // return BlocProvider<TransactionEntryCubit>.value(
+                //   value: getItInstance<TransactionEntryCubit>(),
+                //   // create: (context) =>
+                //   //     BlocProvider.of<TransactionEntryCubit>(context),
+                //   child: AddTransaction(
+                //     transactionActionModel: item,
+                //   ),
+                // );
               });
 
           debugPrint('$dataItem');

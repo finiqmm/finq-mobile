@@ -35,8 +35,9 @@ class FinqDb extends _$FinqDb {
       into(transactions).insert(transactionItem);
   Future updateTransaction(TransactionsCompanion transactionData) =>
       update(transactions).replace(transactionData);
-  Future deleteTransaction(TransactionsCompanion transactionData) =>
-      delete(transactions).delete(transactionData);
+  Future deleteTransaction(int id) =>
+      (delete(transactions)..where((t) => t.id.equals(id))).go();
+
   Stream<List<Transaction>> watchAllTransactions() =>
       select(transactions).watch();
   Future<double?> getTotalTransactionAmount(

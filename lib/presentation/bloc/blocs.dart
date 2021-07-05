@@ -8,3 +8,4 @@ export 'theme/theme_bloc.dart';
 export 'transaction/transaction_bloc.dart';
 export 'transaction_chart_data/home_chart_data_bloc.dart';
 export 'trasaction_entry/transaction_entry_cubit.dart';
+export 'transaction_entry_validation/transaction_entry_validation_bloc.dart';

@@ -9,11 +9,14 @@ abstract class TransactionRepository {
 
   Future<Either<AppError, void>> updateTransaction(
       TransactionEntity transaction);
+  Future<Either<AppError, void>> deleteTransaction(int id);
 
   Future<Either<AppError, double>> getTotalAmountOfTransactionType(
       TransactionType type, DateTime startDate, DateTime endDate);
 
-  Future<Either<AppError,List<TransactionEntity>>> getTransactionsByRangeAndFilter(TransactionType type,DateTime startDate,DateTime endDate);   
+  Future<Either<AppError, List<TransactionEntity>>>
+      getTransactionsByRangeAndFilter(
+          TransactionType type, DateTime startDate, DateTime endDate);
 
   Stream<Either<AppError, List<TransactionEntity>>>
       getAllTransactionBetweenRange(DateTime startDate, DateTime endDate);

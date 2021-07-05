@@ -3,7 +3,7 @@ import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
-import 'package:finq/presentation/journeys/add_transaction/transaction_action_state.dart';
+import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
 import 'package:finq/presentation/journeys/home/transaction_table_widget.dart';
 import 'package:finq/presentation/journeys/home/widgets/trasaction_type_tab.dart';
@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
   late HomeChartDataBloc homeChartDataBloc;
-  late TransactionEntryCubit transactionEntryCubit;
   // late FinqDb finqDb;
 
   @override
@@ -31,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     transactionBloc = getItInstance<TransactionBloc>();
     homeChartDataBloc = getItInstance<HomeChartDataBloc>();
-    transactionEntryCubit = getItInstance<TransactionEntryCubit>();
 
     homeChartDataBloc.add(HomeChartDataLoadEvent(
         startDate: DateTime(DateTime.now().year, DateTime.now().month),
@@ -54,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     transactionBloc.close();
     homeChartDataBloc.close();
-    transactionEntryCubit.close();
     super.dispose();
   }
 
@@ -64,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         BlocProvider(create: (context) => transactionBloc),
         BlocProvider(create: (context) => homeChartDataBloc),
-        BlocProvider(create: (context) => transactionEntryCubit)
       ],
       child: SafeArea(
         child: Scaffold(
@@ -116,12 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           backgroundColor: Colors.transparent,
           builder: (context) {
-            return BlocProvider<TransactionEntryCubit>.value(
-              value: transactionEntryCubit,
-              child: AddTransaction(
-                transactionActionModel:
-                    TransactionActionModel(transactionType: type),
-              ),
+            return AddTransaction(
+              transactionActionModel:
+                  TransactionActionModel(transactionType: type),
             );
+           
           });
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:finq/common/extension/size_extension.dart';
 import 'package:finq/common/constants/size_constants.dart';
+import 'package:finq/common/extension/size_extension.dart';
 
-class FinQButton extends StatelessWidget {
+class FinQAlertButton extends StatelessWidget {
   final String text;
   final Function()? onPressed;
 
-  const FinQButton({Key? key, required this.text, required this.onPressed})
+  const FinQAlertButton({Key? key, required this.text, required this.onPressed})
       : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class FinQButton extends StatelessWidget {
       curve: Curves.easeIn,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
+          color: Colors.redAccent,
           borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_12.w)),
         ),
         padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
