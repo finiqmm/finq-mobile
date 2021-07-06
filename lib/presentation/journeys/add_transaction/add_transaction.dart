@@ -85,6 +85,7 @@ class _AddTransactionState extends State<AddTransaction> {
               },
               //Add to Db bloc
               child: BlocListener<TransactionEntryCubit, TransactionEntryState>(
+                  bloc: transEntryCubit,
                   listener: (context, state) {
                     if (state is TransactionEntrySuccess) {
                       Navigator.pop(context);
@@ -92,7 +93,9 @@ class _AddTransactionState extends State<AddTransaction> {
                     }
                     if (state is TransactionEntryFailed) {
                       Fluttertoast.showToast(msg: state.message);
+                      return;
                     }
+                    
                   },
                   child: AddTrasactionForm(
                       scrollController: scrollController,

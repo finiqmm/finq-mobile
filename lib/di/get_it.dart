@@ -131,7 +131,7 @@ Future init() async {
     updateTheme: getItInstance(),
   ));
 
-  getItInstance.registerSingleton<TransactionEntryCubit>(TransactionEntryCubit(
+  getItInstance.registerFactory<TransactionEntryCubit>(() => TransactionEntryCubit(
       insertTransaction: getItInstance(),
       updateTransaction: getItInstance(),
       deleteTransaction: getItInstance()));
