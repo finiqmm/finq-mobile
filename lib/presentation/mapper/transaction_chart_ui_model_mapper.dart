@@ -16,17 +16,13 @@ class TransactionChartUiModelMapper {
           final totalAmountOfItem = transactions.fold<double>(
               0, (previousValue, element) => previousValue + element.amount);
           var chartItemDate = TransactionChartUiModel(
-              color: Color(Random().nextInt(0xFF0E0D0D)),
+              color:
+                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
               categoryName: name,
               percent: (totalAmountOfItem / totalAmount) * 100);
           return MapEntry(name, chartItemDate);
         })
         .values
         .toList();
-    // entitiesByName.keys.map((name) {
-    //   final a = TransactionChartUiModel(color: Colors.green, categoryName: name, percent: percent);
-    // } )
-    // entitiesByName.map((name, entities) {
-    // });
   }
 }

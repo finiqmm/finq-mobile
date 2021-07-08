@@ -11,6 +11,12 @@ extension IntExtension on int? {
   }
 }
 
+extension DoubleExtension on double? {
+  String convertToCurrency() {
+   return NumberFormat.currency(name: '').format(this);
+  }
+}
+
 extension DateExtension on DateTime? {
   String convertReadableDate() {
     return DateFormat('dd/MM/yyyy').format(this ?? DateTime.now());
@@ -24,4 +30,3 @@ extension DateExtension on DateTime? {
     return DateTime(currentDate.year, currentDate.month, currentDate.day);
   }
 }
-

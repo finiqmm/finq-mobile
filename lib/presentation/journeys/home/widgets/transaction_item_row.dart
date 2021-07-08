@@ -3,7 +3,6 @@ import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
@@ -25,25 +24,6 @@ class TransactionItemRow extends StatelessWidget {
           final item = TransactionActionModel.fromTransactionEntity(dataItem);
            Navigator.pushNamed(context, RouteList.add_transaction,
                     arguments: item);
-          // showModalBottomSheet(
-          //     isScrollControlled: true,
-          //     context: context,
-          //     backgroundColor: Colors.transparent,
-          //     builder: (context) {
-          //       Navigator.pushNamed(context, RouteList.add_transaction,
-          //           arguments: item);
-          //       // return AddTransaction(
-          //       //   transactionActionModel: item,
-          //       // );
-          //       // return BlocProvider<TransactionEntryCubit>.value(
-          //       //   value: getItInstance<TransactionEntryCubit>(),
-          //       //   // create: (context) =>
-          //       //   //     BlocProvider.of<TransactionEntryCubit>(context),
-          //       //   child: AddTransaction(
-          //       //     transactionActionModel: item,
-          //       //   ),
-          //       // );
-          //     });
 
           debugPrint('$dataItem');
         },

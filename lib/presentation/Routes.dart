@@ -1,6 +1,5 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/domain/entities/article_entity.dart';
-import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
 import 'package:finq/presentation/journeys/add_transaction/add_transaction_screen.dart';
 import 'package:finq/presentation/journeys/articles/article_detail_screen.dart';
 import 'package:finq/presentation/journeys/login/login_screen.dart';

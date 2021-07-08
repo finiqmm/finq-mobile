@@ -13,7 +13,8 @@ class TransactionUiModel extends Equatable {
       required this.totalExpenseAmount,
       required this.transactionItems});
 
-      @override
+  
+  @override
   String toString() {
     return '$transactionDate --  $totalIncomeAmount -- $totalExpenseAmount';
   }

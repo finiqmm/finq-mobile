@@ -3,7 +3,7 @@ import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:finq/common/extension/int_extension.dart';
 class TransactionTypeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,6 @@ class TransactionTypeTab extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            debugPrint('HelloAm ${state.runtimeType}');
             if (state is TotalAmountLoadedState) {
               return DefaultTabController(
                 length: 2,
@@ -52,9 +51,9 @@ class TransactionTypeTab extends StatelessWidget {
                     },
                     tabs: [
                       _buildRichTextTab(context, 'Income',
-                          state.totalAmountEntity.totalIncomeAmount.toString()),
+                          state.totalAmountEntity.totalIncomeAmount.convertToCurrency()),
                       _buildRichTextTab(context, 'Expense',
-                          state.totalAmountEntity.totalExpenseAmount.toString())
+                          state.totalAmountEntity.totalExpenseAmount.convertToCurrency())
                     ]
                     
                     ),

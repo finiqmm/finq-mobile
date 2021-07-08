@@ -3,7 +3,6 @@ import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
-import 'package:finq/presentation/journeys/add_transaction/add_transaction.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
 import 'package:finq/presentation/journeys/home/transaction_table_widget.dart';
@@ -24,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
   late HomeChartDataBloc homeChartDataBloc;
   late TotalAmountBloc totalAmountBloc;
-  // late FinqDb finqDb;
 
   @override
   void initState() {
@@ -117,15 +115,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // _showTransactionBottomSheet(context, TransactionType type) =>
-  //     showModalBottomSheet(
-  //         isScrollControlled: true,
-  //         context: context,
-  //         backgroundColor: Colors.transparent,
-  //         builder: (context) {
-  //           return AddTransaction(
-  //             transactionActionModel:
-  //                 TransactionActionModel(transactionType: type),
-  //           );
-  //         });
+  
 }
