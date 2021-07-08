@@ -1,3 +1,4 @@
+import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
@@ -22,23 +23,27 @@ class TransactionItemRow extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           final item = TransactionActionModel.fromTransactionEntity(dataItem);
-          showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              backgroundColor: Colors.transparent,
-              builder: (context) {
-                return AddTransaction(
-                  transactionActionModel: item,
-                );
-                // return BlocProvider<TransactionEntryCubit>.value(
-                //   value: getItInstance<TransactionEntryCubit>(),
-                //   // create: (context) =>
-                //   //     BlocProvider.of<TransactionEntryCubit>(context),
-                //   child: AddTransaction(
-                //     transactionActionModel: item,
-                //   ),
-                // );
-              });
+           Navigator.pushNamed(context, RouteList.add_transaction,
+                    arguments: item);
+          // showModalBottomSheet(
+          //     isScrollControlled: true,
+          //     context: context,
+          //     backgroundColor: Colors.transparent,
+          //     builder: (context) {
+          //       Navigator.pushNamed(context, RouteList.add_transaction,
+          //           arguments: item);
+          //       // return AddTransaction(
+          //       //   transactionActionModel: item,
+          //       // );
+          //       // return BlocProvider<TransactionEntryCubit>.value(
+          //       //   value: getItInstance<TransactionEntryCubit>(),
+          //       //   // create: (context) =>
+          //       //   //     BlocProvider.of<TransactionEntryCubit>(context),
+          //       //   child: AddTransaction(
+          //       //     transactionActionModel: item,
+          //       //   ),
+          //       // );
+          //     });
 
           debugPrint('$dataItem');
         },

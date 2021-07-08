@@ -1,3 +1,4 @@
+import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
         startDate: DateTime(DateTime.now().year, DateTime.now().month),
         endDate: DateTime(DateTime.now().year, DateTime.now().month + 1)));
 
-    
     homeChartDataBloc.add(HomeChartDataLoadEvent(
         startDate: DateTime(DateTime.now().year, DateTime.now().month),
         endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
@@ -99,15 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   bgColor: Colors.greenAccent,
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    _showTransactionBottomSheet(
-                        context, TransactionType.INCOME);
+                    Navigator.pushNamed(context, RouteList.add_transaction,
+                        arguments: TransactionActionModel(
+                            transactionType: TransactionType.INCOME));
                   }),
               ActionButton(
-                bgColor: Colors.redAccent,
-                icon: Icon(Icons.add),
-                onPressed: () => _showTransactionBottomSheet(
-                    context, TransactionType.EXPENSE),
-              )
+                  bgColor: Colors.redAccent,
+                  icon: Icon(Icons.add),
+                  onPressed: () => Navigator.pushNamed(
+                      context, RouteList.add_transaction,
+                      arguments: TransactionActionModel(
+                          transactionType: TransactionType.EXPENSE)))
             ],
           ),
         ),
@@ -115,15 +117,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showTransactionBottomSheet(context, TransactionType type) =>
-      showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          backgroundColor: Colors.transparent,
-          builder: (context) {
-            return AddTransaction(
-              transactionActionModel:
-                  TransactionActionModel(transactionType: type),
-            );
-          });
+  // _showTransactionBottomSheet(context, TransactionType type) =>
+  //     showModalBottomSheet(
+  //         isScrollControlled: true,
+  //         context: context,
+  //         backgroundColor: Colors.transparent,
+  //         builder: (context) {
+  //           return AddTransaction(
+  //             transactionActionModel:
+  //                 TransactionActionModel(transactionType: type),
+  //           );
+  //         });
 }
