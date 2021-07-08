@@ -5,15 +5,12 @@ import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/domain/entities/date_range_params.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/entities/transaction_type_params.dart';
-import 'package:finq/domain/usecases/transactions/get_total_transaction_type.dart';
+import 'package:finq/domain/usecases/transactions/get_total_transaction_amount.dart';
 import 'package:finq/domain/usecases/transactions/insert_transaction.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
-import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/mapper/transaction_chart_ui_model_mapper.dart';
 import 'package:finq/presentation/mapper/transaction_ui_model_mapper.dart';
-import 'package:finq/presentation/models/transaction_ui_chart_model.dart';
 import 'package:finq/presentation/models/transaction_ui_model.dart';
-import 'package:flutter/material.dart';
 
 part 'transaction_event.dart';
 part 'transaction_state.dart';
@@ -21,7 +18,7 @@ part 'transaction_state.dart';
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final InsertTransaction insertTransaction;
   final UpdateTransaction updateTransaction;
-  final GetTotalTransactionType getTotalTransactionType;
+  // final GetTotalTransactionType getTotalTransactionType;
   final GetAllTransactionBetweenRange getAllTransactionBetweenRange;
   final GetAllTransactionByFilterRange getAllTransactionByFilterRange;
   final TransactionUiModelMapper mapper;
@@ -29,7 +26,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc(this.mapper, this.transactionChartUiModelMapper,
       {required this.insertTransaction,
       required this.updateTransaction,
-      required this.getTotalTransactionType,
+      // required this.getTotalTransactionType,
       required this.getAllTransactionBetweenRange,
       required this.getAllTransactionByFilterRange})
       : super(TransactionInitial());
@@ -44,24 +41,24 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     //       (l) => TransactionError(l.message), (r) => InsertSuccess());
     // }
 
-    if (event is GetTotalIncomeEvent) {
-      final result = await getTotalTransactionType(TransactionTypeParams(
-          TransactionType.INCOME, event.startDate, event.endDate));
-      yield result.fold(
-          (l) => TransactionError(l.message), (r) => TotalIncomeAmountState(r));
-    }
-    if (event is GetTotalExpenseEvent) {
-      final result = await getTotalTransactionType(TransactionTypeParams(
-          TransactionType.EXPENSE, event.startDate, event.endDate));
-      yield result.fold((l) => TransactionError(l.message),
-          (r) => TotalExpenseAmountState(r));
-    }
-    if (event is GetTotalExpenseEvent) {
-      final result = await getTotalTransactionType(TransactionTypeParams(
-          TransactionType.EXPENSE, event.startDate, event.endDate));
-      yield result.fold((l) => TransactionError(l.message),
-          (r) => TotalExpenseAmountState(r));
-    }
+    // if (event is GetTotalIncomeEvent) {
+    //   final result = await getTotalTransactionType(TransactionTypeParams(
+    //       TransactionType.INCOME, event.startDate, event.endDate));
+    //   yield result.fold(
+    //       (l) => TransactionError(l.message), (r) => TotalIncomeAmountState(r));
+    // }
+    // if (event is GetTotalExpenseEvent) {
+    //   final result = await getTotalTransactionType(TransactionTypeParams(
+    //       TransactionType.EXPENSE, event.startDate, event.endDate));
+    //   yield result.fold((l) => TransactionError(l.message),
+    //       (r) => TotalExpenseAmountState(r));
+    // }
+    // if (event is GetTotalExpenseEvent) {
+    //   final result = await getTotalTransactionType(TransactionTypeParams(
+    //       TransactionType.EXPENSE, event.startDate, event.endDate));
+    //   yield result.fold((l) => TransactionError(l.message),
+    //       (r) => TotalExpenseAmountState(r));
+    // }
     // if (event is LoadHomeScreenChartData) {
     //   debugPrint('LoadHomeScreenChartData');
     //   yield HomeChartDataLoadingState();

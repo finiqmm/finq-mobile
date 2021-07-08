@@ -9,3 +9,7 @@ abstract class UseCase<Type, Params> {
 abstract class StreamUseCase<Type, Params> {
   Stream<Either<AppError, Type>> call(Params params);
 }
+
+abstract class OptionUseCase<Type, Params> {
+  Option<Type> call(Params params);
+}

@@ -1,8 +1,8 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TransactionTypeTab extends StatelessWidget {
   @override
@@ -15,55 +15,53 @@ class TransactionTypeTab extends StatelessWidget {
       child: Material(
         elevation: 10,
         shadowColor: Colors.transparent,
-        child: DefaultTabController(
-          length: 2,
-          initialIndex: 0,
-          child: TabBar(
-              onTap: (index) {
-                if (index == 0) {
-                  context.read<HomeChartDataBloc>().add(HomeChartDataLoadEvent(
-                      startDate:
-                          DateTime(DateTime.now().year, DateTime.now().month),
-                      endDate: DateTime(
-                          DateTime.now().year, DateTime.now().month + 1),
-                      type: TransactionType.INCOME));
-                } else {
-                  context.read<HomeChartDataBloc>().add(HomeChartDataLoadEvent(
-                      startDate:
-                          DateTime(DateTime.now().year, DateTime.now().month),
-                      endDate: DateTime(
-                          DateTime.now().year, DateTime.now().month + 1),
-                      type: TransactionType.EXPENSE));
-                }
-              },
-              tabs: [
-                BlocBuilder<TransactionBloc, TransactionState>(
-                  buildWhen: (previous, current) {
-                    return current is TotalIncomeAmountState &&
-                        current is! TotalExpenseAmountState;
-                  },
-                  builder: (BuildContext context, TransactionState state) {
-                    if (state is TotalIncomeAmountState) {
-                      return _buildRichTextTab(
-                          context, 'Income', state.amount.toString());
-                    }
-                    return SizedBox.shrink();
-                  },
-                ),
-                BlocBuilder<TransactionBloc, TransactionState>(
-                  buildWhen: (previous, current) {
-                    return current is TotalExpenseAmountState &&
-                        current is! TotalIncomeAmountState;
-                  },
-                  builder: (BuildContext context, TransactionState state) {
-                    if (state is TotalExpenseAmountState) {
-                      return _buildRichTextTab(
-                          context, 'Expense', state.amount.toStringAsFixed(3));
-                    }
-                    return SizedBox.shrink();
-                  },
-                ),
-              ]),
+        child: BlocConsumer<TotalAmountBloc, TotalAmountState>(
+          buildWhen: (previous, current) => current is TotalAmountLoadedState,
+          listenWhen: (previous, current) =>
+              current is TotalAmountLoadErrorState,
+          listener: (context, state) {
+            if (state is TotalAmountLoadErrorState) {
+              Fluttertoast.showToast(msg: 'Error displaying total amount');
+            }
+          },
+          builder: (context, state) {
+            debugPrint('HelloAm ${state.runtimeType}');
+            if (state is TotalAmountLoadedState) {
+              return DefaultTabController(
+                length: 2,
+                initialIndex: 0,
+                child: TabBar(
+                    onTap: (index) {
+                      if (index == 0) {
+                        context.read<HomeChartDataBloc>().add(
+                            HomeChartDataLoadEvent(
+                                startDate: DateTime(
+                                    DateTime.now().year, DateTime.now().month),
+                                endDate: DateTime(DateTime.now().year,
+                                    DateTime.now().month + 1),
+                                type: TransactionType.INCOME));
+                      } else {
+                        context.read<HomeChartDataBloc>().add(
+                            HomeChartDataLoadEvent(
+                                startDate: DateTime(
+                                    DateTime.now().year, DateTime.now().month),
+                                endDate: DateTime(DateTime.now().year,
+                                    DateTime.now().month + 1),
+                                type: TransactionType.EXPENSE));
+                      }
+                    },
+                    tabs: [
+                      _buildRichTextTab(context, 'Income',
+                          state.totalAmountEntity.totalIncomeAmount.toString()),
+                      _buildRichTextTab(context, 'Expense',
+                          state.totalAmountEntity.totalExpenseAmount.toString())
+                    ]
+                    
+                    ),
+              );
+            }
+            return SizedBox.fromSize();
+          },
         ),
       ),
     );

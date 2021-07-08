@@ -1,14 +1,15 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/database/finq_db.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class TransactionDataSource {
   Future<void> insertNewTransaction(TransactionsCompanion transaction);
   Future<void> updateTransaction(TransactionsCompanion transaction);
   Future<void> deleteTransaction(int id);
 
-  Future<double?> getTotalAmountOfType(
-      TransactionType transactionType, DateTime startDate, DateTime endDate);
+  Stream<List<double>> getTotalAmount(DateTime startDate, DateTime endDate);
+
   Stream<List<Transaction>> getAllTransactionBetweenRange(
       DateTime startDate, DateTime endDate);
   Future<List<Transaction>> getTransactionListByTypeFilter(
@@ -30,12 +31,6 @@ class TransactionDataSourceImpl extends TransactionDataSource {
   }
 
   @override
-  Future<double?> getTotalAmountOfType(
-      TransactionType transactionType, DateTime startDate, DateTime endDate) {
-    return db.getTotalTransactionAmount(transactionType, startDate, endDate);
-  }
-
-  @override
   Stream<List<Transaction>> getAllTransactionBetweenRange(
       DateTime startDate, DateTime endDate) {
     return db.watchTransactionsWithDates(startDate, endDate);
@@ -53,5 +48,15 @@ class TransactionDataSourceImpl extends TransactionDataSource {
   @override
   Future<void> deleteTransaction(int id) {
     return db.deleteTransaction(id);
+  }
+
+  @override
+  Stream<List<double>> getTotalAmount(DateTime startDate, DateTime endDate) {
+    return Rx.combineLatest([
+      db.watchTotalIncomeAmount(startDate, endDate),
+      db.watchTotalExpenseAmount(startDate, endDate)
+    ], (values) {
+     return values.map((e) => (e as double?) ?? 0.0).toList();
+    });
   }
 }

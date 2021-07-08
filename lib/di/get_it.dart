@@ -94,28 +94,28 @@ Future init() async {
       () => UpdateTransaction(transactionRepository: getItInstance()));
   getItInstance.registerLazySingleton<DeleteTransaction>(
       () => DeleteTransaction(transactionRepository: getItInstance()));
-  getItInstance.registerLazySingleton<GetTotalTransactionType>(
-      () => GetTotalTransactionType(getItInstance()));
+  getItInstance.registerLazySingleton<GetTotalTransactionAmount>(
+      () => GetTotalTransactionAmount(getItInstance()));
 
   getItInstance.registerLazySingleton<GetAllTransactionByFilterRange>(
       () => GetAllTransactionByFilterRange(getItInstance()));
 
   getItInstance.registerFactory<GetAllTransactionBetweenRange>(
       () => GetAllTransactionBetweenRange(getItInstance()));
-
+  
   ///Bloc dependencies
   getItInstance.registerFactory<TransactionBloc>(() => TransactionBloc(
       getItInstance(), getItInstance(),
       insertTransaction: getItInstance(),
       getAllTransactionByFilterRange: getItInstance(),
       updateTransaction: getItInstance(),
-      getAllTransactionBetweenRange: getItInstance(),
-      getTotalTransactionType: getItInstance()));
+      getAllTransactionBetweenRange: getItInstance()));
   getItInstance.registerFactory<HomeChartDataBloc>(() => HomeChartDataBloc(
         mapper: getItInstance(),
         getAllTransactionByFilterRange: getItInstance(),
       ));
-  getItInstance.registerFactory<TransactionEntryValidationBloc>(() => TransactionEntryValidationBloc());
+  getItInstance.registerFactory<TransactionEntryValidationBloc>(
+      () => TransactionEntryValidationBloc());
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
   getItInstance.registerFactory<AppBloc>(
@@ -126,15 +126,19 @@ Future init() async {
   getItInstance
       .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
 
+  getItInstance.registerFactory(
+      () => TotalAmountBloc(getTotalTransactionAmount: getItInstance()));
+
   getItInstance.registerSingleton<ThemeCubit>(ThemeCubit(
     getPreferredTheme: getItInstance(),
     updateTheme: getItInstance(),
   ));
 
-  getItInstance.registerFactory<TransactionEntryCubit>(() => TransactionEntryCubit(
-      insertTransaction: getItInstance(),
-      updateTransaction: getItInstance(),
-      deleteTransaction: getItInstance()));
+  getItInstance.registerFactory<TransactionEntryCubit>(() =>
+      TransactionEntryCubit(
+          insertTransaction: getItInstance(),
+          updateTransaction: getItInstance(),
+          deleteTransaction: getItInstance()));
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
 }

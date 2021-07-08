@@ -33,16 +33,29 @@ class FinqDb extends _$FinqDb {
 
   Future insertNewTransaction(TransactionsCompanion transactionItem) =>
       into(transactions).insert(transactionItem);
+
   Future updateTransaction(TransactionsCompanion transactionData) =>
       update(transactions).replace(transactionData);
+
   Future deleteTransaction(int id) =>
       (delete(transactions)..where((t) => t.id.equals(id))).go();
 
   Stream<List<Transaction>> watchAllTransactions() =>
       select(transactions).watch();
+
+  Stream<double?> watchTotalIncomeAmount(
+          DateTime startDate, DateTime endDate) =>
+      sumofTransactionAmount(startDate, endDate, TransactionType.INCOME.index)
+          .watchSingleOrNull();
+  Stream<double?> watchTotalExpenseAmount(
+          DateTime startDate, DateTime endDate) =>
+      sumofTransactionAmount(startDate, endDate, TransactionType.EXPENSE.index)
+          .watchSingleOrNull();
+
   Future<double?> getTotalTransactionAmount(
           TransactionType type, DateTime startDate, DateTime endDate) =>
       sumofTransactionAmount(startDate, endDate, type.index).getSingleOrNull();
+
   Future<List<Transaction>> getTransactionsByFilterAndRange(
           TransactionType type, DateTime startDate, DateTime endDate) =>
       (select(transactions)

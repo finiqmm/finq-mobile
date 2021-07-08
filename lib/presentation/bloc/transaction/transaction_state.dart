@@ -17,15 +17,15 @@ class TransactionError extends TransactionState {
   TransactionError(this.message);
 }
 
-class TotalIncomeAmountState extends TransactionState {
-  final double amount;
-  TotalIncomeAmountState(this.amount);
-}
+// class TotalIncomeAmountState extends TransactionState {
+//   final double amount;
+//   TotalIncomeAmountState(this.amount);
+// }
 
-class TotalExpenseAmountState extends TransactionState {
-  final double amount;
-  TotalExpenseAmountState(this.amount);
-}
+// class TotalExpenseAmountState extends TransactionState {
+//   final double amount;
+//   TotalExpenseAmountState(this.amount);
+// }
 
 class TransactionListLoadedState extends TransactionState {
   final List<TransactionUiModel> transactionUiModel;

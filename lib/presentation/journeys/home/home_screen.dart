@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
   late HomeChartDataBloc homeChartDataBloc;
+  late TotalAmountBloc totalAmountBloc;
   // late FinqDb finqDb;
 
   @override
@@ -30,7 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     transactionBloc = getItInstance<TransactionBloc>();
     homeChartDataBloc = getItInstance<HomeChartDataBloc>();
+    totalAmountBloc = getItInstance<TotalAmountBloc>();
 
+    totalAmountBloc.add(LoadTotalAmount(
+        startDate: DateTime(DateTime.now().year, DateTime.now().month),
+        endDate: DateTime(DateTime.now().year, DateTime.now().month + 1)));
+
+    
     homeChartDataBloc.add(HomeChartDataLoadEvent(
         startDate: DateTime(DateTime.now().year, DateTime.now().month),
         endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
@@ -43,15 +50,16 @@ class _HomeScreenState extends State<HomeScreen> {
     //     DateTime(DateTime.now().year, DateTime.now().month),
     //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
 
-    transactionBloc.add(LoadTransactionBetweenRange(
-        DateTime(DateTime.now().year, DateTime.now().month),
-        DateTime(DateTime.now().year, DateTime.now().month + 1)));
+    // transactionBloc.add(LoadTransactionBetweenRange(
+    //     DateTime(DateTime.now().year, DateTime.now().month),
+    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
   }
 
   @override
   void dispose() {
     transactionBloc.close();
     homeChartDataBloc.close();
+    totalAmountBloc.close();
     super.dispose();
   }
 
@@ -61,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         BlocProvider(create: (context) => transactionBloc),
         BlocProvider(create: (context) => homeChartDataBloc),
+        BlocProvider(create: (context) => totalAmountBloc)
       ],
       child: SafeArea(
         child: Scaffold(
@@ -116,6 +125,5 @@ class _HomeScreenState extends State<HomeScreen> {
               transactionActionModel:
                   TransactionActionModel(transactionType: type),
             );
-           
           });
 }
