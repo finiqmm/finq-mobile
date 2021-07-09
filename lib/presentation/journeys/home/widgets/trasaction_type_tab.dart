@@ -4,7 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:finq/common/extension/int_extension.dart';
-class TransactionTypeTab extends StatelessWidget {
+
+class TransactionTypeTab extends StatefulWidget {
+  @override
+  _TransactionTypeTabState createState() => _TransactionTypeTabState();
+}
+
+class _TransactionTypeTabState extends State<TransactionTypeTab> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,6 +39,9 @@ class TransactionTypeTab extends StatelessWidget {
                 initialIndex: 0,
                 child: TabBar(
                     onTap: (index) {
+                      if (index == selectedIndex) return;
+                      selectedIndex = index;
+
                       if (index == 0) {
                         context.read<HomeChartDataBloc>().add(
                             HomeChartDataLoadEvent(
@@ -50,13 +61,17 @@ class TransactionTypeTab extends StatelessWidget {
                       }
                     },
                     tabs: [
-                      _buildRichTextTab(context, 'Income',
-                          state.totalAmountEntity.totalIncomeAmount.convertToCurrency()),
-                      _buildRichTextTab(context, 'Expense',
-                          state.totalAmountEntity.totalExpenseAmount.convertToCurrency())
-                    ]
-                    
-                    ),
+                      _buildRichTextTab(
+                          context,
+                          'Income',
+                          state.totalAmountEntity.totalIncomeAmount
+                              .convertToCurrency()),
+                      _buildRichTextTab(
+                          context,
+                          'Expense',
+                          state.totalAmountEntity.totalExpenseAmount
+                              .convertToCurrency())
+                    ]),
               );
             }
             return SizedBox.fromSize();
