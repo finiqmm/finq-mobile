@@ -24,7 +24,9 @@ class _TransactionTypeTabState extends State<TransactionTypeTab> {
         elevation: 10,
         shadowColor: Colors.transparent,
         child: BlocConsumer<TotalAmountBloc, TotalAmountState>(
-          buildWhen: (previous, current) => current is TotalAmountLoadedState,
+          buildWhen: (previous, current) {
+            return current is TotalAmountLoadedState;
+          },
           listenWhen: (previous, current) =>
               current is TotalAmountLoadErrorState,
           listener: (context, state) {
@@ -36,7 +38,7 @@ class _TransactionTypeTabState extends State<TransactionTypeTab> {
             if (state is TotalAmountLoadedState) {
               return DefaultTabController(
                 length: 2,
-                initialIndex: 0,
+                initialIndex: selectedIndex,
                 child: TabBar(
                     onTap: (index) {
                       if (index == selectedIndex) return;

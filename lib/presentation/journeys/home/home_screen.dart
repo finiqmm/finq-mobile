@@ -2,6 +2,7 @@ import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
@@ -23,30 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   late TransactionBloc transactionBloc;
   late HomeChartDataBloc homeChartDataBloc;
   late TotalAmountBloc totalAmountBloc;
+  late HomeMainBloc homeMainBloc;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     transactionBloc = getItInstance<TransactionBloc>();
-    homeChartDataBloc = getItInstance<HomeChartDataBloc>();
-    totalAmountBloc = getItInstance<TotalAmountBloc>();
-
-    totalAmountBloc.add(LoadTotalAmount(
-        startDate: DateTime(DateTime.now().year, DateTime.now().month),
-        endDate: DateTime(DateTime.now().year, DateTime.now().month + 1)));
-
-    homeChartDataBloc.add(HomeChartDataLoadEvent(
-        startDate: DateTime(DateTime.now().year, DateTime.now().month),
-        endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
-        type: TransactionType.INCOME));
-
-    // transactionBloc.add(GetTotalExpenseEvent(
-    //     DateTime(DateTime.now().year, DateTime.now().month),
-    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
-    // transactionBloc.add(GetTotalIncomeEvent(
-    //     DateTime(DateTime.now().year, DateTime.now().month),
-    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
+    homeMainBloc = getItInstance<HomeMainBloc>();
+    homeChartDataBloc = homeMainBloc.homeChartDataBloc;
+    totalAmountBloc = homeMainBloc.totalAmountBloc;
+    homeMainBloc.add(LoadHomeInitialData());
 
     // transactionBloc.add(LoadTransactionBetweenRange(
     //     DateTime(DateTime.now().year, DateTime.now().month),
@@ -58,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     transactionBloc.close();
     homeChartDataBloc.close();
     totalAmountBloc.close();
+    homeMainBloc.close();
     super.dispose();
   }
 
@@ -65,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => transactionBloc),
-        BlocProvider(create: (context) => homeChartDataBloc),
-        BlocProvider(create: (context) => totalAmountBloc)
+        BlocProvider.value(value: homeMainBloc),
+        BlocProvider.value(value: totalAmountBloc),
+        BlocProvider.value(value: homeChartDataBloc),
+        BlocProvider.value(value: transactionBloc),
       ],
       child: SafeArea(
         child: Scaffold(
@@ -114,6 +104,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  
 }

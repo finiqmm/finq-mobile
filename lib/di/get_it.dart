@@ -102,7 +102,7 @@ Future init() async {
 
   getItInstance.registerFactory<GetAllTransactionBetweenRange>(
       () => GetAllTransactionBetweenRange(getItInstance()));
-  
+
   ///Bloc dependencies
   getItInstance.registerFactory<TransactionBloc>(() => TransactionBloc(
       getItInstance(), getItInstance(),
@@ -125,6 +125,8 @@ Future init() async {
       .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
   getItInstance
       .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
+  getItInstance.registerFactory(() => HomeMainBloc(
+      homeChartDataBloc: getItInstance(), totalAmountBloc: getItInstance()));
 
   getItInstance.registerFactory(
       () => TotalAmountBloc(getTotalTransactionAmount: getItInstance()));
