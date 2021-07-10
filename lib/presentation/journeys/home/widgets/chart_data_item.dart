@@ -8,9 +8,8 @@ class ChartDataItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 0),  
+      contentPadding: EdgeInsets.symmetric(horizontal: 0),
       minLeadingWidth: 0,
-      
       leading: Container(
         alignment: Alignment.center,
         width: 14,
@@ -20,7 +19,7 @@ class ChartDataItem extends StatelessWidget {
             border: Border.all(width: 4, color: data.color)),
       ),
       title: Text(
-        '${data.categoryName} ${data.percent.floor()}%',
+        '${data.categoryName} ${data.percent.toStringAsFixed(1)}%',
         style: Theme.of(context).textTheme.subtitle2,
       ),
     );

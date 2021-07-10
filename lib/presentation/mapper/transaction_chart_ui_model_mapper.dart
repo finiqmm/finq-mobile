@@ -21,7 +21,7 @@ class TransactionChartUiModelMapper {
               categoryName: name,
               percent: (totalAmountOfItem / totalAmount) * 100);
           return MapEntry(name, chartItemDate);
-        })
+      })
         .values
         .toList();
   }
