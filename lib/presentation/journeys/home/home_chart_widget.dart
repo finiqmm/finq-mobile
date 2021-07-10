@@ -10,6 +10,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'pie_chart_sections.dart';
 
 class HomeChartWidget extends StatefulWidget {
+  final Function(String)? onDropdownChange;
+
+  const HomeChartWidget({Key? key, this.onDropdownChange}) : super(key: key);
   @override
   _HomeChartWidgetState createState() => _HomeChartWidgetState();
 }
@@ -135,9 +138,11 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                   );
                 }).toList(),
                 isDense: true,
-                hint:
-                    Text("Monthly", style: Theme.of(context).textTheme.caption),
-                onChanged: (_) {},
+                hint: Text("Daily", style: Theme.of(context).textTheme.caption),
+                onChanged: (value) {
+                  if (value == null) return;
+                  widget.onDropdownChange!(value.toLowerCase().toString());
+                },
                 underline: Container(
                   height: 0,
                 ),

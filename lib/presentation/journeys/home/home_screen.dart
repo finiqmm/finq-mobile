@@ -4,6 +4,7 @@ import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
 import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
+import 'package:finq/presentation/journeys/home/widgets/date_range_picker_widget.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
 import 'package:finq/presentation/journeys/home/transaction_table_widget.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeChartDataBloc homeChartDataBloc;
   late TotalAmountBloc totalAmountBloc;
   late HomeMainBloc homeMainBloc;
+  var dropdownValue;
 
   @override
   void initState() {
@@ -36,9 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
     totalAmountBloc = homeMainBloc.totalAmountBloc;
     homeMainBloc.add(LoadHomeInitialData());
 
-    // transactionBloc.add(LoadTransactionBetweenRange(
-    //     DateTime(DateTime.now().year, DateTime.now().month),
-    //     DateTime(DateTime.now().year, DateTime.now().month + 1)));
+    transactionBloc.add(LoadTransactionBetweenRange(
+        DateTime(DateTime.now().year, DateTime.now().month),
+        DateTime(DateTime.now().year, DateTime.now().month + 1)));
   }
 
   @override
@@ -67,7 +69,21 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                HomeChartWidget(),
+                HomeChartWidget(
+                  onDropdownChange: (value) {
+                    setState(() {
+                      debugPrint('Helo $value');
+                      dropdownValue = value;
+                    });
+                  },
+                ),
+                AnimatedCrossFade(
+                    firstChild: DateRangePickerWidget(),
+                    secondChild: SizedBox.shrink(),
+                    crossFadeState: dropdownValue == 'daily'
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: Duration(milliseconds: 500)),
                 TransactionTypeTab(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),

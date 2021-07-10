@@ -9,6 +9,7 @@ class AppColor {
 }
 
 finQTheme(Themes theme) => ThemeData(
+  
     brightness: theme == Themes.dark ? Brightness.dark : Brightness.light,
     appBarTheme: AppBarTheme(elevation: 0),
     visualDensity: VisualDensity.adaptivePlatformDensity,
