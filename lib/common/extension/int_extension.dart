@@ -13,7 +13,7 @@ extension IntExtension on int? {
 
 extension DoubleExtension on double? {
   String convertToCurrency() {
-   return NumberFormat.currency(name: '').format(this);
+    return NumberFormat.currency(name: '').format(this);
   }
 }
 

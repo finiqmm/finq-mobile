@@ -1,6 +1,7 @@
 import 'package:finq/presentation/models/transaction_ui_model.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
+import 'package:finq/common/extension/string_extension.dart';
 
 class TransactionSummaryHeader extends StatelessWidget {
   final TransactionUiModel uiModel;
@@ -23,7 +24,7 @@ class TransactionSummaryHeader extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Theme.of(context).accentColor)),
+                    border: Border.all(color: context.getCashColor(uiModel.totalIncomeAmount, uiModel.totalExpenseAmount))),
                 child: Text(
                   uiModel.transactionDate,
                   style: Theme.of(context).textTheme.caption,
