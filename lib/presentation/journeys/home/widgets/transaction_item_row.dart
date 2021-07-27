@@ -1,12 +1,10 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
-import 'package:finq/di/get_it.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
-import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:finq/common/extension/int_extension.dart';
 
 class TransactionItemRow extends StatelessWidget {
   final TransactionEntity dataItem;
@@ -22,8 +20,8 @@ class TransactionItemRow extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           final item = TransactionActionModel.fromTransactionEntity(dataItem);
-           Navigator.pushNamed(context, RouteList.add_transaction,
-                    arguments: item);
+          Navigator.pushNamed(context, RouteList.add_transaction,
+              arguments: item);
 
           debugPrint('$dataItem');
         },
@@ -59,7 +57,7 @@ class TransactionItemRow extends StatelessWidget {
                 flex: 2,
                 child: dataItem.transactionType == TransactionType.INCOME
                     ? FinQCashLabel(
-                        title: dataItem.amount.toString(),
+                        title: dataItem.amount.convertToCurrency(),
                         textStyle: Theme.of(context)
                             .textTheme
                             .caption!
@@ -70,7 +68,7 @@ class TransactionItemRow extends StatelessWidget {
                 flex: 2,
                 child: dataItem.transactionType == TransactionType.EXPENSE
                     ? FinQCashLabel(
-                        title: dataItem.amount.toString(),
+                        title: dataItem.amount.convertToCurrency(),
                         textStyle: Theme.of(context)
                             .textTheme
                             .caption!

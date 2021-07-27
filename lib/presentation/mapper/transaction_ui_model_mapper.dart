@@ -41,8 +41,8 @@ class TransactionUiModelMapper {
 
           var value = TransactionUiModel(
               transactionDate: mapFilterKey(date, filter),
-              totalIncomeAmount: totalIncomeAmount.toString(),
-              totalExpenseAmount: totalExpenseAmount.toString(),
+              totalIncomeAmount: totalIncomeAmount.convertToCurrency(),
+              totalExpenseAmount: totalExpenseAmount.convertToCurrency(),
               transactionItems:
                   filter == TransactionUiListFilter.DAILY ? items : []);
           return MapEntry(date, value);
