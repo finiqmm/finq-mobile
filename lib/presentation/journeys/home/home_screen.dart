@@ -1,17 +1,19 @@
+import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
-import 'package:finq/presentation/bloc/transaction/transaction_bloc.dart';
+import 'package:finq/presentation/bloc/transaction_query/transaction_query_cubit.dart';
 import 'package:finq/presentation/journeys/home/widgets/date_range_picker_widget.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
-import 'package:finq/presentation/journeys/home/transaction_table_widget.dart';
 import 'package:finq/presentation/journeys/home/widgets/trasaction_type_tab.dart';
+import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'transaction_table_widget.dart';
 import 'widgets/expandable_fab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,30 +24,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late TransactionBloc transactionBloc;
+  late TransactionQueryCubit transactionQueryBloc;
   late HomeChartDataBloc homeChartDataBloc;
   late TotalAmountBloc totalAmountBloc;
   late HomeMainBloc homeMainBloc;
-  var dropdownValue;
+  TransactionUiListFilter dropdownValue = TransactionUiListFilter.DAILY;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
-    transactionBloc = getItInstance<TransactionBloc>();
+   
     homeMainBloc = getItInstance<HomeMainBloc>();
     homeChartDataBloc = homeMainBloc.homeChartDataBloc;
     totalAmountBloc = homeMainBloc.totalAmountBloc;
+    transactionQueryBloc = homeMainBloc.transactionQueryBloc;
     homeMainBloc.add(LoadHomeInitialData());
-
-    transactionBloc.add(LoadTransactionBetweenRange(
-        DateTime(DateTime.now().year, DateTime.now().month),
-        DateTime(DateTime.now().year, DateTime.now().month + 1)));
+   
   }
 
   @override
   void dispose() {
-    transactionBloc.close();
+    transactionQueryBloc.close();
     homeChartDataBloc.close();
     totalAmountBloc.close();
     homeMainBloc.close();
@@ -54,12 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: homeMainBloc),
         BlocProvider.value(value: totalAmountBloc),
         BlocProvider.value(value: homeChartDataBloc),
-        BlocProvider.value(value: transactionBloc),
+        BlocProvider.value(value: transactionQueryBloc)
       ],
       child: SafeArea(
         child: Scaffold(
@@ -72,17 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeChartWidget(
                   onDropdownChange: (value) {
                     setState(() {
-                      debugPrint('Helo $value');
-                      dropdownValue = value;
+                      dropdownValue = getFilterEnum(value);
                     });
                   },
                 ),
                 AnimatedCrossFade(
                     firstChild: DateRangePickerWidget(),
                     secondChild: SizedBox.shrink(),
-                    crossFadeState: dropdownValue == 'daily'
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
+                    crossFadeState:
+                        dropdownValue == TransactionUiListFilter.DAILY
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
                     duration: Duration(milliseconds: 500)),
                 TransactionTypeTab(),
                 Padding(

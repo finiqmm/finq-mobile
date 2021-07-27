@@ -1,4 +1,5 @@
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/database/transactions_dao.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'finq_db.g.dart';
@@ -19,7 +20,7 @@ class Transactions extends Table {
 
 @UseMoor(tables: [
   Transactions
-], queries: {
+], daos: [TransactionsDao], queries: {
   "sumofTransactionAmount":
       "SELECT SUM(amount) FROM transactions WHERE transaction_date>=:startDate AND transaction_date<=:endDate AND transaction_type=:transType"
 })
@@ -31,44 +32,4 @@ class FinqDb extends _$FinqDb {
   @override
   int get schemaVersion => 1;
 
-  Future insertNewTransaction(TransactionsCompanion transactionItem) =>
-      into(transactions).insert(transactionItem);
-
-  Future updateTransaction(TransactionsCompanion transactionData) =>
-      update(transactions).replace(transactionData);
-
-  Future deleteTransaction(int id) =>
-      (delete(transactions)..where((t) => t.id.equals(id))).go();
-
-  Stream<List<Transaction>> watchAllTransactions() =>
-      select(transactions).watch();
-
-  Stream<double?> watchTotalIncomeAmount(
-          DateTime startDate, DateTime endDate) =>
-      sumofTransactionAmount(startDate, endDate, TransactionType.INCOME.index)
-          .watchSingleOrNull();
-  Stream<double?> watchTotalExpenseAmount(
-          DateTime startDate, DateTime endDate) =>
-      sumofTransactionAmount(startDate, endDate, TransactionType.EXPENSE.index)
-          .watchSingleOrNull();
-
-  Future<double?> getTotalTransactionAmount(
-          TransactionType type, DateTime startDate, DateTime endDate) =>
-      sumofTransactionAmount(startDate, endDate, type.index).getSingleOrNull();
-
-  Future<List<Transaction>> getTransactionsByFilterAndRange(
-          TransactionType type, DateTime startDate, DateTime endDate) =>
-      (select(transactions)
-            ..where((tbl) =>
-                tbl.transactionDate.isBetweenValues(startDate, endDate))
-            ..where((tbl) => tbl.transactionType.equals(type.index)))
-          .get();
-
-  Stream<List<Transaction>> watchTransactionsWithDates(
-      DateTime startDate, DateTime endDate) {
-    return (select(transactions)
-          ..where(
-              (tbl) => tbl.transactionDate.isBetweenValues(startDate, endDate)))
-        .watch();
-  }
 }

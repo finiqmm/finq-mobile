@@ -391,6 +391,7 @@ class $TransactionsTable extends Transactions
 abstract class _$FinqDb extends GeneratedDatabase {
   _$FinqDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $TransactionsTable transactions = $TransactionsTable(this);
+  late final TransactionsDao transactionsDao = TransactionsDao(this as FinqDb);
   Selectable<double> sumofTransactionAmount(
       DateTime startDate, DateTime endDate, int transType) {
     return customSelect(

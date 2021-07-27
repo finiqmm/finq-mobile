@@ -9,6 +9,7 @@ import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
 import 'package:finq/data/repositories/transaction_repository_impl.dart';
 import 'package:finq/database/finq_db.dart';
+import 'package:finq/database/transactions_dao.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
@@ -38,6 +39,8 @@ Future init() async {
 
   ///Db dependencies
   getItInstance.registerLazySingleton<FinqDb>(() => FinqDb());
+  getItInstance.registerLazySingleton<TransactionsDao>(
+      () => TransactionsDao(getItInstance()));
 
   ///Mapper dependencies
   getItInstance.registerLazySingleton<TransactionEntityMapper>(
@@ -104,12 +107,10 @@ Future init() async {
       () => GetAllTransactionBetweenRange(getItInstance()));
 
   ///Bloc dependencies
-  getItInstance.registerFactory<TransactionBloc>(() => TransactionBloc(
-      getItInstance(), getItInstance(),
-      insertTransaction: getItInstance(),
-      getAllTransactionByFilterRange: getItInstance(),
-      updateTransaction: getItInstance(),
-      getAllTransactionBetweenRange: getItInstance()));
+  getItInstance.registerFactory<TransactionQueryCubit>(() =>
+      TransactionQueryCubit(
+          getAllTransactionBetweenRange: getItInstance(),
+          mapper: getItInstance()));
   getItInstance.registerFactory<HomeChartDataBloc>(() => HomeChartDataBloc(
         mapper: getItInstance(),
         getAllTransactionByFilterRange: getItInstance(),
@@ -126,7 +127,9 @@ Future init() async {
   getItInstance
       .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
   getItInstance.registerFactory(() => HomeMainBloc(
-      homeChartDataBloc: getItInstance(), totalAmountBloc: getItInstance()));
+      homeChartDataBloc: getItInstance(),
+      totalAmountBloc: getItInstance(),
+      transactionQueryBloc: getItInstance()));
 
   getItInstance.registerFactory(
       () => TotalAmountBloc(getTotalTransactionAmount: getItInstance()));

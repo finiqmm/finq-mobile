@@ -21,4 +21,10 @@ class FinQDateUtil {
 
     return DateTimeRange(start: startDate, end: endDate);
   }
+
+  static DateTimeRange getRangeForMonthlyFilter() {
+    final startDate = DateTime(DateTime.now().year - 1);
+    final endDate = DateTime.now();
+    return DateTimeRange(start: startDate, end: endDate);
+  }
 }

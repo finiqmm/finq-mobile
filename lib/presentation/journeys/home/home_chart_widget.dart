@@ -1,6 +1,8 @@
+import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/home/widgets/chart_data_item.dart';
+import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,11 @@ class HomeChartWidget extends StatefulWidget {
 
 class _HomeChartWidgetState extends State<HomeChartWidget> {
   int? touchedSectionIndex;
+  String? selectedFilter;
+  List<String> filters = ["Daily", "Weekly", "Monthly"];
+
+  TransactionQueryCubit get transactionQueryBloc =>
+      context.read<TransactionQueryCubit>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +34,6 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
       child: Stack(
         children: [
           BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
-            // buildWhen: (previus, current) =>
-            //     current is HomeChartDataLoaded,
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
                 return Row(
@@ -120,34 +125,40 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
-              margin: EdgeInsets.only(right: 16, bottom: 8),
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).accentColor, width: 2),
-              ),
-              child: DropdownButton<String>(
-                items:
-                    <String>['Yearly', 'Daily', 'Monthly'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(
-                      value,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  );
-                }).toList(),
-                isDense: true,
-                hint: Text("Daily", style: Theme.of(context).textTheme.caption),
-                onChanged: (value) {
-                  if (value == null) return;
-                  widget.onDropdownChange!(value.toLowerCase().toString());
-                },
-                underline: Container(
-                  height: 0,
+                margin: EdgeInsets.only(right: 16, bottom: 8),
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).accentColor, width: 2),
                 ),
-              ),
-            ),
+                child: DropdownButton(
+                    value: selectedFilter,
+                    items: filters.map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: new Text(
+                          value,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      );
+                    }).toList(),
+                    isDense: true,
+                    hint: Text("Daily",
+                        style: Theme.of(context).textTheme.caption),
+                    onChanged: (value) {
+                      selectedFilter = value.toString();
+                      transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
+                          dateTimeRange:
+                              FinQDateUtil.getRangeForMonthlyFilter(),
+                          listFilter:
+                              getFilterEnum(selectedFilter ?? 'Daily')));
+
+                      if (value == null) return;
+                      widget.onDropdownChange!(selectedFilter.toString());
+                    },
+                    underline: Container(
+                      height: 0,
+                    ))),
           )
         ],
       ),

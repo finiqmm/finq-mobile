@@ -1,5 +1,6 @@
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/bloc/transaction_query/transaction_query_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,26 +13,29 @@ class TransactionTableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil.screenHeight,
+      width: ScreenUtil.screenWidth,
       margin: EdgeInsets.all(Sizes.dimen_14),
       color: Colors.white,
-      child: BlocBuilder<TransactionBloc, TransactionState>(
-        buildWhen: (previous, current) => current is TransactionListLoadedState,
+      
+      child: BlocBuilder<TransactionQueryCubit, TransactionQueryState>(
         builder: (context, state) {
-          if (state is TransactionListLoadedState) {
+          if (state is TransactionListQueryLoadedState) {
             return Column(
               children: [
                 TransactionTableHeader(),
                 for (var item in state.transactionUiModel) ...[
                   TransactionSummaryHeader(item),
-                  for (var rowItem in item.transactionItems)
-                    TransactionItemRow(dataItem: rowItem),
+                  if (item.transactionItems.isNotEmpty)
+                    for (var rowItem in item.transactionItems)
+                      TransactionItemRow(dataItem: rowItem),
                   Divider(
                     color: Colors.grey,
                   )
                 ]
               ],
             );
+          } else if (state is TransactionQueryLoading) {
+            return Center(child: CircularProgressIndicator());
           }
           return Center(child: CircularProgressIndicator());
         },

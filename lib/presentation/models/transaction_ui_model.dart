@@ -5,7 +5,6 @@ class TransactionUiModel extends Equatable {
   final String transactionDate;
   final String totalIncomeAmount;
   final String totalExpenseAmount;
-
   final List<TransactionEntity> transactionItems;
 
   TransactionUiModel(
