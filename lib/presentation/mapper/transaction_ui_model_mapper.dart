@@ -16,15 +16,19 @@ class TransactionUiModelMapper {
           (element) => element.transactionDate.month,
           valueTransform: (p) => p);
     } else if (filter == TransactionUiListFilter.WEEKLY) {
-      entitiesByFilter = entities.groupBy((element) => element.transactionDate,
-          valueTransform: (p) => p);
+      entitiesByFilter = entities.groupBy((element) {
+        final transDate = element.transactionDate;
+        return DateTimeRange(
+            start: transDate.subtract(Duration(days: transDate.weekday - 1)),
+            end: transDate.add(Duration(days: 7 - transDate.weekday)));
+      }, valueTransform: (p) => p);
     } else {
       entitiesByFilter = entities.groupBy((element) => element.transactionDate,
           valueTransform: (p) => p);
     }
-    debugPrint('Mapper' + entitiesByFilter.keys.toString());
 
-    
+   
+    // debugPrint('Mapper' + entitiesByFilter.keys.toString());
 
     return entitiesByFilter
         .map((date, items) {
@@ -57,6 +61,7 @@ class TransactionUiModelMapper {
     } else if (filter == TransactionUiListFilter.MONTHLY) {
       return DateFormat('MMM').format(DateTime(0, key as int));
     }
-    return '';
+    final weekRange = (key as DateTimeRange);
+    return '${weekRange.start.convertMonthDate()} - ${weekRange.end.convertMonthDate()}';
   }
 }

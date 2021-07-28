@@ -22,6 +22,11 @@ extension DateExtension on DateTime? {
     return DateFormat('dd/MM/yyyy').format(this ?? DateTime.now());
   }
 
+  String convertMonthDate() {
+    return DateFormat('MMM d').format(this ?? DateTime.now());
+    // return DateFormat.yMMMMd('en_US').format(this ?? DateTime.now());
+  }
+
   DateTime getOnlyDate() {
     if (this != null) {
       return DateTime(this!.year, this!.month, this!.day);

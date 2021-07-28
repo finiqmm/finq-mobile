@@ -147,11 +147,13 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                         style: Theme.of(context).textTheme.caption),
                     onChanged: (value) {
                       selectedFilter = value.toString();
-                      transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
-                          dateTimeRange:
-                              FinQDateUtil.getRangeForMonthlyFilter(),
-                          listFilter:
-                              getFilterEnum(selectedFilter ?? 'Daily')));
+                      transactionQueryBloc.watchHomeTransactionList(
+                          LoadHomeTransactionList(
+                              dateTimeRange: value == 'Daily'
+                                  ? FinQDateUtil.getCurrentMonthDateRange()
+                                : FinQDateUtil.getRangeForMonthlyFilter(),
+                              listFilter:
+                                  getFilterEnum(selectedFilter ?? 'Daily')));
 
                       if (value == null) return;
                       widget.onDropdownChange!(selectedFilter.toString());

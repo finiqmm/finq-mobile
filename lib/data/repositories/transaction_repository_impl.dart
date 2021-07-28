@@ -5,6 +5,8 @@ import 'package:finq/domain/entities/total_amount_entity.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:dartz/dartz.dart';
+import 'package:supercharged/supercharged.dart';
+
 import 'package:finq/domain/repositories/transaction_repository.dart';
 
 class TransactionRepoImpl extends TransactionRepository {
@@ -36,7 +38,6 @@ class TransactionRepoImpl extends TransactionRepository {
     }
   }
 
-
   @override
   Stream<Either<AppError, List<TransactionEntity>>>
       getAllTransactionBetweenRange(DateTime startDate, DateTime endDate) {
@@ -45,7 +46,6 @@ class TransactionRepoImpl extends TransactionRepository {
         .handleError((error) => Left(AppError(AppErrorType.database, '')))
         .map((transactionList) =>
             Right(transactionList.map((e) => mapper.to(e)).toList()));
-   
   }
 
   @override
@@ -74,9 +74,11 @@ class TransactionRepoImpl extends TransactionRepository {
   @override
   Stream<Either<AppError, TotalAmountEntity>> watchTotalAmount(
       DateTime startDate, DateTime endDate) {
-   return transactionDataSource.getTotalAmount(startDate, endDate).handleError((onError){
-      return Left(AppError(AppErrorType.database,''));
-    }).map((event) => Right(TotalAmountEntity(totalIncomeAmount: event[0], totalExpenseAmount: event[1])));
+    return transactionDataSource
+        .getTotalAmount(startDate, endDate)
+        .handleError((onError) {
+      return Left(AppError(AppErrorType.database, ''));
+    }).map((event) => Right(TotalAmountEntity(
+            totalIncomeAmount: event[0], totalExpenseAmount: event[1])));
   }
-
 }

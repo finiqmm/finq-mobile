@@ -53,7 +53,11 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
       DateTime startDate, DateTime endDate) {
     return (select(transactions)
           ..where(
-              (tbl) => tbl.transactionDate.isBetweenValues(startDate, endDate)))
+              (tbl) => tbl.transactionDate.isBetweenValues(startDate, endDate))
+          ..orderBy([
+            (u) => OrderingTerm(
+                expression: u.transactionDate, mode: OrderingMode.desc)
+          ]))
         .watch();
   }
 }
