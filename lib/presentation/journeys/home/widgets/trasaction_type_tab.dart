@@ -1,9 +1,11 @@
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:finq/common/extension/int_extension.dart';
+import 'package:finq/common/extension/string_extension.dart';
 
 class TransactionTypeTab extends StatefulWidget {
   @override
@@ -65,12 +67,12 @@ class _TransactionTypeTabState extends State<TransactionTypeTab> {
                     tabs: [
                       _buildRichTextTab(
                           context,
-                          'Income',
+                          TranslationConstants.titleIncome.t(context),
                           state.totalAmountEntity.totalIncomeAmount
                               .convertToCurrency()),
                       _buildRichTextTab(
                           context,
-                          'Expense',
+                          TranslationConstants.titleExpense.t(context),
                           state.totalAmountEntity.totalExpenseAmount
                               .convertToCurrency())
                     ]),

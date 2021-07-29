@@ -30,69 +30,81 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
-      color: Colors.white,
       child: Stack(
         children: [
           BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
-                return Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.only(top: Sizes.dimen_24),
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData:
-                              PieTouchData(touchCallback: (pieTouchResponse) {
-                            setState(() {
-                              final desiredTouch = pieTouchResponse.touchInput
-                                      is! PointerExitEvent &&
-                                  pieTouchResponse.touchInput
-                                      is! PointerUpEvent;
-                              if (desiredTouch &&
-                                  pieTouchResponse.touchedSection != null) {
-                                touchedSectionIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              } else {
-                                touchedSectionIndex = -1;
-                              }
-                            });
-                          }),
-                          sectionsSpace: 3,
-                          centerSpaceRadius: 50,
-                          sections: getSections(
-                              touchedSectionIndex, state.chartItems),
-                          borderData: FlBorderData(
-                            show: false,
+                return Container(
+                  foregroundDecoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter,
+                          stops: [
+                        0.3,
+                        1
+                      ],
+                          colors: [
+                        Theme.of(context).primaryColor.withOpacity(0.1),
+                        Theme.of(context).primaryColor
+                      ])),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(top: Sizes.dimen_24),
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData:
+                                PieTouchData(touchCallback: (pieTouchResponse) {
+                              setState(() {
+                                final desiredTouch = pieTouchResponse.touchInput
+                                        is! PointerExitEvent &&
+                                    pieTouchResponse.touchInput
+                                        is! PointerUpEvent;
+                                if (desiredTouch &&
+                                    pieTouchResponse.touchedSection != null) {
+                                  touchedSectionIndex = pieTouchResponse
+                                      .touchedSection!.touchedSectionIndex;
+                                } else {
+                                  touchedSectionIndex = -1;
+                                }
+                              });
+                            }),
+                            sectionsSpace: 3,
+                            centerSpaceRadius: 50,
+                            sections: getSections(
+                                touchedSectionIndex, state.chartItems),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
                           ),
+                          swapAnimationCurve: Curves.linear,
+                          swapAnimationDuration: Duration(milliseconds: 150),
                         ),
-                        swapAnimationCurve: Curves.linear,
-                        swapAnimationDuration: Duration(milliseconds: 150),
-                      ),
-                    )),
-                    Expanded(
-                        child: Container(
-                      foregroundDecoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.center,
-                              end: Alignment.bottomCenter,
-                              stops: [
-                            0.3,
-                            1
+                      )),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: ListWheelScrollView(
+                                  useMagnifier: true,
+                                  itemExtent: 38,
+                                  children: state.chartItems
+                                      .map((e) => ChartDataItem(data: e))
+                                      .toList()),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            )
                           ],
-                              colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white
-                          ])),
-                      child: ListWheelScrollView(
-                          useMagnifier: true,
-                          itemExtent: 38,
-                          children: state.chartItems
-                              .map((e) => ChartDataItem(data: e))
-                              .toList()),
-                    ))
-                  ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               } else if (state is HomeChartDataLoading) {
                 return Align(
@@ -125,7 +137,7 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
-                margin: EdgeInsets.only(right: 16, bottom: 8),
+                margin: EdgeInsets.only(right: 16),
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -144,14 +156,17 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                     }).toList(),
                     isDense: true,
                     hint: Text("Daily",
-                        style: Theme.of(context).textTheme.caption),
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption!
+                            .copyWith(color: Theme.of(context).accentColor)),
                     onChanged: (value) {
                       selectedFilter = value.toString();
                       transactionQueryBloc.watchHomeTransactionList(
                           LoadHomeTransactionList(
                               dateTimeRange: value == 'Daily'
                                   ? FinQDateUtil.getCurrentMonthDateRange()
-                                : FinQDateUtil.getRangeForMonthlyFilter(),
+                                  : FinQDateUtil.getRangeForMonthlyFilter(),
                               listFilter:
                                   getFilterEnum(selectedFilter ?? 'Daily')));
 

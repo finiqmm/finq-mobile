@@ -24,7 +24,6 @@ extension DateExtension on DateTime? {
 
   String convertMonthDate() {
     return DateFormat('MMM d').format(this ?? DateTime.now());
-    // return DateFormat.yMMMMd('en_US').format(this ?? DateTime.now());
   }
 
   DateTime getOnlyDate() {

@@ -1,6 +1,7 @@
 import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/common/constants/transaction_types.dart';
+import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/widgets/finq_alert_button.dart';
@@ -10,6 +11,7 @@ import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/common/extension/size_extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:finq/common/extension/int_extension.dart';
+import 'package:finq/common/extension/string_extension.dart';
 
 import 'transaction_choice_chip.dart';
 
@@ -61,27 +63,17 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
             horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Amount',
+            TranslationConstants.titleAmount.t(context),
             style: Theme.of(context).textTheme.subtitle2,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: TextField(
-              decoration: InputDecoration(
-                  fillColor: Colors.black.withOpacity(0.1), filled: true),
+              decoration: InputDecoration(filled: true),
               controller: amountController,
               keyboardType: TextInputType.number,
             ),
           ),
-          // Align(
-          //   alignment: Alignment.center,
-          //   child: Text(
-          //     // totalAmount,
-          //     NumberFormat.currency(name: '')
-          //         .format(double.tryParse(totalAmount)),
-          //     style: Theme.of(context).textTheme.headline5,
-          //   ),
-          // ),
           SizedBox(
             height: 16,
           ),
@@ -93,7 +85,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Select Category',
+                      TranslationConstants.titleCategory.t(context),
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     Padding(
@@ -139,7 +131,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Select Date',
+                  TranslationConstants.titleDate.t(context),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 Container(
@@ -148,7 +140,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   padding: EdgeInsets.symmetric(
                       vertical: Sizes.dimen_8.h, horizontal: Sizes.dimen_4.w),
                   decoration:
-                      BoxDecoration(color: Colors.black.withOpacity(0.1)),
+                      BoxDecoration(color: Colors.grey),
                   child: Text(
                     selectedDate.convertReadableDate(),
                     style: Theme.of(context)
@@ -164,29 +156,17 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
             height: 16,
           ),
           Text(
-            'Description',
+            TranslationConstants.titleDesc.t(context),
             style: Theme.of(context).textTheme.subtitle2,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: TextField(
               decoration: InputDecoration(
-                  fillColor: Colors.black.withOpacity(0.1), filled: true),
+                 filled: true),
               controller: descriptionController,
             ),
           ),
-          // NumberTableWidget(onNumberPressed: (String number) {
-          //   if (totalAmount.length >= 7) return;
-          //   setState(() {
-          //     totalAmount = number == '.'
-          //         ? AmountInputHandler.onDotPressed(totalAmount)
-          //         : AmountInputHandler.onNumberPressed(number, totalAmount);
-          //   });
-          // }, onClearPressed: () {
-          //   setState(() {
-          //     totalAmount = '0';
-          //   });
-          // }),
           SizedBox(
             height: 16,
           ),
@@ -219,8 +199,11 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                     Expanded(
                       child: FinQButton(
                         onPressed: () {
-                          widget.onEntryUpsert(selectedCategory, amountController.text,
-                              descriptionController.text, selectedDate);
+                          widget.onEntryUpsert(
+                              selectedCategory,
+                              amountController.text,
+                              descriptionController.text,
+                              selectedDate);
                         },
                         text: 'Update',
                       ),

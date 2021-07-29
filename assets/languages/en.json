@@ -2,5 +2,17 @@
     "title_home": "Home",
     "title_profile": "Profile",
     "title_loan_calculator": "Loan Calculator",
-    "title_article": "Article"
+    "title_article": "Article",
+    "title_language": "Languages",
+    "title_theme": "Themes",
+    "title_passcode": "Use Passcode",
+    "title_about": "About",
+    "title_help": "Get Help",
+    "title_logout": "Logout",
+    "title_income": "Income",
+    "title_expense": "Expense",
+    "title_amount": "Amount",
+    "title_select_category": "Select Category",
+    "title_select_date": "Select Date",
+    "title_desc": "Description"
 }
