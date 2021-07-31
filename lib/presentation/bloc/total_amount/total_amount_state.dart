@@ -1,4 +1,4 @@
-part of 'total_amount_bloc.dart';
+part of 'total_amount_cubit.dart';
 
 abstract class TotalAmountState extends Equatable {
   const TotalAmountState();

@@ -20,7 +20,6 @@ finQTheme(Themes theme) => ThemeData(
     scaffoldBackgroundColor:
         theme == Themes.dark ? AppColor.vulcan : AppColor.white,
     primaryColor: theme == Themes.dark ? AppColor.vulcan : AppColor.white,
-    iconTheme: IconThemeData(color: Colors.red),
     inputDecorationTheme: InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
         focusedBorder: OutlineInputBorder(

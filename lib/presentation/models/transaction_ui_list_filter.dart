@@ -1,4 +1,6 @@
+import 'package:finq/common/constants/money_formatter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 enum TransactionUiListFilter { DAILY, WEEKLY, MONTHLY }
 
@@ -28,5 +30,19 @@ TransactionUiListFilter getFilterEnum(String value) {
       return TransactionUiListFilter.DAILY;
     default:
       return TransactionUiListFilter.DAILY;
+  }
+}
+
+DateTimeRange getDateTimeRange(String value) {
+  switch (value) {
+    case 'Monthly':
+      return FinQDateUtil.getRangeForMonthlyFilter();
+    case 'Weekly':
+      return FinQDateUtil.getRangeForMonthlyFilter();
+    case 'Daily':
+      return FinQDateUtil.getCurrentMonthDateRange();
+
+    default:
+      return FinQDateUtil.getRangeForMonthlyFilter();
   }
 }

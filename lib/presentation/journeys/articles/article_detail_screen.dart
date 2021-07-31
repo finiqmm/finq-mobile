@@ -26,7 +26,6 @@ class ArticleDetaiScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: ArticleInfoRow(
                   publisherName: article.publisherName ?? "",
-                  itemColor: Colors.black,
                   createdDate: article.createdDate ?? 0)),
           Html(
             data: article.body,

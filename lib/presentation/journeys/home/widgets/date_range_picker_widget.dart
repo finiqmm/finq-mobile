@@ -1,21 +1,34 @@
 import 'package:finq/common/constants/money_formatter.dart';
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:finq/common/extension/int_extension.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DateRangePickerWidget extends StatefulWidget {
+  final Function(DateTimeRange)? selectedDateRange;
+
+  DateRangePickerWidget({required this.selectedDateRange});
+
   @override
   _DateRangePickerWidgetState createState() => _DateRangePickerWidgetState();
 }
 
 class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
+ 
   late DateTimeRange selectedDateTimeRange;
+ 
+  TransactionQueryCubit get transactionQueryBloc =>
+      context.read<TransactionQueryCubit>();
 
+  TotalAmountCubit get totalAmoutBloc => context.read<TotalAmountCubit>();
   @override
   void initState() {
     super.initState();
     selectedDateTimeRange = FinQDateUtil.getCurrentMonthDateRange();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -64,5 +77,10 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     if (newDateRange == null) return;
 
     setState(() => selectedDateTimeRange = newDateRange);
+    widget.selectedDateRange!(selectedDateTimeRange);
+    // totalAmoutBloc.watchTotalAmount(
+    //     LoadTotalAmount(dateTimeRange: selectedDateTimeRange));
+    // transactionQueryBloc.watchHomeTransactionList(
+    //     LoadHomeTransactionList(dateTimeRange: selectedDateTimeRange));
   }
 }

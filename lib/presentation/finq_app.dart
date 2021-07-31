@@ -33,6 +33,7 @@ class _FinqAppState extends State<FinqApp> {
     _themeCubit = getItInstance<ThemeCubit>();
     appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
+    _themeCubit.loadPreferredTheme();
   }
 
   @override
@@ -57,7 +58,6 @@ class _FinqAppState extends State<FinqApp> {
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit,
         ),
-       
       ],
       child: BlocBuilder<ThemeCubit, Themes>(
         builder: (context, theme) {

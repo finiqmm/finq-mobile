@@ -1,4 +1,4 @@
-part of 'total_amount_bloc.dart';
+part of 'total_amount_cubit.dart';
 
 abstract class TotalAmountEvent extends Equatable {
   const TotalAmountEvent();
@@ -8,11 +8,9 @@ abstract class TotalAmountEvent extends Equatable {
 }
 
 class LoadTotalAmount extends TotalAmountEvent {
-  final DateTime startDate;
-  final DateTime endDate;
-  LoadTotalAmount({required this.startDate, required this.endDate}) : super();
+  final DateTimeRange dateTimeRange;
+  LoadTotalAmount({required this.dateTimeRange}) : super();
 
   @override
-  List<Object> get props => [startDate, endDate];
+  List<Object> get props => [dateTimeRange];
 }
-

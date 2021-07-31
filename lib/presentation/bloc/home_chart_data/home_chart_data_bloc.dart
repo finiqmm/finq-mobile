@@ -32,7 +32,7 @@ class HomeChartDataBloc extends Bloc<HomeChartDataEvent, HomeChartDataState> {
       HomeChartDataLoadEvent event) async* {
     yield HomeChartDataLoading();
     final response = await getAllTransactionByFilterRange(
-        TransactionTypeParams(event.type, event.startDate, event.endDate));
+        TransactionTypeParams(event.type, event.dateTimeRange.start, event.dateTimeRange.end));
     yield response.fold((l) => HomeChartDataEmpty(), (r) {
       if (r.isNotEmpty) {
         return HomeChartDataLoaded(chartItems: mapper.from(r));

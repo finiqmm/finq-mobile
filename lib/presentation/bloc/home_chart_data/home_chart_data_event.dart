@@ -8,11 +8,10 @@ abstract class HomeChartDataEvent extends Equatable {
 }
 
 class HomeChartDataLoadEvent extends HomeChartDataEvent {
-  final DateTime startDate;
-  final DateTime endDate;
+  final DateTimeRange dateTimeRange;
   final TransactionType type;
 
   HomeChartDataLoadEvent(
-      {required this.startDate, required this.endDate, required this.type})
+      {required this.dateTimeRange, required this.type})
       : super();
 }

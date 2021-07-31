@@ -11,7 +11,7 @@ part 'home_main_event.dart';
 part 'home_main_state.dart';
 
 class HomeMainBloc extends Bloc<HomeMainEvent, HomeMainState> {
-  final TotalAmountBloc totalAmountBloc;
+  final TotalAmountCubit totalAmountBloc;
   final HomeChartDataBloc homeChartDataBloc;
   final TransactionQueryCubit transactionQueryBloc;
   HomeMainBloc(
@@ -25,13 +25,11 @@ class HomeMainBloc extends Bloc<HomeMainEvent, HomeMainState> {
     HomeMainEvent event,
   ) async* {
     if (event is LoadHomeInitialData) {
-      totalAmountBloc.add(LoadTotalAmount(
-          startDate: DateTime(DateTime.now().year, DateTime.now().month),
-          endDate: DateTime(DateTime.now().year, DateTime.now().month + 1)));
+      totalAmountBloc.watchTotalAmount(LoadTotalAmount(
+          dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));
 
       homeChartDataBloc.add(HomeChartDataLoadEvent(
-          startDate: DateTime(DateTime.now().year, DateTime.now().month),
-          endDate: DateTime(DateTime.now().year, DateTime.now().month + 1),
+          dateTimeRange: FinQDateUtil.getCurrentMonthDateRange(),
           type: TransactionType.INCOME));
       transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
           dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));

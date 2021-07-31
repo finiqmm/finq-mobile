@@ -62,7 +62,6 @@ class ArticleCardItem extends StatelessWidget {
                     ),
                     ArticleInfoRow(
                         publisherName: article.publisherName ?? "",
-                        itemColor: Colors.white,
                         createdDate: article.createdDate ?? 0)
                   ],
                 ),

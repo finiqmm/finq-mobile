@@ -15,11 +15,16 @@ class TransactionTableWidget extends StatelessWidget {
     return Container(
       width: ScreenUtil.screenWidth,
       margin: EdgeInsets.all(Sizes.dimen_14),
-      color: Colors.white,
-      
       child: BlocBuilder<TransactionQueryCubit, TransactionQueryState>(
         builder: (context, state) {
           if (state is TransactionListQueryLoadedState) {
+            if (state.transactionUiModel.isEmpty) {
+              return Center(
+                  child: Text(
+                'There is no transaction.To add new transaction press +',
+                style: Theme.of(context).textTheme.caption,
+              ));
+            }
             return Column(
               children: [
                 TransactionTableHeader(),

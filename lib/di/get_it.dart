@@ -132,7 +132,7 @@ Future init() async {
       transactionQueryBloc: getItInstance()));
 
   getItInstance.registerFactory(
-      () => TotalAmountBloc(getTotalTransactionAmount: getItInstance()));
+      () => TotalAmountCubit(getTotalTransactionAmount: getItInstance()));
 
   getItInstance.registerSingleton<ThemeCubit>(ThemeCubit(
     getPreferredTheme: getItInstance(),

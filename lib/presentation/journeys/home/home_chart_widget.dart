@@ -1,6 +1,7 @@
 import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/home/widgets/chart_data_item.dart';
 import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
@@ -13,8 +14,11 @@ import 'pie_chart_sections.dart';
 
 class HomeChartWidget extends StatefulWidget {
   final Function(String)? onDropdownChange;
+  final DateTimeRange currentDateRange;
 
-  const HomeChartWidget({Key? key, this.onDropdownChange}) : super(key: key);
+  const HomeChartWidget(
+      {Key? key, this.onDropdownChange, required this.currentDateRange})
+      : super(key: key);
   @override
   _HomeChartWidgetState createState() => _HomeChartWidgetState();
 }
@@ -24,8 +28,30 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   String? selectedFilter;
   List<String> filters = ["Daily", "Weekly", "Monthly"];
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(HomeChartWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    debugPrint('HomeChartUpdate ${widget.currentDateRange}');
+
+    dispatchBloc();
+  }
+
+  void dispatchBloc() {
+    totalAmountCubit.watchTotalAmount(
+        LoadTotalAmount(dateTimeRange: widget.currentDateRange));
+    transactionQueryBloc.watchHomeTransactionList(
+        LoadHomeTransactionList(dateTimeRange: widget.currentDateRange));
+  }
+
   TransactionQueryCubit get transactionQueryBloc =>
       context.read<TransactionQueryCubit>();
+  TotalAmountCubit get totalAmountCubit => context.read<TotalAmountCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -161,16 +187,10 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                             .caption!
                             .copyWith(color: Theme.of(context).accentColor)),
                     onChanged: (value) {
-                      selectedFilter = value.toString();
-                      transactionQueryBloc.watchHomeTransactionList(
-                          LoadHomeTransactionList(
-                              dateTimeRange: value == 'Daily'
-                                  ? FinQDateUtil.getCurrentMonthDateRange()
-                                  : FinQDateUtil.getRangeForMonthlyFilter(),
-                              listFilter:
-                                  getFilterEnum(selectedFilter ?? 'Daily')));
-
                       if (value == null) return;
+                      if (value == selectedFilter) return;
+                      selectedFilter = value.toString();
+
                       widget.onDropdownChange!(selectedFilter.toString());
                     },
                     underline: Container(

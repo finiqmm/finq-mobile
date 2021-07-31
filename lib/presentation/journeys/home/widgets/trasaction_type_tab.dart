@@ -8,12 +8,33 @@ import 'package:finq/common/extension/int_extension.dart';
 import 'package:finq/common/extension/string_extension.dart';
 
 class TransactionTypeTab extends StatefulWidget {
+  final DateTimeRange currentDateRange;
+
+  TransactionTypeTab({required this.currentDateRange});
   @override
   _TransactionTypeTabState createState() => _TransactionTypeTabState();
 }
 
 class _TransactionTypeTabState extends State<TransactionTypeTab> {
   int selectedIndex = 0;
+
+  @override
+  void didUpdateWidget(TransactionTypeTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    dispatchBloc();
+  }
+
+  void dispatchBloc() {
+    debugPrint('HomeScreen Dispatch ${widget.currentDateRange}');
+    context.read<HomeChartDataBloc>().add(HomeChartDataLoadEvent(
+        dateTimeRange: widget.currentDateRange,
+        type: selectedIndex == 0
+            ? TransactionType.INCOME
+            : TransactionType.EXPENSE));
+
+            
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +46,7 @@ class _TransactionTypeTabState extends State<TransactionTypeTab> {
       child: Material(
         elevation: 10,
         shadowColor: Colors.transparent,
-        child: BlocConsumer<TotalAmountBloc, TotalAmountState>(
+        child: BlocConsumer<TotalAmountCubit, TotalAmountState>(
           buildWhen: (previous, current) {
             return current is TotalAmountLoadedState;
           },
@@ -45,24 +66,7 @@ class _TransactionTypeTabState extends State<TransactionTypeTab> {
                     onTap: (index) {
                       if (index == selectedIndex) return;
                       selectedIndex = index;
-
-                      if (index == 0) {
-                        context.read<HomeChartDataBloc>().add(
-                            HomeChartDataLoadEvent(
-                                startDate: DateTime(
-                                    DateTime.now().year, DateTime.now().month),
-                                endDate: DateTime(DateTime.now().year,
-                                    DateTime.now().month + 1),
-                                type: TransactionType.INCOME));
-                      } else {
-                        context.read<HomeChartDataBloc>().add(
-                            HomeChartDataLoadEvent(
-                                startDate: DateTime(
-                                    DateTime.now().year, DateTime.now().month),
-                                endDate: DateTime(DateTime.now().year,
-                                    DateTime.now().month + 1),
-                                type: TransactionType.EXPENSE));
-                      }
+                      dispatchBloc();
                     },
                     tabs: [
                       _buildRichTextTab(

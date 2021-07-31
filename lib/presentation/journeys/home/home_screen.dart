@@ -26,21 +26,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late TransactionQueryCubit transactionQueryBloc;
   late HomeChartDataBloc homeChartDataBloc;
-  late TotalAmountBloc totalAmountBloc;
+  late TotalAmountCubit totalAmountBloc;
   late HomeMainBloc homeMainBloc;
+
   TransactionUiListFilter dropdownValue = TransactionUiListFilter.DAILY;
+  DateTimeRange currentDateRange = FinQDateUtil.getCurrentMonthDateRange();
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
-   
+
     homeMainBloc = getItInstance<HomeMainBloc>();
     homeChartDataBloc = homeMainBloc.homeChartDataBloc;
     totalAmountBloc = homeMainBloc.totalAmountBloc;
     transactionQueryBloc = homeMainBloc.transactionQueryBloc;
     homeMainBloc.add(LoadHomeInitialData());
-   
   }
 
   @override
@@ -54,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: homeMainBloc),
@@ -71,25 +71,28 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 HomeChartWidget(
+                  currentDateRange: currentDateRange,
                   onDropdownChange: (value) {
                     setState(() {
                       dropdownValue = getFilterEnum(value);
+                      currentDateRange =
+                          getDateTimeRange(value);
                     });
                   },
                 ),
-                AnimatedCrossFade(
-                    firstChild: DateRangePickerWidget(),
-                    secondChild: SizedBox.shrink(),
-                    crossFadeState:
-                        dropdownValue == TransactionUiListFilter.DAILY
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
-                    duration: Duration(milliseconds: 500)),
-                TransactionTypeTab(),
+                if (dropdownValue == TransactionUiListFilter.DAILY)
+                  DateRangePickerWidget(selectedDateRange: (dateRange) {
+                    setState(() {
+                      currentDateRange = dateRange;
+                    });
+                  }),
+                TransactionTypeTab(
+                  currentDateRange: currentDateRange,
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Text(
-                    'Daily Transaction',
+                    '${dropdownValue.displayTitle} Transaction',
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),

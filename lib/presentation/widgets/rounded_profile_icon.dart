@@ -26,12 +26,12 @@ class RoundedProfileIcon extends StatelessWidget {
       errorWidget: (content, url, error) => Container(
           height: height,
           width: width,
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           child: Center(child: const Icon(FontAwesomeIcons.user))),
       placeholder: (content, url) => Container(
         height: height,
         width: width,
-        color: Colors.white,
+        color:Theme.of(context).primaryColor,
         child: Center(child: const CircularProgressIndicator()),
       ),
     );
