@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:finq/common/constants/size_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:finq/common/extension/size_extension.dart';
 
 class RoundedProfileIcon extends StatelessWidget {
   final String? imageUrl;

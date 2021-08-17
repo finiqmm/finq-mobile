@@ -25,6 +25,7 @@ class ProfileSettings extends StatelessWidget {
           horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_16.h),
       child: ListView(
         children: [
+        
           BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, state) {
               if (state is LanguageLoaded) {
