@@ -24,6 +24,7 @@ class _FinqAppState extends State<FinqApp> {
   late final AppBloc appBloc;
   late final LanguageBloc _languageBloc;
   late final ThemeCubit _themeCubit;
+  late final PasscodeCubit _passcodeCubit;
 
   @override
   void initState() {
@@ -31,9 +32,11 @@ class _FinqAppState extends State<FinqApp> {
     appBloc = getItInstance<AppBloc>();
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
+    _passcodeCubit = getItInstance<PasscodeCubit>();
     appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
     _themeCubit.loadPreferredTheme();
+    _passcodeCubit.isAppLocked();
   }
 
   @override
@@ -41,6 +44,7 @@ class _FinqAppState extends State<FinqApp> {
     appBloc.close();
     _languageBloc.close();
     _themeCubit.close();
+    _passcodeCubit.close();
     super.dispose();
   }
 
@@ -57,6 +61,9 @@ class _FinqAppState extends State<FinqApp> {
         ),
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit,
+        ),
+        BlocProvider<PasscodeCubit>.value(
+          value: _passcodeCubit,
         ),
       ],
       child: BlocBuilder<ThemeCubit, Themes>(

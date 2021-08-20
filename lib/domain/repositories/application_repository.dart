@@ -10,4 +10,9 @@ abstract class ApplicationRepository {
 
   Future<Either<AppError, void>> updateTheme(String theme);
   Future<Either<AppError, String>> getPreferredTheme();
+
+  Future<Either<AppError,void>> updatePasscode(String value);
+  Future<Either<AppError,int?>> getPasscode();
+  Future<Either<AppError,bool>> checkPasscodematch(String passcode);
+  Future<Either<AppError,void>> removePasscode(String value);
 }

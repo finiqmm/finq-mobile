@@ -1,8 +1,14 @@
 ///Article
 export 'article/get_article.dart';
+
+//Auth
 export 'auth/sign_in.dart';
 export 'auth/sign_out.dart';
 export 'auth/get_signed_in_user.dart';
+export 'auth/get_passcode.dart';
+export 'auth/save_passcode.dart';
+export 'auth/check_passcode_match.dart';
+export 'auth/remove_passcode.dart';
 //Onboarding
 export 'onboarding/check_if_first_time_user.dart';
 export 'onboarding/finish_onboarding.dart';

@@ -68,4 +68,62 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       return Left(AppError(AppErrorType.database, "Error updating theme"));
     }
   }
+
+  @override
+  Future<Either<AppError, int?>> getPasscode() async {
+    try {
+      final response = await applicationDataSource.getPasscodeValue();
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Passcode Error"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, void>> updatePasscode(String value) async {
+    try {
+      final passcodeValue = int.tryParse(value);
+      if (passcodeValue == null) {
+        return Left(AppError(AppErrorType.database, "Error updating passcode"));
+      }
+      final response =
+          await applicationDataSource.updatePasscode(passcodeValue);
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Error updating passcode"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> checkPasscodematch(String passcode) async {
+    final response = await this.getPasscode();
+    return response.fold(
+        (l) => Left(AppError(AppErrorType.passcode_not_match,
+            "Error passcode retrieving from db")), (r) {
+      final enterPasscode = int.tryParse(passcode);
+      if (enterPasscode != null && r != null) {
+        return Right(enterPasscode == r);
+      }
+      return Left(
+          AppError(AppErrorType.passcode_not_match, "Error updating passcode"));
+    });
+  }
+
+  @override
+  Future<Either<AppError, void>> removePasscode(String value) async {
+    final response = await this.checkPasscodematch(value);
+    return response.fold(
+        (l) => Left(AppError(
+            AppErrorType.passcode_not_match, "Error removing passcode")),
+        (r) async {
+      if (r) {
+        final deleteResponse =
+            await this.applicationDataSource.deletePasscode();
+        return Right(deleteResponse);
+      }
+      return Left(
+          AppError(AppErrorType.passcode_not_match, "Passcode not match"));
+      
+    });
+  }
 }

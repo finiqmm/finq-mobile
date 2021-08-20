@@ -1,8 +1,8 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
+import 'package:finq/presentation/common_widget/finq_cash_label.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
-import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
 import 'package:finq/common/extension/int_extension.dart';
 

@@ -4,6 +4,7 @@ import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/profile/language_chooser_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,6 @@ class ProfileSettings extends StatelessWidget {
           horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_16.h),
       child: ListView(
         children: [
-        
           BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, state) {
               if (state is LanguageLoaded) {
@@ -45,7 +45,7 @@ class ProfileSettings extends StatelessWidget {
               return SizedBox.shrink();
             },
           ),
-          BlocBuilder<ThemeCubit,Themes>(
+          BlocBuilder<ThemeCubit, Themes>(
             builder: (context, theme) {
               return ListTile(
                 onTap: () => context.read<ThemeCubit>().toggleTheme(),
@@ -55,10 +55,29 @@ class ProfileSettings extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: Icon(FontAwesomeIcons.lock),
-            title: Text(TranslationConstants.titlePasscode.t(context)),
-            trailing: Icon(FontAwesomeIcons.chevronRight),
+          BlocBuilder<PasscodeCubit, PasscodeState>(
+            builder: (context, state) {
+              if (state is IsPasscodeExist) {
+                var isPasscodeOn = state.isExist;
+                return ListTile(
+                  onTap: () => null,
+                  leading: Icon(FontAwesomeIcons.lock),
+                  title: Text(TranslationConstants.titlePasscode.t(context)),
+                  trailing: Switch(
+                      value: isPasscodeOn,
+                      onChanged: (val) {
+                        Navigator.pushNamed(context, RouteList.passcode,
+                            arguments: val == true
+                                ? PasscodeEntryOption.passcodeNew
+                                : PasscodeEntryOption.passcodeRemove);
+
+                        // context.read<PasscodeCubit>().isAppLocked();
+                      }),
+                );
+              }
+
+              return SizedBox.shrink();
+            },
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.infoCircle),
@@ -79,8 +98,7 @@ class ProfileSettings extends StatelessWidget {
               }
             },
             child: ListTile(
-              onTap: () =>
-                  context.read<AppBloc>().add(SignOutPressedEvent()),
+              onTap: () => context.read<AppBloc>().add(SignOutPressedEvent()),
               leading: Icon(FontAwesomeIcons.signOutAlt),
               title: Text(TranslationConstants.titleLogout.t(context)),
               trailing: Icon(FontAwesomeIcons.chevronRight),

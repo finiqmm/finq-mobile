@@ -3,6 +3,7 @@ class RouteList {
 
   static const String initial = '/';
   static const String login = '/login';
+  static const String passcode = '/passcode';
   static const String onboarding = '/onboarding';
   static const String main = '/main';
   static const String profile = '/profile';

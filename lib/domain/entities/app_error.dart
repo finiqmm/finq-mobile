@@ -10,7 +10,7 @@ class AppError extends Equatable {
   List<Object> get props => [appErrorType,message];
 }
 
-enum AppErrorType { api, network, database, unauthorised, userparse }
+enum AppErrorType { api, network, database, unauthorised, userparse,passcode_not_match }
 
 // class AuthError {
 //   final String? message;

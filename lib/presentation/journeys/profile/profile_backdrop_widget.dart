@@ -1,6 +1,6 @@
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
-import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
+import 'package:finq/presentation/common_widget/rounded_profile_icon.dart';
 import 'package:finq/common/extension/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

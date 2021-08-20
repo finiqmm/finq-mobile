@@ -11,6 +11,10 @@ abstract class ApplicationDataSource {
   Future<CacheUser?> getCacheUser();
   Future<void> deleteCacheUser();
 
+  Future<void> updatePasscode(int passcode);
+  Future<int?> getPasscodeValue();
+  Future<void> deletePasscode();
+
   Future<void> updateLanguage(String languageCode);
   Future<String> getPreferredLanguage();
 
@@ -72,5 +76,23 @@ class ApplicationDataSourceImpl extends ApplicationDataSource {
   Future<void> updateTheme(String themeName) async {
     final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
     unawaited(appConfigBox.put(AppConstants.PREFER_THEME, themeName));
+  }
+
+  @override
+  Future<void> updatePasscode(int passcode) async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    unawaited(appConfigBox.put(AppConstants.PASSCODE_KEY, passcode));
+  }
+
+  @override
+  Future<int?> getPasscodeValue() async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    return appConfigBox.get(AppConstants.PASSCODE_KEY, defaultValue: null);
+  }
+
+  @override
+  Future<void> deletePasscode() async {
+    final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
+    unawaited(appConfigBox.delete(AppConstants.PASSCODE_KEY));
   }
 }
