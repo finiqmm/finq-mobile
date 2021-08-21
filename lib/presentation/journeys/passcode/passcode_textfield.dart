@@ -58,6 +58,9 @@ class _PasscodeTextFieldState extends State<PasscodeTextField> {
                   }
                   passcode[blockPosition] = blockText;
                   if (passcode.length == 4) {
+                    focusNodes.forEach((node) {
+                      
+                    });
                     widget.onTextChanged(passcode.values.join());
                   }
                 },
