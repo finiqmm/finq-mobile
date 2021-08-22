@@ -3,17 +3,25 @@ import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/data/data_sources/article_data_source.dart';
 import 'package:finq/data/data_sources/auth_data_source.dart';
 import 'package:finq/data/data_sources/loan_calculator_data_source.dart';
+import 'package:finq/data/data_sources/transaction_data_source.dart';
+import 'package:finq/data/mapper/transaction_entity_mapper.dart';
 import 'package:finq/data/repositories/application_repository_impl.dart';
 import 'package:finq/data/repositories/article_repository_impl.dart';
 import 'package:finq/data/repositories/auth_repository_impl.dart';
 import 'package:finq/data/repositories/loan_calculator_repository_impl.dart';
+import 'package:finq/data/repositories/transaction_repository_impl.dart';
+import 'package:finq/database/finq_db.dart';
+import 'package:finq/database/transactions_dao.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:finq/domain/repositories/loan_calculator_repository.dart';
+import 'package:finq/domain/repositories/transaction_repository.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/mapper/transaction_chart_ui_model_mapper.dart';
+import 'package:finq/presentation/mapper/transaction_ui_model_mapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -32,6 +40,19 @@ Future init() async {
 
   getItInstance.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
 
+  ///Db dependencies
+  getItInstance.registerLazySingleton<FinqDb>(() => FinqDb());
+  getItInstance.registerLazySingleton<TransactionsDao>(
+      () => TransactionsDao(getItInstance()));
+
+  ///Mapper dependencies
+  getItInstance.registerLazySingleton<TransactionEntityMapper>(
+      () => TransactionEntityMapper());
+  getItInstance.registerLazySingleton<TransactionUiModelMapper>(
+      () => TransactionUiModelMapper());
+  getItInstance.registerLazySingleton<TransactionChartUiModelMapper>(
+      () => TransactionChartUiModelMapper());
+
   ///DataSource dependencies
   getItInstance.registerLazySingleton<ApplicationDataSource>(
       () => ApplicationDataSourceImpl());
@@ -41,6 +62,8 @@ Future init() async {
       () => ArticleDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<LoanCalculatorDataSource>(
       () => LoanCalculatorDataSourceImpl());
+  getItInstance.registerLazySingleton<TransactionDataSource>(
+      () => TransactionDataSourceImpl(getItInstance()));
 
   ///Repository dependencies
   getItInstance.registerLazySingleton<ApplicationRepository>(
@@ -51,6 +74,8 @@ Future init() async {
       () => AuthRepositoryImpl(getItInstance(), getItInstance()));
   getItInstance.registerLazySingleton<LoanCalculatorRepository>(
       () => LoanCalculatorRepositoryImpl(getItInstance()));
+  getItInstance.registerLazySingleton<TransactionRepository>(
+      () => TransactionRepoImpl(getItInstance(), getItInstance()));
 
   ///Usecase dependencies
   getItInstance.registerLazySingleton<FinishOnboarding>(
@@ -75,8 +100,32 @@ Future init() async {
       .registerLazySingleton<GetArticle>(() => GetArticle(getItInstance()));
   getItInstance.registerLazySingleton<GetCalculatedLoan>(
       () => GetCalculatedLoan(getItInstance()));
+  getItInstance.registerLazySingleton<InsertTransaction>(
+      () => InsertTransaction(transactionRepository: getItInstance()));
+  getItInstance.registerLazySingleton<UpdateTransaction>(
+      () => UpdateTransaction(transactionRepository: getItInstance()));
+  getItInstance.registerLazySingleton<DeleteTransaction>(
+      () => DeleteTransaction(transactionRepository: getItInstance()));
+  getItInstance.registerLazySingleton<GetTotalTransactionAmount>(
+      () => GetTotalTransactionAmount(getItInstance()));
+
+  getItInstance.registerLazySingleton<GetAllTransactionByFilterRange>(
+      () => GetAllTransactionByFilterRange(getItInstance()));
+
+  getItInstance.registerFactory<GetAllTransactionBetweenRange>(
+      () => GetAllTransactionBetweenRange(getItInstance()));
 
   ///Bloc dependencies
+  getItInstance.registerFactory<TransactionQueryCubit>(() =>
+      TransactionQueryCubit(
+          getAllTransactionBetweenRange: getItInstance(),
+          mapper: getItInstance()));
+  getItInstance.registerFactory<HomeChartDataBloc>(() => HomeChartDataBloc(
+        mapper: getItInstance(),
+        getAllTransactionByFilterRange: getItInstance(),
+      ));
+  getItInstance.registerFactory<TransactionEntryValidationBloc>(
+      () => TransactionEntryValidationBloc());
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
   getItInstance.registerFactory<AppBloc>(
@@ -86,11 +135,24 @@ Future init() async {
       .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
   getItInstance
       .registerFactory<ArticleBloc>(() => ArticleBloc(getItInstance()));
+  getItInstance.registerFactory(() => HomeMainBloc(
+      homeChartDataBloc: getItInstance(),
+      totalAmountBloc: getItInstance(),
+      transactionQueryBloc: getItInstance()));
+
+  getItInstance.registerFactory(
+      () => TotalAmountCubit(getTotalTransactionAmount: getItInstance()));
 
   getItInstance.registerSingleton<ThemeCubit>(ThemeCubit(
     getPreferredTheme: getItInstance(),
     updateTheme: getItInstance(),
   ));
+
+  getItInstance.registerFactory<TransactionEntryCubit>(() =>
+      TransactionEntryCubit(
+          insertTransaction: getItInstance(),
+          updateTransaction: getItInstance(),
+          deleteTransaction: getItInstance()));
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
   getItInstance.registerFactory<CalculatedLoanBloc>(

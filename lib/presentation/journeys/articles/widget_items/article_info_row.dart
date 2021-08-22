@@ -4,13 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ArticleInfoRow extends StatelessWidget {
   final String publisherName;
-  final Color itemColor;
   final int createdDate;
 
   const ArticleInfoRow(
       {Key? key,
       required this.publisherName,
-      required this.itemColor,
       required this.createdDate})
       : super(key: key);
   @override
@@ -19,7 +17,6 @@ class ArticleInfoRow extends StatelessWidget {
       children: [
         Icon(
           FontAwesomeIcons.userAlt,
-          color: itemColor,
           size: 12,
         ),
         SizedBox(
@@ -28,14 +25,13 @@ class ArticleInfoRow extends StatelessWidget {
         Text(
           publisherName,
           style:
-              Theme.of(context).textTheme.caption?.copyWith(color: itemColor),
+              Theme.of(context).textTheme.caption,
         ),
         SizedBox(
           width: 16.0,
         ),
         Icon(
           FontAwesomeIcons.clock,
-          color: Colors.black,
           size: 12,
         ),
         SizedBox(
@@ -44,7 +40,7 @@ class ArticleInfoRow extends StatelessWidget {
         Text(
           createdDate.millisecondToString(),
           style:
-              Theme.of(context).textTheme.caption?.copyWith(color: itemColor),
+              Theme.of(context).textTheme.caption,
         ),
       ],
     );

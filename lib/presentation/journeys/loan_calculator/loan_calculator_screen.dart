@@ -141,15 +141,15 @@ class _LoanCalculatorScreenState extends State<LoanCalculatorScreen> {
                     controller: monthsTextController,
                     label: "Loan Term (Months)"),
                 SizedBox(height: 16.0),
-                FinqButton(
-                  onPressed: () {
-                    calculatedLoanBloc.add(CalculatePressed(
-                        double.parse(principalTextController.text),
-                        double.parse(interestTextController.text),
-                        double.parse(monthsTextController.text)));
-                  },
-                  text: 'Calculate',
-                )
+                // FinqButton(
+                //   onPressed: () {
+                //     calculatedLoanBloc.add(CalculatePressed(
+                //         double.parse(principalTextController.text),
+                //         double.parse(interestTextController.text),
+                //         double.parse(monthsTextController.text)));
+                //   },
+                //   text: 'Calculate',
+                // )
               ],
             ),
           ),

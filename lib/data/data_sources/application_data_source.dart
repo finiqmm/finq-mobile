@@ -1,5 +1,6 @@
 import 'package:finq/data/core/app_constants.dart';
 import 'package:finq/data/tables/cache_user.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -60,10 +61,11 @@ class ApplicationDataSourceImpl extends ApplicationDataSource {
     unawaited(appConfigBox.put(AppConstants.PREFER_LANGUAGE, languageCode));
   }
 
-   @override
+  @override
   Future<String> getPreferredTheme() async {
     final appConfigBox = await Hive.openBox(AppConstants.APP_CONFIG_BOX);
-    return appConfigBox.get(AppConstants.PREFER_THEME) ?? 'dark';
+    return appConfigBox.get(AppConstants.PREFER_THEME, defaultValue: 'light') ??
+        'light';
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:finq/common/constants/languages.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/size_constants.dart';
+import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/profile/language_chooser_dialog.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:finq/common/extension/size_extension.dart';
+import 'package:finq/common/extension/string_extension.dart';
 
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class ProfileSettings extends StatelessWidget {
           horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_16.h),
       child: ListView(
         children: [
+        
           BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, state) {
               if (state is LanguageLoaded) {
@@ -33,7 +36,7 @@ class ProfileSettings extends StatelessWidget {
                     _showModalBottomSheet(context);
                   },
                   leading: Icon(FontAwesomeIcons.language),
-                  title: Text('Languages'),
+                  title: Text(TranslationConstants.titleLanguage.t(context)),
                   trailing: Icon(countryCode == "en"
                       ? FontAwesomeIcons.flagUsa
                       : FontAwesomeIcons.flag),
@@ -47,24 +50,24 @@ class ProfileSettings extends StatelessWidget {
               return ListTile(
                 onTap: () => context.read<ThemeCubit>().toggleTheme(),
                 leading: Icon(FontAwesomeIcons.adjust),
-                title: Text('Themes'),
+                title: Text(TranslationConstants.titleThemes.t(context)),
                 trailing: Icon(FontAwesomeIcons.chevronRight),
               );
             },
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.lock),
-            title: Text('Use Passcode'),
+            title: Text(TranslationConstants.titlePasscode.t(context)),
             trailing: Icon(FontAwesomeIcons.chevronRight),
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.infoCircle),
-            title: Text('About'),
+            title: Text(TranslationConstants.titleAbout.t(context)),
             trailing: Icon(FontAwesomeIcons.chevronRight),
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.solidQuestionCircle),
-            title: Text('Get Help'),
+            title: Text(TranslationConstants.titleHelp.t(context)),
             trailing: Icon(FontAwesomeIcons.chevronRight),
           ),
           BlocListener<AppBloc, AppState>(
@@ -77,9 +80,9 @@ class ProfileSettings extends StatelessWidget {
             },
             child: ListTile(
               onTap: () =>
-                  BlocProvider.of<AppBloc>(context).add(SignOutPressedEvent()),
+                  context.read<AppBloc>().add(SignOutPressedEvent()),
               leading: Icon(FontAwesomeIcons.signOutAlt),
-              title: Text('Logout'),
+              title: Text(TranslationConstants.titleLogout.t(context)),
               trailing: Icon(FontAwesomeIcons.chevronRight),
             ),
           ),
