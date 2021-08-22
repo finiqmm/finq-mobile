@@ -1,6 +1,5 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/journeys/passcode/passcode_clippath.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_textfield.dart';
 import 'package:flutter/material.dart';
