@@ -14,14 +14,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final LanguageBloc _languageBloc;
-  late final PasscodeCubit _passcodeCubit;
+  late final PincodeCubit _passcodeCubit;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     _languageBloc = BlocProvider.of<LanguageBloc>(context);
-    _passcodeCubit = BlocProvider.of<PasscodeCubit>(context);
+    _passcodeCubit = BlocProvider.of<PincodeCubit>(context);
     _languageBloc.add(LoadPreferredLanguageEvent());
     _passcodeCubit.isAppLocked();
   }
@@ -46,10 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
               child: ProfileSettings(),
             ),
-            // child: BlocProvider.value(
-            //   value: _languageBloc,
-            //   child: ProfileSettings(),
-            // ),
+            
           ),
         ],
       ),

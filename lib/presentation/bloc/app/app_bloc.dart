@@ -14,7 +14,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final CheckIfFirstTimeUser checkIfFirstTimeUser;
   final GetSignedInUser getSignedInUser;
   final SignOut signOut;
-  final PasscodeCubit passcodeCubit;
+  final PincodeCubit passcodeCubit;
 
   AppBloc(this.checkIfFirstTimeUser, this.getSignedInUser, this.signOut,
       this.passcodeCubit)

@@ -6,39 +6,41 @@ import 'package:finq/domain/usecases/auth/check_passcode_match.dart';
 import 'package:finq/domain/usecases/auth/get_passcode.dart';
 import 'package:finq/domain/usecases/auth/save_passcode.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
-import 'package:finq/presentation/bloc/blocs.dart';
 
-part 'passcode_state.dart';
+part 'pincode_state.dart';
 
-class PasscodeCubit extends Cubit<PasscodeState> {
+class PincodeCubit extends Cubit<PincodeState> {
   final SavePasscode _savePasscode;
   final CheckPasscodeMatch _checkPasscodeMatch;
   final GetPasscode _getPasscode;
   final RemovePasscode _removePasscode;
 
-  PasscodeCubit(this._savePasscode, this._checkPasscodeMatch, this._getPasscode,
+  PincodeCubit(this._savePasscode, this._checkPasscodeMatch, this._getPasscode,
       this._removePasscode)
-      : super(PasscodeInitial());
+      : super(PincodeInitial());
 
   void save(String value) async {
     final result = await _savePasscode(PasscodeParams(passcodeValue: value));
-    emit(result.fold((l) => PasscodeFailed(reason: l.message), (r) {
+    emit(result.fold((l) => PincodeFailed(reason: l.message), (r) {
       isAppLocked();
-      return PasscodeSuccess(isNavigateToHomeScreen: false);
+      return PincodeSuccess(isNavigateToHomeScreen: false);
     }));
   }
 
   void isAppLocked() async {
     final result = await _getPasscode(NoParams());
-    emit(result.fold((l) => PasscodeFailed(reason: l.message),
+    emit(result.fold((l) => PincodeFailed(reason: l.message),
         (r) => IsPasscodeExist(isExist: r != null)));
   }
 
   void isPasscodeMatch(String value) async {
     final result =
         await _checkPasscodeMatch(PasscodeParams(passcodeValue: value));
-    emit(result.fold((l) => PasscodeFailed(reason: l.message), (r) {
-      return PasscodeSuccess(isNavigateToHomeScreen: true);
+    emit(result.fold((l) => PincodeFailed(reason: l.message), (r) {
+      if (r) {
+        return PincodeSuccess(isNavigateToHomeScreen: true);
+      }
+      return PincodeFailed(reason: 'passcode not match');
     }));
   }
 
@@ -46,10 +48,10 @@ class PasscodeCubit extends Cubit<PasscodeState> {
     final result = await _removePasscode(PasscodeParams(passcodeValue: value));
     emit(result.fold((l) {
       isAppLocked();
-      return PasscodeFailed(reason: l.message);
+      return PincodeFailed(reason: l.message);
     }, (r) {
       isAppLocked();
-      return PasscodeSuccess(isNavigateToHomeScreen: false);
+      return PincodeSuccess(isNavigateToHomeScreen: false);
     }));
   }
 }

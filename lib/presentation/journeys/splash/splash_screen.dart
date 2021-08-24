@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                   context, RouteList.onboarding, (route) => false);
             } else if (state is Authenticated) {
-              //Passcode existence validation
+              //IsPasscodeExist check in bloc              
               
             } else if (state is UnAuthenticated) {
               Navigator.pushNamedAndRemoveUntil(
@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
             }
           },
         ),
-        BlocListener<PasscodeCubit, PasscodeState>(
+        BlocListener<PincodeCubit, PincodeState>(
           listenWhen: (previous, current) => current is IsPasscodeExist,
           listener: (context, state) {
             if (state is IsPasscodeExist) {
@@ -50,23 +50,6 @@ class SplashScreen extends StatelessWidget {
       ),
     );
     // return BlocListener<AppBloc, AppState>(
-    //   listener: (context, state) {
-    //     if (state is FirstTimeUser) {
-    //       Navigator.pushNamedAndRemoveUntil(
-    //           context, RouteList.onboarding, (route) => false);
-    //     } else if (state is Authenticated) {
-    //       Navigator.pushNamedAndRemoveUntil(
-    //           context, RouteList.main, (route) => false);
-    //     } else if (state is UnAuthenticated) {
-    //       Navigator.pushNamedAndRemoveUntil(
-    //           context, RouteList.login, (route) => false);
-    //     }
-    //   },
-    //   child: Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   ),
-    // );
+   
   }
 }

@@ -157,6 +157,7 @@ Future init() async {
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
 
-  getItInstance.registerLazySingleton<PasscodeCubit>(() => PasscodeCubit(
+  getItInstance.registerLazySingleton<PincodeCubit>(() => PincodeCubit(
       getItInstance(), getItInstance(), getItInstance(), getItInstance()));
+  getItInstance.registerFactory<PincodeValidationCubit>(() => PincodeValidationCubit());
 }

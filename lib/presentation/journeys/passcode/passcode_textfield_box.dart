@@ -1,5 +1,7 @@
+import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/utils/passcode_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TextFieldBox extends StatefulWidget {
   final BlockTextChangedCallback onBlockTextChanged;
@@ -20,6 +22,9 @@ class TextFieldBox extends StatefulWidget {
 class _TextFieldBoxState extends State<TextFieldBox> {
   TextEditingController? controller;
   String previousText = "";
+  PincodeCubit get _passcodeCubit => BlocProvider.of<PincodeCubit>(context);
+  PincodeValidationCubit get _pincodeValidation =>
+      BlocProvider.of<PincodeValidationCubit>(context);
 
   @override
   void initState() {
@@ -45,26 +50,41 @@ class _TextFieldBoxState extends State<TextFieldBox> {
               Expanded(
                 child: AbsorbPointer(
                   absorbing: widget.isAborbPointerEnable,
-                  child: TextField(
-                    autofocus: true,
-                    focusNode: widget.focusNode,
-                    onChanged: (value) {
-                      if (value.isEmpty) {
-                        widget.onBlockTextChanged("", widget.boxPosition);
-                      } else {
-                        widget.onBlockTextChanged(
-                            value[value.length - 1], widget.boxPosition);
-                      }
+                  child: BlocListener<PincodeCubit, PincodeState>(
+                    listener: (context, state) {
+                      controller?.clear();
                     },
-                    textAlign: TextAlign.center,
-                    controller: controller,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                      hintText: '',
-                      counterText: '',
-                      counterStyle: TextStyle(
-                        color: Colors.transparent,
+                    child: BlocListener<PincodeValidationCubit,
+                        PincodeValidationState>(
+                      listener: (context, state) {
+                        if (state is PinValidationProgress ||
+                            state is PincodeValidationFailed ||
+                            state is PincodeValidationIdle) {
+                          controller?.clear();
+                        }
+                      },
+                      child: TextField(
+                        autofocus: true,
+                        focusNode: widget.focusNode,
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            widget.onBlockTextChanged("", widget.boxPosition);
+                          } else {
+                            widget.onBlockTextChanged(
+                                value[value.length - 1], widget.boxPosition);
+                          }
+                        },
+                        textAlign: TextAlign.center,
+                        controller: controller,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.go,
+                        decoration: InputDecoration(
+                          hintText: '',
+                          counterText: '',
+                          counterStyle: TextStyle(
+                            color: Colors.transparent,
+                          ),
+                        ),
                       ),
                     ),
                   ),

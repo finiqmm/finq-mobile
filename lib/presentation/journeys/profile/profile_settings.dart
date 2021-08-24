@@ -55,24 +55,20 @@ class ProfileSettings extends StatelessWidget {
               );
             },
           ),
-          BlocBuilder<PasscodeCubit, PasscodeState>(
+          BlocBuilder<PincodeCubit, PincodeState>(
             builder: (context, state) {
               if (state is IsPasscodeExist) {
                 var isPasscodeOn = state.isExist;
-                return ListTile(
-                  onTap: () => null,
-                  leading: Icon(FontAwesomeIcons.lock),
+                return SwitchListTile(
+                  value: isPasscodeOn,
+                  secondary: Icon(FontAwesomeIcons.lock),
                   title: Text(TranslationConstants.titlePasscode.t(context)),
-                  trailing: Switch(
-                      value: isPasscodeOn,
-                      onChanged: (val) {
-                        Navigator.pushNamed(context, RouteList.passcode,
-                            arguments: val == true
-                                ? PasscodeEntryOption.passcodeNew
-                                : PasscodeEntryOption.passcodeRemove);
-
-                        // context.read<PasscodeCubit>().isAppLocked();
-                      }),
+                  onChanged: (val) {
+                    Navigator.pushNamed(context, RouteList.passcode,
+                        arguments: val == true
+                            ? PasscodeEntryOption.passcodeNew
+                            : PasscodeEntryOption.passcodeRemove);
+                  },
                 );
               }
 

@@ -1,7 +1,10 @@
 import 'package:finq/common/constants/route_constants.dart';
+import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_textfield.dart';
+import 'package:finq/presentation/journeys/passcode/widgets/passcode_text_title.dart';
+import 'package:finq/presentation/utils/passcode_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,17 +21,62 @@ class PasscodeScreen extends StatefulWidget {
 }
 
 class _PasscodeScreenState extends State<PasscodeScreen> {
-  PasscodeCubit get _passcodeCubit => context.read<PasscodeCubit>();
+  PincodeCubit get _pincodeCubit => context.read<PincodeCubit>();
 
-  String previousText = "";
-  int passCodeEnterCount = 1;
+  late PincodeValidationCubit _pinValidationCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _pinValidationCubit = getItInstance<PincodeValidationCubit>();
+  }
+
+  @override
+  void dispose() {
+    _pinValidationCubit.close();
+    FocusScope.of(context).requestFocus(FocusNode());
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocConsumer<PasscodeCubit, PasscodeState>(
-        builder: (context, state) {
-          return Stack(
+      body: BlocProvider.value(
+        value: _pinValidationCubit,
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<PincodeCubit, PincodeState>(
+              listenWhen: (previous, current) =>
+                  current is PincodeFailed || current is PincodeSuccess,
+              listener: (context, state) {
+                if (state is PincodeFailed) {
+                  Fluttertoast.showToast(msg: state.reason);
+                  return;
+                }
+                if (state is PincodeSuccess) {
+                  if (state.isNavigateToHomeScreen) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RouteList.main, (route) => false);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                }
+              },
+            ),
+            BlocListener<PincodeValidationCubit, PincodeValidationState>(
+              listener: (context, state) {
+                if (state is PincodeValidationFailed) {
+                  Fluttertoast.showToast(msg: state.reason);
+                }
+
+                if (state is PincodeValidationSuccess) {
+                  _pincodeCubit.save(state.pinCode);
+                }
+              },
+            ),
+          ],
+          child: Stack(
             fit: StackFit.expand,
             children: [
               Column(
@@ -36,85 +84,46 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                   SizedBox(
                     height: 100,
                   ),
-                  Text('Enter your pin.'),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  PasscodeTextTitle(),
                   PasscodeTextField(
-                      onTextChanged: (passcode) {}, isAbsorberEnabled: true),
-                  SizedBox(
-                    height: 20,
-                  ),
+                      onTextChanged: (enterPin) {
+                        if (widget.entryOption ==
+                            PasscodeEntryOption.passcodeRemove) {
+                          _pincodeCubit.remove(enterPin);
+                        } else if (widget.entryOption ==
+                            PasscodeEntryOption.passcodeVerificaion) {
+                          _pincodeCubit.isPasscodeMatch(enterPin);
+                        } else {
+                          _pinValidationCubit.addPinEntry(enterPin);
+                        }
+                      },
+                      isAbsorberEnabled: true)
                 ],
               ),
               FractionallySizedBox(
-                alignment: Alignment.bottomCenter,
                 heightFactor: 0.4,
+                alignment: Alignment.bottomCenter,
                 child: WaveWidget(
-                    waveAmplitude: 10,
-                    config: CustomConfig(
-                      gradients: [
-                        [Color(0xFF3594DD), Color(0xFF4563DB)],
-                        [Color(0xFF4563DB), Color(0xFF3594DD)],
-                        [Color(0xFF5036D5), Color(0xFF5B16D0)],
-                        [Color(0xFF5B16D0), Color(0xFF3594DD)],
-                      ],
-                      durations: [35000, 19440, 10800, 6000],
-                      heightPercentages: [0.20, 0.23, 0.25, 0.30],
-                      blur: MaskFilter.blur(BlurStyle.solid, 10),
-                      gradientBegin: Alignment.bottomLeft,
-                      gradientEnd: Alignment.topRight,
-                    ),
-                    size: Size(double.infinity, double.infinity)),
-              ),
+                  waveAmplitude: 10,
+                  size: Size(double.infinity, double.infinity),
+                  config: CustomConfig(
+                    gradients: [
+                      [Color(0xFF3594DD), Color(0xFF4563DB)],
+                      // [Color(0xFF4563DB), Color(0xFF3594DD)],
+                      // [Color(0xFF5036D5), Color(0xFF5B16D0)],
+                      [Color(0xFF5B16D0), Color(0xFF3594DD)],
+                    ],
+                    durations: [35000, 19440],
+                    heightPercentages: [0.20, 0.23],
+                    blur: MaskFilter.blur(BlurStyle.solid, 10),
+                    gradientBegin: Alignment.bottomLeft,
+                    gradientEnd: Alignment.topRight,
+                  ),
+                ),
+              )
             ],
-          );
-          // return Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     // Text('Enter your current Pin.'),
-          //     // PasscodeTextField(
-          //     //   isAbsorberEnabled: true,
-          //     //   onTextChanged: (passcode) {
-          //     //     // if (widget.entryOption ==
-          //     //     //     PasscodeEntryOption.passcodeRemove) {
-          //     //     //   _passcodeCubit.remove(passcode);
-          //     //     // } else if (widget.entryOption ==
-          //     //     //     PasscodeEntryOption.passcodeVerificaion) {
-          //     //     //   _passcodeCubit.isPasscodeMatch(passcode);
-          //     //     // } else {
-          //     //     //   if (passCodeEnterCount == 1) {
-          //     //     //     previousText = passcode;
-          //     //     //     passCodeEnterCount++;
-          //     //     //     return;
-          //     //     //   } else {
-          //     //     //     if (previousText == passcode && passCodeEnterCount == 2) {
-          //     //     //       _passcodeCubit.save(passcode);
-          //     //     //     } else {
-          //     //     //       Fluttertoast.showToast(msg: 'Password not match');
-          //     //     //     }
-          //     //     //   }
-          //     //     // }
-          //     //   },
-          //     // ),
-          //     // Expanded(child: Container(color: Colors.greenAccent))
-          //   ],
-          // );
-        },
-        listener: (context, state) {
-          if (state is PasscodeSuccess) {
-            if (state.isNavigateToHomeScreen) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, RouteList.main, (route) => false);
-            } else {
-              Navigator.pop(context);
-            }
-          }
-          if (state is PasscodeFailed) {
-            Fluttertoast.showToast(msg: state.reason);
-          }
-        },
+          ),
+        ),
       ),
     );
   }

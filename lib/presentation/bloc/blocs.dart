@@ -11,4 +11,5 @@ export 'transaction_entry_validation/transaction_entry_validation_bloc.dart';
 export 'total_amount/total_amount_cubit.dart';
 export 'home_chart_data/home_chart_data_bloc.dart';
 export 'home_main/home_main_bloc.dart';
-export 'passcode/passcode_cubit.dart';
+export 'pincode/pincode_cubit.dart';
+export 'pincode/pincode_validation/pincode_validation_cubit.dart';

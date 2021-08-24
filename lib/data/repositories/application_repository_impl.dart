@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
+import 'package:flutter/material.dart';
 
 class ApplicationRepositoryImpl extends ApplicationRepository {
   final ApplicationDataSource applicationDataSource;
@@ -102,6 +103,7 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
             "Error passcode retrieving from db")), (r) {
       final enterPasscode = int.tryParse(passcode);
       if (enterPasscode != null && r != null) {
+        debugPrint("AppRepoImpl $enterPasscode --- $r  ${enterPasscode == r}");
         return Right(enterPasscode == r);
       }
       return Left(
@@ -123,7 +125,6 @@ class ApplicationRepositoryImpl extends ApplicationRepository {
       }
       return Left(
           AppError(AppErrorType.passcode_not_match, "Passcode not match"));
-      
     });
   }
 }
