@@ -48,6 +48,8 @@ dependencies:
   supercharged: ^2.0.0
   rxdart: ^0.27.1
   wave: ^0.2.0
+  pin_input_text_field: ^4.1.0
+
 
 
   

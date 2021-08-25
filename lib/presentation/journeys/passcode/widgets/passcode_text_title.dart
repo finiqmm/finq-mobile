@@ -8,10 +8,14 @@ class PasscodeTextTitle extends StatelessWidget {
     return BlocBuilder<PincodeValidationCubit, PincodeValidationState>(
       builder: (context, state) {
         if (state is PinValidationProgress) {
-          return Text('Continue enter your pin');
+          return Text(
+            'Continue enter your pin',
+            style: Theme.of(context).textTheme.headline6,
+          );
         }
 
-        return Text('Enter your pin.');
+        return Text('Enter your pin.',
+            style: Theme.of(context).textTheme.headline6);
       },
     );
   }

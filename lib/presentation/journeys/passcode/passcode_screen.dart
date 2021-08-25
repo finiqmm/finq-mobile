@@ -8,6 +8,7 @@ import 'package:finq/presentation/utils/passcode_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -25,16 +26,28 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
 
   late PincodeValidationCubit _pinValidationCubit;
 
+  TextEditingController? _pinEditingController;
+
+  /// Control whether show the obscureCode.
+
   @override
   void initState() {
     super.initState();
     _pinValidationCubit = getItInstance<PincodeValidationCubit>();
+    _pinEditingController = TextEditingController();
+    // _pinDecoration = UnderlineDecoration(
+    //   colorBuilder: PinListenColorBuilder(Colors.cyan, Colors.green),
+    //   obscureStyle: ObscureStyle(
+    //     isTextObscure: _obscureEnable,
+    //     obscureText: '\$',
+    //   ),
+    // );
   }
 
   @override
   void dispose() {
     _pinValidationCubit.close();
-    FocusScope.of(context).requestFocus(FocusNode());
+    _pinEditingController?.dispose();
     super.dispose();
   }
 
@@ -66,12 +79,21 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
             ),
             BlocListener<PincodeValidationCubit, PincodeValidationState>(
               listener: (context, state) {
+                debugPrint(state.runtimeType.toString());
                 if (state is PincodeValidationFailed) {
+                  // _pinEditingController?.clear();
                   Fluttertoast.showToast(msg: state.reason);
+                }
+                if (state is PincodeValidationIdle) {
+                  // _pinEditingController?.clear();
+                }
+                if (state is PinValidationProgress) {
+                  // _pinEditingController?.clearComposing();
+                  // setState(() {});
                 }
 
                 if (state is PincodeValidationSuccess) {
-                  _pincodeCubit.save(state.pinCode);
+                  // _pincodeCubit.save(state.pinCode);
                 }
               },
             ),
@@ -85,19 +107,48 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                     height: 100,
                   ),
                   PasscodeTextTitle(),
-                  PasscodeTextField(
-                      onTextChanged: (enterPin) {
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: PinInputTextField(
+                      pinLength: 4,
+                      controller: _pinEditingController,
+                      textInputAction: TextInputAction.go,
+                      enabled: true,
+                      keyboardType: TextInputType.number,
+                      enableInteractiveSelection: false,
+                      decoration: UnderlineDecoration(
+                        colorBuilder: PinListenColorBuilder(
+                            Colors.cyan, Theme.of(context).accentColor),
+                      
+                      ),
+                      onSubmit: (pin) {
+                        if (pin.length != 4) {
+                          return;
+                        }
+                        debugPrint('PasscodePin $pin');
                         if (widget.entryOption ==
                             PasscodeEntryOption.passcodeRemove) {
-                          _pincodeCubit.remove(enterPin);
+                          _pincodeCubit.remove(pin);
                         } else if (widget.entryOption ==
                             PasscodeEntryOption.passcodeVerificaion) {
-                          _pincodeCubit.isPasscodeMatch(enterPin);
+                          _pincodeCubit.isPasscodeMatch(pin);
                         } else {
-                          _pinValidationCubit.addPinEntry(enterPin);
+                          _pinValidationCubit.addPinEntry(pin);
                         }
+                        _pinEditingController?.clear();
                       },
-                      isAbsorberEnabled: true)
+                     
+                      cursor: Cursor(
+                        width: 2,
+                        color: Colors.lightBlue,
+                        radius: Radius.circular(1),
+                        enabled: true,
+                      ),
+                    ),
+                  )
                 ],
               ),
               FractionallySizedBox(
@@ -109,8 +160,6 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                   config: CustomConfig(
                     gradients: [
                       [Color(0xFF3594DD), Color(0xFF4563DB)],
-                      // [Color(0xFF4563DB), Color(0xFF3594DD)],
-                      // [Color(0xFF5036D5), Color(0xFF5B16D0)],
                       [Color(0xFF5B16D0), Color(0xFF3594DD)],
                     ],
                     durations: [35000, 19440],

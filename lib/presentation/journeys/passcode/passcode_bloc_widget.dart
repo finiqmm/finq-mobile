@@ -8,6 +8,7 @@ class PasscodeBlocWidget extends StatelessWidget {
   final VoidCallback onFailedState;
 
   PasscodeBlocWidget({required this.child, required this.onFailedState});
+ 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -25,7 +26,7 @@ class PasscodeBlocWidget extends StatelessWidget {
             if (state is PinValidationProgress ||
                 state is PincodeValidationFailed ||
                 state is PincodeValidationSuccess) {
-              debugPrint('HelloTesting 1234');
+              
 
               onFailedState();
             }
