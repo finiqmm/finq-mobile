@@ -2,9 +2,8 @@ import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/di/get_it.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
-import 'package:finq/presentation/journeys/passcode/passcode_textfield.dart';
+import 'package:finq/presentation/journeys/passcode/widgets/pin_code_bloc_widget.dart';
 import 'package:finq/presentation/journeys/passcode/widgets/passcode_text_title.dart';
-import 'package:finq/presentation/utils/passcode_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -57,47 +56,13 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
       resizeToAvoidBottomInset: false,
       body: BlocProvider.value(
         value: _pinValidationCubit,
-        child: MultiBlocListener(
-          listeners: [
-            BlocListener<PincodeCubit, PincodeState>(
-              listenWhen: (previous, current) =>
-                  current is PincodeFailed || current is PincodeSuccess,
-              listener: (context, state) {
-                if (state is PincodeFailed) {
-                  Fluttertoast.showToast(msg: state.reason);
-                  return;
-                }
-                if (state is PincodeSuccess) {
-                  if (state.isNavigateToHomeScreen) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RouteList.main, (route) => false);
-                  } else {
-                    Navigator.pop(context);
-                  }
-                }
-              },
-            ),
-            BlocListener<PincodeValidationCubit, PincodeValidationState>(
-              listener: (context, state) {
-                debugPrint(state.runtimeType.toString());
-                if (state is PincodeValidationFailed) {
-                  // _pinEditingController?.clear();
-                  Fluttertoast.showToast(msg: state.reason);
-                }
-                if (state is PincodeValidationIdle) {
-                  // _pinEditingController?.clear();
-                }
-                if (state is PinValidationProgress) {
-                  // _pinEditingController?.clearComposing();
-                  // setState(() {});
-                }
-
-                if (state is PincodeValidationSuccess) {
-                  // _pincodeCubit.save(state.pinCode);
-                }
-              },
-            ),
-          ],
+        child: PincodeBlocWidget(
+          onFailedState: (reason) => Fluttertoast.showToast(msg: reason),
+          onSuccessState: (isNavigateToHome) => isNavigateToHome
+              ? Navigator.pushNamedAndRemoveUntil(
+                  context, RouteList.main, (route) => false)
+              : Navigator.pop(context),
+          onValidationSuccess: (pin) => _pincodeCubit.save(pin),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -122,7 +87,6 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                       decoration: UnderlineDecoration(
                         colorBuilder: PinListenColorBuilder(
                             Colors.cyan, Theme.of(context).accentColor),
-                      
                       ),
                       onSubmit: (pin) {
                         if (pin.length != 4) {
@@ -140,7 +104,6 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                         }
                         _pinEditingController?.clear();
                       },
-                     
                       cursor: Cursor(
                         width: 2,
                         color: Colors.lightBlue,
