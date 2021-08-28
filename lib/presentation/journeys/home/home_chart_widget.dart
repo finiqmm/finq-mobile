@@ -36,16 +36,19 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   @override
   void didUpdateWidget(HomeChartWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint('HomeChartUpdate ${widget.currentDateRange}');
+    if (widget == oldWidget) return;
 
     dispatchBloc();
   }
 
   void dispatchBloc() {
+    debugPrint("Dispatch" + selectedFilter.toString());
+    if (selectedFilter == null) return;
+    transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
+        dateTimeRange: widget.currentDateRange,
+        listFilter: getFilterEnum(selectedFilter!)));
     totalAmountCubit.watchTotalAmount(
         LoadTotalAmount(dateTimeRange: widget.currentDateRange));
-    transactionQueryBloc.watchHomeTransactionList(
-        LoadHomeTransactionList(dateTimeRange: widget.currentDateRange));
   }
 
   TransactionQueryCubit get transactionQueryBloc =>
