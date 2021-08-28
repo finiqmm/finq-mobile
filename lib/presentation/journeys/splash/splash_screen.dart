@@ -49,7 +49,6 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
-    // return BlocListener<AppBloc, AppState>(
    
   }
 }
