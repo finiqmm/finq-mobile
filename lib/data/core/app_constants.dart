@@ -5,6 +5,7 @@ class AppConstants {
   static const String ONBOARDING_STATUS = 'onboardingStatus';
   static const String PREFER_LANGUAGE = 'preferLanguage';
   static const String PREFER_THEME = 'preferTheme';
+  static const String PASSCODE_KEY = 'passCode';
 
   static const String CACHED_USER_BOX = 'cachedUserBox';
   static const String CACHED_USER = 'cachedUser';

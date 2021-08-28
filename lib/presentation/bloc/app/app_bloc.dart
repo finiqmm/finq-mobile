@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/onboarding/check_if_first_time_user.dart';
+import 'package:finq/presentation/bloc/blocs.dart';
 import '../../../domain/usecases/use_case_imports.dart';
 
 part 'app_event.dart';
@@ -13,8 +14,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final CheckIfFirstTimeUser checkIfFirstTimeUser;
   final GetSignedInUser getSignedInUser;
   final SignOut signOut;
+  final PincodeCubit passcodeCubit;
 
-  AppBloc(this.checkIfFirstTimeUser, this.getSignedInUser, this.signOut)
+  AppBloc(this.checkIfFirstTimeUser, this.getSignedInUser, this.signOut,
+      this.passcodeCubit)
       : super(AppInitial());
 
   @override
@@ -36,7 +39,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     if (event is AuthCheckRequested) {
       final response = await getSignedInUser(NoParams());
-      yield response.fold((l) => UnAuthenticated(), (r) => Authenticated());
+      yield response.fold((l) => UnAuthenticated(), (r) {
+        passcodeCubit.isAppLocked();
+        return Authenticated();
+      });
     }
 
     if (event is SignOutPressedEvent) {

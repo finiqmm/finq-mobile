@@ -16,11 +16,17 @@ class TotalAmountCubit extends Cubit<TotalAmountState> {
       : super(TotalAmountInitial());
 
   void watchTotalAmount(LoadTotalAmount loadTotalAmount) {
+    debugPrint('LoadTotalAmount ${loadTotalAmount}');
+
     getTotalTransactionAmount(DateRangeParams(
             startDate: loadTotalAmount.dateTimeRange.start,
             endDate: loadTotalAmount.dateTimeRange.end))
         .listen((event) {
-      emit(event.fold((l) => TotalAmountLoadErrorState(message: ''), (r) {
+      debugPrint('LoadTotalAmountfefkj ${event.toString()}');
+
+      emit(event.fold(
+          (l) => TotalAmountLoadErrorState(message: 'Error Loading Amount'),
+          (r) {
         debugPrint('LoadTotalAmount ${r.totalExpenseAmount}');
         return TotalAmountLoadedState(totalAmountEntity: r);
       }));

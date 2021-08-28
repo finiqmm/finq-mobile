@@ -8,7 +8,7 @@ class Transactions extends Table {
   IntColumn get id => integer().nullable().autoIncrement()();
   TextColumn get description => text()();
   TextColumn get categoryType => text()();
-  RealColumn get amount => real()();
+  RealColumn get amount => real().nullable()();
   DateTimeColumn get transactionDate => dateTime()();
   IntColumn get transactionType => intEnum<TransactionType>()();
 
@@ -20,7 +20,9 @@ class Transactions extends Table {
 
 @UseMoor(tables: [
   Transactions
-], daos: [TransactionsDao], queries: {
+], daos: [
+  TransactionsDao
+], queries: {
   "sumofTransactionAmount":
       "SELECT SUM(amount) FROM transactions WHERE transaction_date>=:startDate AND transaction_date<=:endDate AND transaction_type=:transType"
 })
@@ -31,5 +33,4 @@ class FinqDb extends _$FinqDb {
 
   @override
   int get schemaVersion => 1;
-
 }

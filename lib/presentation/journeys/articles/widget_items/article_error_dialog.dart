@@ -1,4 +1,4 @@
-import 'package:finq/presentation/widgets/finq_alert_button.dart';
+import 'package:finq/presentation/common_widget/finq_alert_button.dart';
 import 'package:flutter/material.dart';
 
 class ArticleErrorDialog extends StatelessWidget {

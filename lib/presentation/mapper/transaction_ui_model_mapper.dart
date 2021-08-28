@@ -11,6 +11,7 @@ class TransactionUiModelMapper {
   List<TransactionUiModel> from(
       List<TransactionEntity> entities, TransactionUiListFilter filter) {
     Map<dynamic, List<TransactionEntity>> entitiesByFilter;
+
     if (filter == TransactionUiListFilter.MONTHLY) {
       entitiesByFilter = entities.groupBy(
           (element) => element.transactionDate.month,
@@ -26,9 +27,6 @@ class TransactionUiModelMapper {
       entitiesByFilter = entities.groupBy((element) => element.transactionDate,
           valueTransform: (p) => p);
     }
-
-   
-    // debugPrint('Mapper' + entitiesByFilter.keys.toString());
 
     return entitiesByFilter
         .map((date, items) {
@@ -56,12 +54,19 @@ class TransactionUiModelMapper {
   }
 
   String mapFilterKey(Object key, TransactionUiListFilter filter) {
+    debugPrint('Mapper' + filter.displayTitle);
+
     if (filter == TransactionUiListFilter.DAILY) {
       return (key as DateTime).convertReadableDate();
     } else if (filter == TransactionUiListFilter.MONTHLY) {
       return DateFormat('MMM').format(DateTime(0, key as int));
     }
     final weekRange = (key as DateTimeRange);
-    return '${weekRange.start.convertMonthDate()} - ${weekRange.end.convertMonthDate()}';
+
+    final a =
+        '${weekRange.start.convertMonthDate()} - ${weekRange.end.convertMonthDate()}';
+    debugPrint('Mapper' + a);
+
+    return a;
   }
 }

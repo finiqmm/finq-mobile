@@ -21,26 +21,29 @@ class FinqApp extends StatefulWidget {
 }
 
 class _FinqAppState extends State<FinqApp> {
-  late final AppBloc appBloc;
+  late final AppBloc _appBloc;
   late final LanguageBloc _languageBloc;
   late final ThemeCubit _themeCubit;
+  late final PincodeCubit _passcodeCubit;
 
   @override
   void initState() {
     super.initState();
-    appBloc = getItInstance<AppBloc>();
+    _appBloc = getItInstance<AppBloc>();
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
-    appBloc.add(IsUserFinishedOnboarding());
+    _passcodeCubit = getItInstance<PincodeCubit>();
+    _appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
     _themeCubit.loadPreferredTheme();
   }
 
   @override
   void dispose() {
-    appBloc.close();
+    _appBloc.close();
     _languageBloc.close();
     _themeCubit.close();
+    _passcodeCubit.close();
     super.dispose();
   }
 
@@ -50,13 +53,16 @@ class _FinqAppState extends State<FinqApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppBloc>.value(
-          value: appBloc,
+          value: _appBloc,
         ),
         BlocProvider<LanguageBloc>.value(
           value: _languageBloc,
         ),
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit,
+        ),
+        BlocProvider<PincodeCubit>.value(
+          value: _passcodeCubit,
         ),
       ],
       child: BlocBuilder<ThemeCubit, Themes>(

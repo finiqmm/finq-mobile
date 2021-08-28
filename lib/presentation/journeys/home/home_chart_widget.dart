@@ -2,9 +2,9 @@ import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/common_widget/rounded_profile_icon.dart';
 import 'package:finq/presentation/journeys/home/widgets/chart_data_item.dart';
 import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
-import 'package:finq/presentation/widgets/rounded_profile_icon.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,16 +36,19 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   @override
   void didUpdateWidget(HomeChartWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    debugPrint('HomeChartUpdate ${widget.currentDateRange}');
+    if (widget == oldWidget) return;
 
     dispatchBloc();
   }
 
   void dispatchBloc() {
+    debugPrint("Dispatch" + selectedFilter.toString());
+    if (selectedFilter == null) return;
+    transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
+        dateTimeRange: widget.currentDateRange,
+        listFilter: getFilterEnum(selectedFilter!)));
     totalAmountCubit.watchTotalAmount(
         LoadTotalAmount(dateTimeRange: widget.currentDateRange));
-    transactionQueryBloc.watchHomeTransactionList(
-        LoadHomeTransactionList(dateTimeRange: widget.currentDateRange));
   }
 
   TransactionQueryCubit get transactionQueryBloc =>

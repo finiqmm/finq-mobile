@@ -115,6 +115,16 @@ Future init() async {
   getItInstance.registerFactory<GetAllTransactionBetweenRange>(
       () => GetAllTransactionBetweenRange(getItInstance()));
 
+  getItInstance.registerLazySingleton(
+      () => SavePasscode(applicationRepository: getItInstance()));
+  getItInstance.registerLazySingleton(
+      () => GetPasscode(applicationRepository: getItInstance()));
+  getItInstance.registerLazySingleton(
+      () => CheckPasscodeMatch(appRepo: getItInstance()));
+
+  getItInstance.registerLazySingleton(
+      () => RemovePasscode(applicationRepository: getItInstance()));
+
   ///Bloc dependencies
   getItInstance.registerFactory<TransactionQueryCubit>(() =>
       TransactionQueryCubit(
@@ -128,8 +138,8 @@ Future init() async {
       () => TransactionEntryValidationBloc());
   getItInstance.registerFactory<OnboardingBloc>(
       () => OnboardingBloc(getItInstance(), getItInstance()));
-  getItInstance.registerFactory<AppBloc>(
-      () => AppBloc(getItInstance(), getItInstance(), getItInstance()));
+  getItInstance.registerFactory<AppBloc>(() => AppBloc(
+      getItInstance(), getItInstance(), getItInstance(), getItInstance()));
   getItInstance.registerFactory<AuthBloc>(() => AuthBloc(getItInstance()));
   getItInstance
       .registerFactory<ProfileBloc>(() => ProfileBloc(getItInstance()));
@@ -157,4 +167,8 @@ Future init() async {
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
   getItInstance.registerFactory<CalculatedLoanBloc>(
       () => CalculatedLoanBloc(getItInstance()));
+
+  getItInstance.registerLazySingleton<PincodeCubit>(() => PincodeCubit(
+      getItInstance(), getItInstance(), getItInstance(), getItInstance()));
+  getItInstance.registerFactory<PincodeValidationCubit>(() => PincodeValidationCubit());
 }

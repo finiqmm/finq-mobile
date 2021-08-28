@@ -5,6 +5,7 @@ import 'package:finq/domain/entities/total_amount_entity.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
 import 'package:finq/domain/repositories/transaction_repository.dart';
@@ -74,6 +75,7 @@ class TransactionRepoImpl extends TransactionRepository {
   @override
   Stream<Either<AppError, TotalAmountEntity>> watchTotalAmount(
       DateTime startDate, DateTime endDate) {
+    debugPrint('WatchTotalAmount $startDate $endDate');
     return transactionDataSource
         .getTotalAmount(startDate, endDate)
         .handleError((onError) {

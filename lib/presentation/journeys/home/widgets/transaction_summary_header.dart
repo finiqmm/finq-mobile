@@ -1,5 +1,5 @@
+import 'package:finq/presentation/common_widget/finq_cash_label.dart';
 import 'package:finq/presentation/models/transaction_ui_model.dart';
-import 'package:finq/presentation/widgets/finq_cash_label.dart';
 import 'package:flutter/material.dart';
 import 'package:finq/common/extension/string_extension.dart';
 
