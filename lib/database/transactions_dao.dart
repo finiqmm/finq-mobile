@@ -24,16 +24,21 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
 
   Stream<double?> watchTotalIncomeAmount(
           DateTime startDate, DateTime endDate) =>
-      db
-          .sumofTransactionAmount(
+      db.sumofTransactionAmount(
               startDate, endDate, TransactionType.INCOME.index)
           .watchSingleOrNull();
   Stream<double?> watchTotalExpenseAmount(
           DateTime startDate, DateTime endDate) =>
-      db
-          .sumofTransactionAmount(
+      db.sumofTransactionAmount(
               startDate, endDate, TransactionType.EXPENSE.index)
           .watchSingleOrNull();
+
+  // Stream<double> watchTotalExpenseAmount(DateTime startDate, DateTime endDate){
+  // }
+      // db
+      //     .sumofTransactionAmount(
+      //         startDate, endDate, TransactionType.EXPENSE.index)
+      //     .watchSingle();
 
   Future<double?> getTotalTransactionAmount(
           TransactionType type, DateTime startDate, DateTime endDate) =>

@@ -16,7 +16,7 @@ class TransactionEntityMapper {
   TransactionEntity to(Transaction transaction) {
     return TransactionEntity(
         id: transaction.id,
-        amount: transaction.amount,
+        amount: transaction.amount ?? 0.0,
         categoryName: transaction.categoryType,
         description: transaction.description,
         transactionDate: transaction.transactionDate,

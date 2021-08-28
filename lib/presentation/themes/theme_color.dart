@@ -27,6 +27,7 @@ finQTheme(Themes theme) => ThemeData(
         border: OutlineInputBorder(borderSide: BorderSide(width: 2))),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          
             primary: AppColor.royalBlue,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30)))),

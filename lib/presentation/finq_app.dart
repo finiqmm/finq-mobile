@@ -36,7 +36,6 @@ class _FinqAppState extends State<FinqApp> {
     appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
     _themeCubit.loadPreferredTheme();
-    _passcodeCubit.isAppLocked();
   }
 
   @override

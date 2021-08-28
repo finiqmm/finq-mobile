@@ -11,6 +11,7 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
+
 class PasscodeScreen extends StatefulWidget {
   final PasscodeEntryOption entryOption;
 
@@ -34,13 +35,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
     super.initState();
     _pinValidationCubit = getItInstance<PincodeValidationCubit>();
     _pinEditingController = TextEditingController();
-    // _pinDecoration = UnderlineDecoration(
-    //   colorBuilder: PinListenColorBuilder(Colors.cyan, Colors.green),
-    //   obscureStyle: ObscureStyle(
-    //     isTextObscure: _obscureEnable,
-    //     obscureText: '\$',
-    //   ),
-    // );
+   
   }
 
   @override

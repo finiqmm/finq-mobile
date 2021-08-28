@@ -53,11 +53,14 @@ class TransactionDataSourceImpl extends TransactionDataSource {
 
   @override
   Stream<List<double>> getTotalAmount(DateTime startDate, DateTime endDate) {
-    return Rx.combineLatest([
+    // var incomeStream = dao.watchTotalIncomeAmount(startDate, endDate);
+    // var expenseStream = dao.watchTotalExpenseAmount(startDate, endDate);
+
+   return Rx.combineLatest([
       dao.watchTotalIncomeAmount(startDate, endDate),
       dao.watchTotalExpenseAmount(startDate, endDate)
-    ], (values) {
-      return values.map((e) => (e as double?) ?? 0.0).toList();
-    });
+    ], (values) => values.map((e) => e as double? ?? 0.0).toList());
+
+   
   }
 }

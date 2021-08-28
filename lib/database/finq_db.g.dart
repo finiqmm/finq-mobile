@@ -11,14 +11,14 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   final int? id;
   final String description;
   final String categoryType;
-  final double amount;
+  final double? amount;
   final DateTime transactionDate;
   final TransactionType transactionType;
   Transaction(
       {this.id,
       required this.description,
       required this.categoryType,
-      required this.amount,
+      this.amount,
       required this.transactionDate,
       required this.transactionType});
   factory Transaction.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -31,7 +31,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       categoryType: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}category_type'])!,
       amount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}amount']),
       transactionDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}transaction_date'])!,
       transactionType: $TransactionsTable.$converter0.mapToDart(const IntType()
@@ -47,7 +47,9 @@ class Transaction extends DataClass implements Insertable<Transaction> {
     }
     map['description'] = Variable<String>(description);
     map['category_type'] = Variable<String>(categoryType);
-    map['amount'] = Variable<double>(amount);
+    if (!nullToAbsent || amount != null) {
+      map['amount'] = Variable<double?>(amount);
+    }
     map['transaction_date'] = Variable<DateTime>(transactionDate);
     {
       final converter = $TransactionsTable.$converter0;
@@ -62,7 +64,8 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       description: Value(description),
       categoryType: Value(categoryType),
-      amount: Value(amount),
+      amount:
+          amount == null && nullToAbsent ? const Value.absent() : Value(amount),
       transactionDate: Value(transactionDate),
       transactionType: Value(transactionType),
     );
@@ -75,7 +78,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       id: serializer.fromJson<int?>(json['id']),
       description: serializer.fromJson<String>(json['description']),
       categoryType: serializer.fromJson<String>(json['categoryType']),
-      amount: serializer.fromJson<double>(json['amount']),
+      amount: serializer.fromJson<double?>(json['amount']),
       transactionDate: serializer.fromJson<DateTime>(json['transactionDate']),
       transactionType:
           serializer.fromJson<TransactionType>(json['transactionType']),
@@ -88,7 +91,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       'id': serializer.toJson<int?>(id),
       'description': serializer.toJson<String>(description),
       'categoryType': serializer.toJson<String>(categoryType),
-      'amount': serializer.toJson<double>(amount),
+      'amount': serializer.toJson<double?>(amount),
       'transactionDate': serializer.toJson<DateTime>(transactionDate),
       'transactionType': serializer.toJson<TransactionType>(transactionType),
     };
@@ -149,7 +152,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   final Value<int?> id;
   final Value<String> description;
   final Value<String> categoryType;
-  final Value<double> amount;
+  final Value<double?> amount;
   final Value<DateTime> transactionDate;
   final Value<TransactionType> transactionType;
   const TransactionsCompanion({
@@ -164,19 +167,18 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
     this.id = const Value.absent(),
     required String description,
     required String categoryType,
-    required double amount,
+    this.amount = const Value.absent(),
     required DateTime transactionDate,
     required TransactionType transactionType,
   })  : description = Value(description),
         categoryType = Value(categoryType),
-        amount = Value(amount),
         transactionDate = Value(transactionDate),
         transactionType = Value(transactionType);
   static Insertable<Transaction> custom({
     Expression<int?>? id,
     Expression<String>? description,
     Expression<String>? categoryType,
-    Expression<double>? amount,
+    Expression<double?>? amount,
     Expression<DateTime>? transactionDate,
     Expression<TransactionType>? transactionType,
   }) {
@@ -194,7 +196,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
       {Value<int?>? id,
       Value<String>? description,
       Value<String>? categoryType,
-      Value<double>? amount,
+      Value<double?>? amount,
       Value<DateTime>? transactionDate,
       Value<TransactionType>? transactionType}) {
     return TransactionsCompanion(
@@ -220,7 +222,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
       map['category_type'] = Variable<String>(categoryType.value);
     }
     if (amount.present) {
-      map['amount'] = Variable<double>(amount.value);
+      map['amount'] = Variable<double?>(amount.value);
     }
     if (transactionDate.present) {
       map['transaction_date'] = Variable<DateTime>(transactionDate.value);
@@ -291,7 +293,7 @@ class $TransactionsTable extends Transactions
     return GeneratedRealColumn(
       'amount',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -356,8 +358,6 @@ class $TransactionsTable extends Transactions
     if (data.containsKey('amount')) {
       context.handle(_amountMeta,
           amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
-    } else if (isInserting) {
-      context.missing(_amountMeta);
     }
     if (data.containsKey('transaction_date')) {
       context.handle(
@@ -392,7 +392,7 @@ abstract class _$FinqDb extends GeneratedDatabase {
   _$FinqDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $TransactionsTable transactions = $TransactionsTable(this);
   late final TransactionsDao transactionsDao = TransactionsDao(this as FinqDb);
-  Selectable<double> sumofTransactionAmount(
+  Selectable<double?> sumofTransactionAmount(
       DateTime startDate, DateTime endDate, int transType) {
     return customSelect(
         'SELECT SUM(amount) FROM transactions WHERE transaction_date>=:startDate AND transaction_date<=:endDate AND transaction_type=:transType',
@@ -403,7 +403,7 @@ abstract class _$FinqDb extends GeneratedDatabase {
         ],
         readsFrom: {
           transactions
-        }).map((QueryRow row) => row.read<double>('SUM(amount)'));
+        }).map((QueryRow row) => row.read<double?>('SUM(amount)'));
   }
 
   @override

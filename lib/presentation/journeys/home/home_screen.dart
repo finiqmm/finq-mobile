@@ -75,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onDropdownChange: (value) {
                     setState(() {
                       dropdownValue = getFilterEnum(value);
-                      currentDateRange =
-                          getDateTimeRange(value);
+                      currentDateRange = getDateTimeRange(value);
                     });
                   },
                 ),
