@@ -12,7 +12,7 @@ import 'package:injectable/injectable.dart';
 part 'language_event.dart';
 part 'language_state.dart';
 
-@singleton
+@lazySingleton
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   final GetPreferredLanguage getPreferredLanguage;
   final UpdateLanguage updateLanguage;

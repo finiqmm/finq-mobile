@@ -1,15 +1,14 @@
-import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/common/constants/transaction_types.dart';
 import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/presentation/common_widget/finq_alert_button.dart';
 import 'package:finq/presentation/common_widget/finq_button.dart';
+import '../../common_widget/num_pad_keys.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:flutter/material.dart';
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/common/extension/size_extension.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:finq/common/extension/int_extension.dart';
 import 'package:finq/common/extension/string_extension.dart';
 
@@ -31,16 +30,23 @@ class AddTrasactionForm extends StatefulWidget {
 }
 
 class _AddTrasactionFormState extends State<AddTrasactionForm> {
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
+  final _descFocusNode = FocusNode();
+  late ScrollController _scrollController;
+  final TextEditingController _amountController = TextEditingController();
   late DateTime selectedDate;
   String? selectedCategory;
+
   @override
   void initState() {
     super.initState();
-    amountController.text =
-        widget.transactionActionModel.totalAmount.toString();
-    descriptionController.text = widget.transactionActionModel.desc;
+    _scrollController = ScrollController();
+    if (widget.transactionActionModel.id != null) {
+      _amountController.text =
+          widget.transactionActionModel.totalAmount.toString();
+    }
+
+    _descController.text = widget.transactionActionModel.desc;
     selectedDate = widget.transactionActionModel.transactionDate ??
         DateTime.now().getOnlyDate();
     selectedCategory = widget.transactionActionModel.categoryName;
@@ -48,16 +54,18 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
 
   @override
   void dispose() {
-    descriptionController.dispose();
-    amountController.dispose();
+    _descController.dispose();
+    _amountController.dispose();
+    _descFocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Container(
-        height: ScreenUtil.screenHeight,
         color: Theme.of(context).primaryColor,
         padding: EdgeInsets.symmetric(
             horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
@@ -70,8 +78,12 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: TextField(
               decoration: InputDecoration(filled: true),
-              controller: amountController,
-              keyboardType: TextInputType.number,
+              controller: _amountController,
+              keyboardType: TextInputType.none,
+              autofocus: false,
+              enabled: false,
+              enableInteractiveSelection: false,
+              showCursor: false,
             ),
           ),
           SizedBox(
@@ -139,8 +151,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   margin: EdgeInsets.symmetric(vertical: Sizes.dimen_4.h),
                   padding: EdgeInsets.symmetric(
                       vertical: Sizes.dimen_8.h, horizontal: Sizes.dimen_4.w),
-                  decoration:
-                      BoxDecoration(color: Colors.grey),
+                  decoration: BoxDecoration(color: Colors.grey),
                   child: Text(
                     selectedDate.convertReadableDate(),
                     style: Theme.of(context)
@@ -162,13 +173,27 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: TextField(
-              decoration: InputDecoration(
-                 filled: true),
-              controller: descriptionController,
+              decoration: InputDecoration(filled: true),
+              controller: _descController,
+              focusNode: _descFocusNode,
             ),
           ),
           SizedBox(
             height: 16,
+          ),
+          NumkeyPad(
+            onBackPressTap: () {
+              onNumKeyPadActionDone();
+              if (_amountController.text.isNotEmpty) {
+                _amountController.text = _amountController.text
+                    .substring(0, _amountController.text.length - 1);
+              }
+            },
+            onKeyboardTap: (val) {
+              onNumKeyPadActionDone();
+
+              _amountController.text += val;
+            },
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -185,8 +210,8 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                       onPressed: () {
                         widget.onEntryUpsert(
                             selectedCategory,
-                            amountController.text,
-                            descriptionController.text,
+                            _amountController.text,
+                            _descController.text,
                             selectedDate);
                       },
                       text: 'Add',
@@ -201,8 +226,8 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                         onPressed: () {
                           widget.onEntryUpsert(
                               selectedCategory,
-                              amountController.text,
-                              descriptionController.text,
+                              _amountController.text,
+                              _descController.text,
                               selectedDate);
                         },
                         text: 'Update',
@@ -223,5 +248,11 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
         ]),
       ),
     );
+  }
+
+  void onNumKeyPadActionDone() {
+    _descFocusNode.unfocus();
+    _scrollController.animateTo(0,
+        duration: Duration(milliseconds: 3), curve: Curves.easeIn);
   }
 }

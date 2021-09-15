@@ -49,9 +49,10 @@ class ProfileSettings extends StatelessWidget {
             builder: (context, theme) {
               return ListTile(
                 onTap: () => context.read<ThemeCubit>().toggleTheme(),
-                leading: Icon(FontAwesomeIcons.adjust),
+                leading: Icon(theme == Themes.dark
+                    ? FontAwesomeIcons.moon
+                    : FontAwesomeIcons.sun),
                 title: Text(TranslationConstants.titleThemes.t(context)),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
               );
             },
           ),

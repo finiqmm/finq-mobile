@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 
 enum Themes { light, dark }
 
-@singleton
+@lazySingleton
 class ThemeCubit extends Cubit<Themes> {
   final GetPreferredTheme getPreferredTheme;
   final UpdateTheme updateTheme;

@@ -255,82 +255,44 @@ class $TransactionsTable extends Transactions
   final String? _alias;
   $TransactionsTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedIntColumn id = _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, true,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  @override
-  late final GeneratedTextColumn description = _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'description',
-      $tableName,
-      false,
-    );
-  }
-
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _categoryTypeMeta =
       const VerificationMeta('categoryType');
-  @override
-  late final GeneratedTextColumn categoryType = _constructCategoryType();
-  GeneratedTextColumn _constructCategoryType() {
-    return GeneratedTextColumn(
-      'category_type',
-      $tableName,
-      false,
-    );
-  }
-
+  late final GeneratedColumn<String?> categoryType = GeneratedColumn<String?>(
+      'category_type', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _amountMeta = const VerificationMeta('amount');
-  @override
-  late final GeneratedRealColumn amount = _constructAmount();
-  GeneratedRealColumn _constructAmount() {
-    return GeneratedRealColumn(
-      'amount',
-      $tableName,
-      true,
-    );
-  }
-
+  late final GeneratedColumn<double?> amount = GeneratedColumn<double?>(
+      'amount', aliasedName, true,
+      typeName: 'REAL', requiredDuringInsert: false);
   final VerificationMeta _transactionDateMeta =
       const VerificationMeta('transactionDate');
-  @override
-  late final GeneratedDateTimeColumn transactionDate =
-      _constructTransactionDate();
-  GeneratedDateTimeColumn _constructTransactionDate() {
-    return GeneratedDateTimeColumn(
-      'transaction_date',
-      $tableName,
-      false,
-    );
-  }
-
+  late final GeneratedColumn<DateTime?> transactionDate =
+      GeneratedColumn<DateTime?>('transaction_date', aliasedName, false,
+          typeName: 'INTEGER', requiredDuringInsert: true);
   final VerificationMeta _transactionTypeMeta =
       const VerificationMeta('transactionType');
-  @override
-  late final GeneratedIntColumn transactionType = _constructTransactionType();
-  GeneratedIntColumn _constructTransactionType() {
-    return GeneratedIntColumn(
-      'transaction_type',
-      $tableName,
-      false,
-    );
-  }
-
+  late final GeneratedColumnWithTypeConverter<TransactionType, int?>
+      transactionType = GeneratedColumn<int?>(
+              'transaction_type', aliasedName, false,
+              typeName: 'INTEGER', requiredDuringInsert: true)
+          .withConverter<TransactionType>($TransactionsTable.$converter0);
   @override
   List<GeneratedColumn> get $columns =>
       [id, description, categoryType, amount, transactionDate, transactionType];
   @override
-  $TransactionsTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'transactions';
   @override
-  String get $tableName => _alias ?? 'transactions';
-  @override
-  final String actualTableName = 'transactions';
+  String get actualTableName => 'transactions';
   @override
   VerificationContext validateIntegrity(Insertable<Transaction> instance,
       {bool isInserting = false}) {
@@ -402,7 +364,7 @@ abstract class _$FinqDb extends GeneratedDatabase {
           Variable<int>(transType)
         ],
         readsFrom: {
-          transactions
+          transactions,
         }).map((QueryRow row) => row.read<double?>('SUM(amount)'));
   }
 
