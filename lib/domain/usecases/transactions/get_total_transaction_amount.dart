@@ -6,7 +6,9 @@ import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/entities/total_amount_entity.dart';
 import 'package:finq/domain/repositories/transaction_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class GetTotalTransactionAmount
     extends StreamUseCase<TotalAmountEntity, DateRangeParams> {
   final TransactionRepository repository;

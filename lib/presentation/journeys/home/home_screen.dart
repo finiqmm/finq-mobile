@@ -1,7 +1,7 @@
 import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/transaction_type.dart';
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
 import 'package:finq/presentation/bloc/transaction_query/transaction_query_cubit.dart';

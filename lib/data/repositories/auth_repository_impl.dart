@@ -7,8 +7,11 @@ import 'package:finq/domain/entities/user_entity.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pedantic/pedantic.dart';
 
+
+@LazySingleton(as: AuthenticationRepository)
 class AuthRepositoryImpl extends AuthenticationRepository {
   final AuthDataSource authDataSource;
   final ApplicationDataSource appDataSource;

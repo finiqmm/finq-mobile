@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:finq/presentation/models/field_errors.dart';
 import 'package:finq/presentation/utils/transaction_entry_validation_mixin.dart';
+import 'package:injectable/injectable.dart';
 
 part 'transaction_entry_validation_event.dart';
 part 'transaction_entry_validation_state.dart';
 
+@injectable
 class TransactionEntryValidationBloc
     extends Bloc<TransactionEntryValidationEvent, TransitionEntryValidateState>
     with TransactionEntryValidationMixin {

@@ -1,4 +1,4 @@
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/articles/article_card_item.dart';
 import 'package:finq/presentation/journeys/articles/widget_items/article_error_dialog.dart';

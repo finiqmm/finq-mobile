@@ -4,7 +4,9 @@ import 'package:finq/domain/entities/article_entity.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class GetArticle extends UseCase<List<ArticleEntity>, NoParams> {
   final ArticleRepository articleRepository;
 

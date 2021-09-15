@@ -1,12 +1,11 @@
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/common/extension/size_extension.dart';
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/calculated_loan/calculated_loan_bloc.dart';
-import 'package:finq/presentation/widgets/finq_button.dart';
-import 'package:finq/presentation/widgets/finq_gradient_bg_box_decoration.dart';
-import 'package:finq/presentation/widgets/finq_text.dart';
-import 'package:finq/presentation/widgets/finq_text_field.dart';
+import 'package:finq/presentation/common_widget/finq_gradient_bg_box_decoration.dart';
+import 'package:finq/presentation/common_widget/finq_text.dart';
+import 'package:finq/presentation/common_widget/finq_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

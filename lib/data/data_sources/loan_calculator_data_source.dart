@@ -1,10 +1,12 @@
 import 'package:finq/data/core/loan_calculator_util.dart';
 import 'package:finq/domain/entities/calculated_loan_entity.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class LoanCalculatorDataSource {
   CalculatedLoanEntity getCalculatedLoan(double p, double i, double months);
 }
 
+@LazySingleton(as: LoanCalculatorDataSource)
 class LoanCalculatorDataSourceImpl extends LoanCalculatorDataSource {
   LoanCalculatorDataSourceImpl();
 

@@ -1,4 +1,4 @@
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
 import 'package:finq/presentation/journeys/main/main_bottom_navigation_bar.dart';
 import 'package:finq/presentation/journeys/main/main_nav_bar.dart';

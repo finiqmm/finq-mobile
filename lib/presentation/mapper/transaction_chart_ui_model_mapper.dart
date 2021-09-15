@@ -4,7 +4,9 @@ import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:collection/collection.dart';
 import 'package:finq/presentation/models/transaction_ui_chart_model.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TransactionChartUiModelMapper {
   List<TransactionChartUiModel> from(List<TransactionEntity> entities) {
     final totalAmount = entities.fold<double>(

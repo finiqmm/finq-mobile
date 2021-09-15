@@ -4,7 +4,9 @@ import 'package:finq/domain/entities/passcode_params.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 
 import '../use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class RemovePasscode extends UseCase<void, PasscodeParams> {
   final ApplicationRepository applicationRepository;
 

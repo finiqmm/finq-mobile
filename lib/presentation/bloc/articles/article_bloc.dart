@@ -6,10 +6,12 @@ import 'package:finq/domain/entities/article_entity.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/article/get_article.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 part 'article_event.dart';
 part 'article_state.dart';
 
+@injectable
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final GetArticle getArticle;
 

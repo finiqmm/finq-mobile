@@ -3,7 +3,9 @@ import 'package:dartz/dartz.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/repositories/transaction_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class InsertTransaction extends UseCase<void, TransactionEntity> {
   final TransactionRepository transactionRepository;
 

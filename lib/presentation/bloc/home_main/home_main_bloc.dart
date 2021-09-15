@@ -6,10 +6,12 @@ import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 part 'home_main_event.dart';
 part 'home_main_state.dart';
 
+@injectable
 class HomeMainBloc extends Bloc<HomeMainEvent, HomeMainState> {
   final TotalAmountCubit totalAmountBloc;
   final HomeChartDataBloc homeChartDataBloc;

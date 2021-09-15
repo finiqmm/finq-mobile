@@ -3,7 +3,9 @@ import 'package:dartz/dartz.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class SignOut extends UseCase<void, NoParams> {
   final AuthenticationRepository authRepo;
 

@@ -1,9 +1,11 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/database/finq_db.dart';
+import 'package:injectable/injectable.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'transactions_dao.g.dart';
 
+@LazySingleton()
 @UseDao(tables: [Transactions])
 class TransactionsDao extends DatabaseAccessor<FinqDb>
     with _$TransactionsDaoMixin {

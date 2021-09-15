@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class AuthDataSource {
   Future<void> loginWithGoogle();
@@ -9,6 +10,7 @@ abstract class AuthDataSource {
   Future<Option<User>> getCurrentUser();
 }
 
+@LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;

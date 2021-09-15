@@ -3,7 +3,9 @@ import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: ApplicationRepository)
 class ApplicationRepositoryImpl extends ApplicationRepository {
   final ApplicationDataSource applicationDataSource;
 

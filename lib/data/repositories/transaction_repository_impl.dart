@@ -6,10 +6,12 @@ import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/entities/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:supercharged/supercharged.dart';
 
 import 'package:finq/domain/repositories/transaction_repository.dart';
 
+@LazySingleton(as: TransactionRepository)
 class TransactionRepoImpl extends TransactionRepository {
   final TransactionDataSource transactionDataSource;
   final TransactionEntityMapper mapper;

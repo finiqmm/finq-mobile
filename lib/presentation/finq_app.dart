@@ -1,7 +1,7 @@
 import 'package:finq/common/constants/languages.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/themes/theme_color.dart';
@@ -33,6 +33,7 @@ class _FinqAppState extends State<FinqApp> {
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
     _passcodeCubit = getItInstance<PincodeCubit>();
+    
     _appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
     _themeCubit.loadPreferredTheme();

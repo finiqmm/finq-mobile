@@ -1,5 +1,5 @@
 import 'package:finq/common/constants/route_constants.dart';
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/passcode/widgets/pin_code_bloc_widget.dart';

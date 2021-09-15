@@ -5,11 +5,13 @@ import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/onboarding/check_if_first_time_user.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:injectable/injectable.dart';
 import '../../../domain/usecases/use_case_imports.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
 
+@injectable
 class AppBloc extends Bloc<AppEvent, AppState> {
   final CheckIfFirstTimeUser checkIfFirstTimeUser;
   final GetSignedInUser getSignedInUser;

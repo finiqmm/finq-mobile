@@ -1,4 +1,4 @@
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/journeys/add_transaction/add_transaction_bloc_widget.dart';

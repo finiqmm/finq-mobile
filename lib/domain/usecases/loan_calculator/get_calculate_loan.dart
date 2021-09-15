@@ -4,7 +4,9 @@ import 'package:finq/domain/entities/calculated_loan_entity.dart';
 import 'package:finq/domain/entities/loanParam.dart';
 import 'package:finq/domain/repositories/loan_calculator_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class GetCalculatedLoan extends UseCase<CalculatedLoanEntity, LoanParams> {
   final LoanCalculatorRepository loanCalculatorRepository;
 

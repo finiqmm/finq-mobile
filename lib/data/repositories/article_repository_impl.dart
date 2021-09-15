@@ -6,7 +6,9 @@ import 'package:finq/domain/entities/app_error.dart';
 import 'package:finq/domain/entities/article_entity.dart';
 import 'package:finq/domain/repositories/article_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: ArticleRepository)
 class ArticleRepositoryImpl extends ArticleRepository {
   final ArticleDataSource articleDataSource;
 

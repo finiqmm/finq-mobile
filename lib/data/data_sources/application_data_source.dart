@@ -1,6 +1,7 @@
 import 'package:finq/data/core/app_constants.dart';
 import 'package:finq/data/tables/cache_user.dart';
 import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pedantic/pedantic.dart';
 
 abstract class ApplicationDataSource {
@@ -21,6 +22,7 @@ abstract class ApplicationDataSource {
   Future<String> getPreferredTheme();
 }
 
+@LazySingleton(as: ApplicationDataSource)
 class ApplicationDataSourceImpl extends ApplicationDataSource {
   @override
   Future<void> finishedOnboarding() async {

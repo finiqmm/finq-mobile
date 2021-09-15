@@ -6,17 +6,18 @@ import 'package:finq/domain/entities/date_range_params.dart';
 import 'package:finq/domain/entities/total_amount_entity.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 part 'total_amount_event.dart';
 part 'total_amount_state.dart';
 
+@injectable
 class TotalAmountCubit extends Cubit<TotalAmountState> {
   final GetTotalTransactionAmount getTotalTransactionAmount;
   TotalAmountCubit({required this.getTotalTransactionAmount})
       : super(TotalAmountInitial());
 
   void watchTotalAmount(LoadTotalAmount loadTotalAmount) {
-    debugPrint('LoadTotalAmount ${loadTotalAmount}');
 
     getTotalTransactionAmount(DateRangeParams(
             startDate: loadTotalAmount.dateTimeRange.start,

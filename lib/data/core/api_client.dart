@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:injectable/injectable.dart';
 
 import 'app_constants.dart';
 
+@lazySingleton
 class ApiClient {
   final Client _client;
   ApiClient(this._client);

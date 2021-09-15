@@ -3,7 +3,9 @@ import 'package:dartz/dartz.dart';
 import 'package:finq/domain/entities/passcode_params.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class CheckPasscodeMatch extends UseCase<bool, PasscodeParams> {
   final ApplicationRepository appRepo;
   CheckPasscodeMatch({required this.appRepo});

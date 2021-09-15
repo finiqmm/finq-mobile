@@ -9,10 +9,12 @@ import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/mapper/transaction_chart_ui_model_mapper.dart';
 import 'package:finq/presentation/models/transaction_ui_chart_model.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 part 'home_chart_data_event.dart';
 part 'home_chart_data_state.dart';
 
+@injectable
 class HomeChartDataBloc extends Bloc<HomeChartDataEvent, HomeChartDataState> {
   final TransactionChartUiModelMapper mapper;
   final GetAllTransactionByFilterRange getAllTransactionByFilterRange;

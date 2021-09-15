@@ -7,10 +7,12 @@ import 'package:finq/domain/entities/language_entity.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 part 'language_event.dart';
 part 'language_state.dart';
 
+@singleton
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   final GetPreferredLanguage getPreferredLanguage;
   final UpdateLanguage updateLanguage;

@@ -7,8 +7,10 @@ import 'package:finq/presentation/mapper/transaction_ui_model_mapper.dart';
 import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:finq/presentation/models/transaction_ui_model.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 part 'transaction_query_state.dart';
+
 
 class LoadHomeTransactionList extends Equatable {
   final TransactionUiListFilter listFilter;
@@ -22,6 +24,7 @@ class LoadHomeTransactionList extends Equatable {
   List<Object> get props => [listFilter, dateTimeRange];
 }
 
+@injectable
 class TransactionQueryCubit extends Cubit<TransactionQueryState> {
   TransactionQueryCubit(
       {required this.getAllTransactionBetweenRange, required this.mapper})

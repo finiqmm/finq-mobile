@@ -4,9 +4,11 @@ import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:finq/presentation/models/transaction_ui_model.dart';
 import 'package:finq/common/extension/int_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:supercharged/supercharged.dart';
 
+@injectable
 class TransactionUiModelMapper {
   List<TransactionUiModel> from(
       List<TransactionEntity> entities, TransactionUiListFilter filter) {
@@ -54,7 +56,6 @@ class TransactionUiModelMapper {
   }
 
   String mapFilterKey(Object key, TransactionUiListFilter filter) {
-    debugPrint('Mapper' + filter.displayTitle);
 
     if (filter == TransactionUiListFilter.DAILY) {
       return (key as DateTime).convertReadableDate();
@@ -63,10 +64,8 @@ class TransactionUiModelMapper {
     }
     final weekRange = (key as DateTimeRange);
 
-    final a =
+    return 
         '${weekRange.start.convertMonthDate()} - ${weekRange.end.convertMonthDate()}';
-    debugPrint('Mapper' + a);
 
-    return a;
   }
 }

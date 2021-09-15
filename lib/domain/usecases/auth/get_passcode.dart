@@ -4,6 +4,9 @@ import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/repositories/application_repository.dart';
 import 'package:finq/domain/usecases/use_case.dart';
 
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
 class GetPasscode extends UseCase<int?, NoParams> {
   final ApplicationRepository applicationRepository;
 

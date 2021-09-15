@@ -4,7 +4,9 @@ import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/repositories/transaction_repository.dart';
 
 import '../use_case.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class DeleteTransaction extends UseCase<void, int> {
   final TransactionRepository transactionRepository;
 

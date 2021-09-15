@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
 part 'pincode_validation_state.dart';
 
+@injectable
 class PincodeValidationCubit extends Cubit<PincodeValidationState> {
   PincodeValidationCubit() : super(PincodeValidationIdle());
   String previousCode = "";

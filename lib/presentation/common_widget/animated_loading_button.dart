@@ -47,10 +47,10 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
         },
         child: AnimatedContainer(
           width: _clicked ? 55 : 300,
-          height: 55,
+          height: 45,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
-            color: Colors.lightBlueAccent,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           duration: Duration(milliseconds: 700),
           child: AnimatedOpacity(
@@ -72,7 +72,7 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
                   child: Text(widget.title,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .subtitle2!
                           .copyWith(color: Colors.white)),
                 )
               ],
@@ -84,7 +84,7 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
       AnimatedContainer(
         duration: Duration(milliseconds: 700),
         width: _clicked ? 55 : 0,
-        height: _clicked ? 55 : 0,
+        height: _clicked ? 45 : 0,
         curve: Curves.fastOutSlowIn,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),

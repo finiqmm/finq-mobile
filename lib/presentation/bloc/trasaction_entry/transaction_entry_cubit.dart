@@ -2,9 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
+import 'package:injectable/injectable.dart';
 
 part 'transaction_entry_state.dart';
 
+@injectable
 class TransactionEntryCubit extends Cubit<TransactionEntryState> {
   final InsertTransaction insertTransaction;
   final UpdateTransaction updateTransaction;

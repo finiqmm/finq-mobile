@@ -5,10 +5,12 @@ import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/calculated_loan_entity.dart';
 import 'package:finq/domain/entities/loanParam.dart';
 import 'package:finq/domain/usecases/loan_calculator/get_calculate_loan.dart';
+import 'package:injectable/injectable.dart';
 
 part 'calculated_loan_event.dart';
 part 'calculated_loan_state.dart';
 
+@injectable
 class CalculatedLoanBloc
     extends Bloc<CalculatedLoanEvent, CalculatedLoanState> {
   final GetCalculatedLoan calculate;

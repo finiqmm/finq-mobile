@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 enum Themes { light, dark }
 
+@singleton
 class ThemeCubit extends Cubit<Themes> {
   final GetPreferredTheme getPreferredTheme;
   final UpdateTheme updateTheme;

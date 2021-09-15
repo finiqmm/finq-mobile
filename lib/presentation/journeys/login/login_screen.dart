@@ -1,6 +1,6 @@
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/constants/size_constants.dart';
-import 'package:finq/di/get_it.dart';
+import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/auth/auth_bloc.dart';
 import 'package:finq/presentation/common_widget/animated_loading_button.dart';
 import 'package:flutter/material.dart';

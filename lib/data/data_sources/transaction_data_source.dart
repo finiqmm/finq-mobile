@@ -2,6 +2,7 @@ import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/database/finq_db.dart';
 import 'package:finq/database/transactions_dao.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class TransactionDataSource {
@@ -17,6 +18,7 @@ abstract class TransactionDataSource {
       TransactionType type, DateTime startDate, DateTime endDate);
 }
 
+@LazySingleton(as: TransactionDataSource)
 class TransactionDataSourceImpl extends TransactionDataSource {
   final TransactionsDao dao;
   TransactionDataSourceImpl(this.dao);
@@ -56,11 +58,9 @@ class TransactionDataSourceImpl extends TransactionDataSource {
     // var incomeStream = dao.watchTotalIncomeAmount(startDate, endDate);
     // var expenseStream = dao.watchTotalExpenseAmount(startDate, endDate);
 
-   return Rx.combineLatest([
+    return Rx.combineLatest([
       dao.watchTotalIncomeAmount(startDate, endDate),
       dao.watchTotalExpenseAmount(startDate, endDate)
     ], (values) => values.map((e) => e as double? ?? 0.0).toList());
-
-   
   }
 }

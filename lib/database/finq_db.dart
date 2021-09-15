@@ -1,5 +1,6 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/database/transactions_dao.dart';
+import 'package:injectable/injectable.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'finq_db.g.dart';
@@ -18,6 +19,8 @@ class Transactions extends Table {
   }
 }
 
+
+@LazySingleton()
 @UseMoor(tables: [
   Transactions
 ], daos: [
