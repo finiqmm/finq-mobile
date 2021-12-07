@@ -9,6 +9,7 @@ import 'package:finq/presentation/journeys/onboarding/onboarding_screen.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_screen.dart';
 import 'package:finq/presentation/journeys/profile/profile_screen.dart';
+import 'package:finq/presentation/journeys/settings/settings_screen.dart';
 import 'package:finq/presentation/journeys/splash/splash_screen.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class Routes {
         RouteList.onboarding: (context) => OnboardingScreen(),
         RouteList.main: (context) => MainScreen(),
         RouteList.profile: (context) => ProfileScreen(),
+        RouteList.setting: (context) => SettingsScreen(),
         RouteList.add_transaction: (context) => AddTransactionScreen(
             transactionActionModel:
                 settings.arguments as TransactionActionModel),
