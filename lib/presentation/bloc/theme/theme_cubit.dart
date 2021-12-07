@@ -6,20 +6,20 @@ import 'package:finq/domain/usecases/use_case_imports.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-enum Themes { light, dark }
+enum ThemeBrightness { light, dark }
 
 @lazySingleton
-class ThemeCubit extends Cubit<Themes> {
+class ThemeCubit extends Cubit<ThemeBrightness> {
   final GetPreferredTheme getPreferredTheme;
   final UpdateTheme updateTheme;
 
   ThemeCubit({
     required this.getPreferredTheme,
     required this.updateTheme,
-  }) : super(Themes.light);
+  }) : super(ThemeBrightness.light);
 
   Future<void> toggleTheme() async {
-    await updateTheme(state == Themes.dark ? 'light' : 'dark');
+    await updateTheme(state == ThemeBrightness.dark ? 'light' : 'dark');
       loadPreferredTheme();
   }
 
@@ -27,6 +27,6 @@ class ThemeCubit extends Cubit<Themes> {
     final response = await getPreferredTheme(NoParams());
 
     emit(response.fold(
-        (l) => Themes.light, (r) => r == 'dark' ? Themes.dark : Themes.light));
+        (l) => ThemeBrightness.light, (r) => r == 'dark' ? ThemeBrightness.dark : ThemeBrightness.light));
   }
 }

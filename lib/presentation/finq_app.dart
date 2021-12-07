@@ -4,7 +4,7 @@ import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/themes/theme_color.dart';
+import 'package:finq/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,7 +33,7 @@ class _FinqAppState extends State<FinqApp> {
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
     _passcodeCubit = getItInstance<PincodeCubit>();
-    
+
     _appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
     _themeCubit.loadPreferredTheme();
@@ -66,7 +66,7 @@ class _FinqAppState extends State<FinqApp> {
           value: _passcodeCubit,
         ),
       ],
-      child: BlocBuilder<ThemeCubit, Themes>(
+      child: BlocBuilder<ThemeCubit, ThemeBrightness>(
         builder: (context, theme) {
           return BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, state) {
@@ -74,7 +74,9 @@ class _FinqAppState extends State<FinqApp> {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'Finq App',
-                  theme: finQTheme(theme),
+                  theme: theme == ThemeBrightness.dark
+                      ? ThemeManager.createTheme(AppThemeDark())
+                      : ThemeManager.createTheme(AppThemeLight()),
                   locale: state.locale,
                   supportedLocales:
                       Languages.languages.map((e) => Locale(e.code)).toList(),

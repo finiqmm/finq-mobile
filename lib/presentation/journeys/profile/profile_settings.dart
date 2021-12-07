@@ -45,11 +45,11 @@ class ProfileSettings extends StatelessWidget {
               return SizedBox.shrink();
             },
           ),
-          BlocBuilder<ThemeCubit, Themes>(
+          BlocBuilder<ThemeCubit, ThemeBrightness>(
             builder: (context, theme) {
               return ListTile(
                 onTap: () => context.read<ThemeCubit>().toggleTheme(),
-                leading: Icon(theme == Themes.dark
+                leading: Icon(theme == ThemeBrightness.dark
                     ? FontAwesomeIcons.moon
                     : FontAwesomeIcons.sun),
                 title: Text(TranslationConstants.titleThemes.t(context)),

@@ -66,7 +66,6 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Container(
-        color: Theme.of(context).primaryColor,
         padding: EdgeInsets.symmetric(
             horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
