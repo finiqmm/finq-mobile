@@ -6,6 +6,7 @@ import 'package:finq/domain/usecases/auth/check_passcode_match.dart';
 import 'package:finq/domain/usecases/auth/get_passcode.dart';
 import 'package:finq/domain/usecases/auth/save_passcode.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 part 'pincode_state.dart';
@@ -31,8 +32,15 @@ class PincodeCubit extends Cubit<PincodeState> {
 
   void isAppLocked() async {
     final result = await _getPasscode(NoParams());
-    emit(result.fold((l) => PincodeFailed(reason: l.message),
-        (r) => IsPasscodeExist(isExist: r != null)));
+
+    emit(result.fold((l) {
+      debugPrint('Hello Testing ${l.message}');
+      return PincodeFailed(reason: l.message);
+    }, (r) {
+      debugPrint('Hello Testing23 ${r}');
+
+      return IsPasscodeExist(isExist: r != null);
+    }));
   }
 
   void isPasscodeMatch(String value) async {
