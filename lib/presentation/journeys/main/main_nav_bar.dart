@@ -2,7 +2,8 @@ import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/journeys/articles/article_screen.dart';
 import 'package:finq/presentation/journeys/home/home_screen.dart';
 import 'package:finq/presentation/journeys/loan_calculator/loan_calculator_screen.dart';
-import 'package:finq/presentation/journeys/profile/profile_screen.dart';
+import 'package:finq/presentation/journeys/settings/settings_screen.dart';
+import 'package:finq/presentation/journeys/settings/settings_list.dart';
 import 'package:flutter/material.dart';
 
 class MainNavbar {
@@ -36,5 +37,5 @@ final mainScreens = [
   HomeScreen(),
   LoanCalculatorScreen(),
   ArticleScreen(),
-  ProfileScreen()
+  SettingsScreen()
 ];

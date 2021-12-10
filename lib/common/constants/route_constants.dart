@@ -9,4 +9,5 @@ class RouteList {
   static const String profile = '/profile';
   static const String article_detail = '/article_detail';
   static const String add_transaction = '/add_transaction';
+  static const String setting = '/setting';
 }

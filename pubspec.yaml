@@ -51,6 +51,7 @@ dependencies:
   pin_input_text_field: ^4.1.0
   injectable: ^1.5.0
   get_it: ^7.2.0
+  app_settings: ^4.1.1
 
 
 
