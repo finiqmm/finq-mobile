@@ -50,6 +50,8 @@ class TextThemeLight implements ITextTheme {
             headline6: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
             subtitle1: TextStyle(fontSize: 16))
         .apply(bodyColor: primaryColor);
-    fontFamily = GoogleFonts.arvo().fontFamily;
+    fontFamily = GoogleFonts.notoSans().fontFamily;
   }
 }
+
+//aBeeZee//

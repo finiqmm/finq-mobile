@@ -13,7 +13,7 @@ class TextThemeDark implements ITextTheme {
       subtitle1: TextStyle(fontSize: 16.0),
     ).apply(bodyColor: primaryColor);
 
-    fontFamily = GoogleFonts.arvo().fontFamily;
+    fontFamily = GoogleFonts.notoSans().fontFamily;
   }
   @override
   TextStyle? bodyText1;

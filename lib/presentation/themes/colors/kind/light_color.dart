@@ -27,18 +27,27 @@ class LightColors implements IColors {
   Color? tabbarSelectedColor;
 
   @override
+  Color? bottomNavBarColor;
+
+  @override
+  Color? bottomNavBarNormalColor;
+
+  @override
+  Color? bottomNavBarSelectedColor;
+
+  @override
   AppColors get colors => AppColors();
 
   LightColors() {
-    appBarColor = colors.white;
-    scaffoldBackgroundColor = colors.white;
-    tabBarColor = colors.green;
-    tabbarNormalColor = colors.darkerGrey;
-    tabbarSelectedColor = colors.green;
+    bottomNavBarNormalColor = colors.darkGrey;
     colorScheme = ColorScheme.light().copyWith(
-        onPrimary: colors.green,
+        primary: colors.denim,
+        onPrimary: colors.white,
+        primaryVariant: colors.smalt,
+        secondary: colors.pacificBlue,
+        secondaryVariant: colors.cobalt,
         onSecondary: colors.white,
-        onSurface: colors.mediumGreyBold);
+        onSurface: colors.darkGrey);
     brightness = Brightness.dark;
   }
 }

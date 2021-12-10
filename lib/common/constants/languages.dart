@@ -7,4 +7,7 @@ class Languages {
     LanguageEntity(code: 'en', value: 'English'),
     LanguageEntity(code: 'my', value: 'Myanmar'),
   ];
+
+  static String getLanguageName(String code) =>
+      languages.where((element) => code == element.code).first.value;
 }
