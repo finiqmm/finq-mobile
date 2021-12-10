@@ -38,11 +38,19 @@ class DarkColors implements IColors {
   AppColors get colors => AppColors();
 
   DarkColors() {
-    appBarColor = colors.darkGrey;
-    scaffoldBackgroundColor = colors.darkGrey;
-    tabbarNormalColor = colors.lighterGrey;
+    // appBarColor = colors.darkGrey;
+    scaffoldBackgroundColor = colors.black;
+    bottomNavBarNormalColor = colors.mediumGrey;
+    // tabbarNormalColor = colors.lighterGrey;
     colorScheme = ColorScheme.dark()
-        .copyWith(onPrimary: colors.white, onSecondary: colors.darkGrey);
+        .copyWith(
+          primary: colors.denim,
+        onPrimary: colors.white,
+        primaryVariant: colors.smalt,
+        secondary: colors.pacificBlue,
+        secondaryVariant: colors.cobalt,
+        onSecondary: colors.white,
+        onSurface: colors.darkGrey);
     brightness = Brightness.dark;
   }
 

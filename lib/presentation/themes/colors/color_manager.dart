@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 @immutable
 class AppColors {
   final Color white = Color(0xffffffff);
+  final Color black = Color(0xff000000);
+  final Color lightBlack = Color(0xff0c0c0c);
+  
   final Color mediumGrey = Color(0xffa6bcd0);
   final Color mediumGreyBold = Color(0xff748a9d);
   final Color lighterGrey = Color(0xfff0f4f8);
@@ -17,8 +20,6 @@ class AppColors {
   final Color pacificBlue = Color(0xFF0288d1); //S
   final Color mayaBlue = Color(0xFF5EB8FF); //SL
   final Color cobalt = Color(0xFF005b9f); //SD
-
-
 
 }
 

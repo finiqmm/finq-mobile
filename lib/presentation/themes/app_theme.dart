@@ -39,5 +39,5 @@ class AppThemeLight extends ITheme {
   IColors get colors => LightColors();
 
   @override
-  ITextTheme get textTheme => TextThemeLight(colors.colors.mediumGrey);
+  ITextTheme get textTheme => TextThemeLight(colors.colors.lightBlack);
 }
