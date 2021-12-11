@@ -75,10 +75,10 @@ class SettingsList extends StatelessWidget {
           ),
           SettingsSection(
             sectionTitles: [
-              BlocBuilder<ThemeCubit, Themes>(
+              BlocBuilder<ThemeCubit, ThemeBrightness>(
                 builder: (context, state) => SettingSwitchTile(
                   title: "Dark Mode",
-                  isOn: state == Themes.dark ? true : false,
+                  isOn: state == ThemeBrightness.dark ? true : false,
                   onChanged: (val) => context.read<ThemeCubit>().toggleTheme(),
                 ),
               )

@@ -1,7 +1,6 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/common/constants/transaction_types.dart';
 import 'package:finq/common/constants/translation_constants.dart';
-import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/presentation/common_widget/finq_alert_button.dart';
 import 'package:finq/presentation/common_widget/finq_button.dart';
 import '../../common_widget/num_pad_keys.dart';
@@ -66,7 +65,6 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Container(
-        color: Theme.of(context).primaryColor,
         padding: EdgeInsets.symmetric(
             horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -205,17 +203,17 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   flex: 1,
                   fit: FlexFit.loose,
                   child: Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: Sizes.dimen_10.h,
+                        ),
+                    height: Sizes.dimen_16.h,
                     width: double.infinity,
-                    child: FinQButton(
-                      onPressed: () {
-                        widget.onEntryUpsert(
-                            selectedCategory,
-                            _amountController.text,
-                            _descController.text,
-                            selectedDate);
-                      },
-                      text: 'Add',
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Add'),
                     ),
+
+                   
                   ),
                 ),
               if (widget.transactionActionModel.id != null)

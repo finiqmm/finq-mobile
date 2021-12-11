@@ -65,18 +65,18 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
                 return Container(
-                  foregroundDecoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          stops: [
-                        0.3,
-                        1
-                      ],
-                          colors: [
-                        Theme.of(context).primaryColor.withOpacity(0.1),
-                        Theme.of(context).primaryColor
-                      ])),
+                  // foregroundDecoration: BoxDecoration(
+                  //     gradient: LinearGradient(
+                  //         begin: Alignment.center,
+                  //         end: Alignment.bottomCenter,
+                  //         stops: [
+                  //       0.3,
+                  //       1
+                  //     ],
+                  //         colors: [
+                  //       Theme.of(context).primaryColor.withOpacity(0.1),
+                  //       Theme.of(context).primaryColor
+                  //     ])),
                   child: Row(
                     children: [
                       Expanded(

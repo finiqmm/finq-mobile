@@ -16,7 +16,6 @@ class FinQButton extends StatelessWidget {
       curve: Curves.easeIn,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_12.w)),
         ),
         padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),

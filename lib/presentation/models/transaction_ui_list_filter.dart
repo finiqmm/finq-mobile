@@ -34,7 +34,6 @@ TransactionUiListFilter getFilterEnum(String value) {
 }
 
 DateTimeRange getDateTimeRange(String value) {
-  debugPrint(value+"fuck");
   switch (value) {
     case 'Monthly':
       return FinQDateUtil.getRangeForMonthlyFilter();

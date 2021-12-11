@@ -34,7 +34,7 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(14.0),
-      color: Colors.grey[400],
+      // color: Colors.grey[400],
       child: GestureDetector(
         onTap: () => pickDateRange(context),
         child: Material(
@@ -67,11 +67,7 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         lastDate: DateTime(DateTime.now().year + 5),
         initialDateRange: selectedDateTimeRange,
         builder: (BuildContext context, Widget? child) {
-          return Theme(
-              data: ThemeData(
-                primaryColor: Theme.of(context).accentColor,
-              ),
-              child: child!);
+          return child!;
         });
 
     if (newDateRange == null) return;
