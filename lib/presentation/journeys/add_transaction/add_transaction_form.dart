@@ -62,12 +62,12 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: _scrollController,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
+      child: CustomScrollView(controller: _scrollController, slivers: [
+        SliverList(
+            delegate: SliverChildListDelegate([
           Text(
             TranslationConstants.titleAmount.t(context),
             style: Theme.of(context).textTheme.subtitle2,
@@ -204,16 +204,20 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                   fit: FlexFit.loose,
                   child: Container(
                     margin: EdgeInsets.symmetric(
-                        vertical: Sizes.dimen_10.h,
-                        ),
+                      vertical: Sizes.dimen_10.h,
+                    ),
                     height: Sizes.dimen_16.h,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        widget.onEntryUpsert(
+                            selectedCategory,
+                            _amountController.text,
+                            _descController.text,
+                            selectedDate);
+                      },
                       child: Text('Add'),
                     ),
-
-                   
                   ),
                 ),
               if (widget.transactionActionModel.id != null)
@@ -243,8 +247,8 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                 )
             ],
           ),
-        ]),
-      ),
+        ])),
+      ]),
     );
   }
 
