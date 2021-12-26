@@ -82,35 +82,36 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(top: Sizes.dimen_24),
-                        child: PieChart(
-                          PieChartData(
-                            pieTouchData:
-                                PieTouchData(touchCallback: (pieTouchResponse) {
-                              setState(() {
-                                final desiredTouch = pieTouchResponse.touchInput
-                                        is! PointerExitEvent &&
-                                    pieTouchResponse.touchInput
-                                        is! PointerUpEvent;
-                                if (desiredTouch &&
-                                    pieTouchResponse.touchedSection != null) {
-                                  touchedSectionIndex = pieTouchResponse
-                                      .touchedSection!.touchedSectionIndex;
-                                } else {
-                                  touchedSectionIndex = -1;
-                                }
-                              });
-                            }),
-                            sectionsSpace: 3,
-                            centerSpaceRadius: 50,
-                            sections: getSections(
-                                touchedSectionIndex, state.chartItems),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                          ),
-                          swapAnimationCurve: Curves.linear,
-                          swapAnimationDuration: Duration(milliseconds: 150),
-                        ),
+                        child: SizedBox.shrink(),
+                        // child: PieChart(
+                        //   PieChartData(
+                        //     pieTouchData:
+                        //         PieTouchData(touchCallback: (pieTouchResponse) {
+                        //       setState(() {
+                        //         final desiredTouch = pieTouchResponse.touchInput
+                        //                 is! PointerExitEvent &&
+                        //             pieTouchResponse.touchInput
+                        //                 is! PointerUpEvent;
+                        //         if (desiredTouch &&
+                        //             pieTouchResponse.touchedSection != null) {
+                        //           touchedSectionIndex = pieTouchResponse
+                        //               .touchedSection!.touchedSectionIndex;
+                        //         } else {
+                        //           touchedSectionIndex = -1;
+                        //         }
+                        //       });
+                        //     }),
+                        //     sectionsSpace: 3,
+                        //     centerSpaceRadius: 50,
+                        //     sections: getSections(
+                        //         touchedSectionIndex, state.chartItems),
+                        //     borderData: FlBorderData(
+                        //       show: false,
+                        //     ),
+                        //   ),
+                        //   swapAnimationCurve: Curves.linear,
+                        //   swapAnimationDuration: Duration(milliseconds: 150),
+                        // ),
                       )),
                       Expanded(
                         child: Column(

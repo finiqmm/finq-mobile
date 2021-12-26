@@ -15,18 +15,13 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   final FinishOnboarding finishOnboarding;
 
   OnboardingBloc(this.finishOnboarding, this.checkIfFirstTimeUser)
-      : super(OnboardingInitial());
-
-  @override
-  Stream<OnboardingState> mapEventToState(
-    OnboardingEvent event,
-  ) async* {
-    if (event is OnboardingFinishedEvent) {
+      : super(OnboardingInitial()) {
+    on<OnboardingFinishedEvent>((event, emit) async {
       final response = await finishOnboarding(NoParams());
-      yield response.fold(
+      emit(response.fold(
         (l) => OnboardingFinished(),
         (r) => OnboardingFinished(),
-      );
-    }
+      ));
+    });
   }
 }

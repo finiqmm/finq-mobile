@@ -15,18 +15,25 @@ part 'article_state.dart';
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final GetArticle getArticle;
 
-  ArticleBloc(this.getArticle) : super(ArticleInitial());
-
-  @override
-  Stream<ArticleState> mapEventToState(
-    ArticleEvent event,
-  ) async* {
-    if (event is ArticleLoadEvent) {
-      yield ArticleLoadingState();
+  ArticleBloc(this.getArticle) : super(ArticleInitial()) {
+    on<ArticleLoadEvent>((event, emit) async {
+      emit(ArticleLoadingState());
       final response = await getArticle(NoParams());
-      debugPrint(response.toString());
-      yield response.fold((l) => ArticleErrorState(errorMessage: l.message),
-          (r) => ArticleLoadedState(articles: r));
-    }
+      emit(response.fold((l) => ArticleErrorState(errorMessage: l.message),
+          (r) => ArticleLoadedState(articles: r)));
+    });
   }
+
+  // @override
+  // Stream<ArticleState> mapEventToState(
+  //   ArticleEvent event,
+  // ) async* {
+  //   if (event is ArticleLoadEvent) {
+  //     yield ArticleLoadingState();
+  //     final response = await getArticle(NoParams());
+  //     debugPrint(response.toString());
+  //     yield response.fold((l) => ArticleErrorState(errorMessage: l.message),
+  //         (r) => ArticleLoadedState(articles: r));
+  //   }
+  // }
 }

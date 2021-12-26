@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,16 +12,12 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignIn signIn;
-  AuthBloc(this.signIn) : super(AuthInitial());
-
-  @override
-  Stream<AuthState> mapEventToState(
-    AuthEvent event,
-  ) async* {
-    if (event is SignInPressed) {
-      yield SignInLoading();
+  AuthBloc(this.signIn) : super(AuthInitial()) {
+    on<SignInPressed>((event, emit) async {
+      emit(SignInLoading());
       final result = await signIn(NoParams());
-      yield result.fold((l) => SignInError(l.message), (r) => SignInSuccess());
-    }
+      emit( result.fold((l) => SignInError(l.message), (r) => SignInSuccess()));
+    });
   }
+
 }
