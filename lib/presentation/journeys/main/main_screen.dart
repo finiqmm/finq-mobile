@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
                 return MainBottomNavigationBar(
                     selectedIndex: state.index,
                     onSelectedIndexChange: (index) {
-                      mainNavbarCubit.selectPage(index);
+                      context.read<MainNavbarCubit>().selectPage(index);
                     });
               },
             ),

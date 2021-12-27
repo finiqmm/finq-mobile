@@ -74,9 +74,9 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
 
     setState(() => selectedDateTimeRange = newDateRange);
     widget.selectedDateRange!(selectedDateTimeRange);
-    // totalAmoutBloc.watchTotalAmount(
-    //     LoadTotalAmount(dateTimeRange: selectedDateTimeRange));
-    // transactionQueryBloc.watchHomeTransactionList(
-    //     LoadHomeTransactionList(dateTimeRange: selectedDateTimeRange));
+    totalAmoutBloc.watchTotalAmount(
+        LoadTotalAmount(dateTimeRange: selectedDateTimeRange));
+    transactionQueryBloc.watchHomeTransactionList(
+        LoadHomeTransactionList(dateTimeRange: selectedDateTimeRange));
   }
 }

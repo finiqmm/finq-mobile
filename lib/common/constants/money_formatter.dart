@@ -13,7 +13,7 @@ class MoneyFormatter {
 }
 
 class FinQDateUtil {
-  FinQDateUtil._();
+   FinQDateUtil._();
 
   static DateTimeRange getCurrentMonthDateRange() {
     final startDate = DateTime(DateTime.now().year, DateTime.now().month);
