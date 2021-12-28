@@ -54,12 +54,15 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
+      color: Colors.red.withOpacity(0.5),
       child: Stack(
         children: [
           BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
                 return Container(
+
+
                   // foregroundDecoration: BoxDecoration(
                   //     gradient: LinearGradient(
                   //         begin: Alignment.center,
