@@ -59,12 +59,15 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
+      color: Colors.red.withOpacity(0.5),
       child: Stack(
         children: [
           BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
                 return Container(
+
+
                   // foregroundDecoration: BoxDecoration(
                   //     gradient: LinearGradient(
                   //         begin: Alignment.center,
@@ -170,7 +173,7 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Theme.of(context).accentColor, width: 2),
+                      color: Theme.of(context).colorScheme.secondary, width: 2),
                 ),
                 child: DropdownButton(
                     value: selectedFilter,
