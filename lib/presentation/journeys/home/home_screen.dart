@@ -6,8 +6,6 @@ import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/date_selection/date_selection_cubit.dart';
 import 'package:finq/presentation/bloc/home_chart_data/home_chart_data_bloc.dart';
 import 'package:finq/presentation/bloc/transaction_query/transaction_query_cubit.dart';
-import 'package:finq/presentation/journeys/home/delegates/home_chart_delegate.dart';
-import 'package:finq/presentation/journeys/home/delegates/home_transaction_list_delegate.dart';
 import 'package:finq/presentation/journeys/home/transaction_table_widget.dart';
 import 'package:finq/presentation/models/transaction_action_state.dart';
 import 'package:finq/presentation/journeys/home/home_chart_widget.dart';
@@ -15,6 +13,8 @@ import 'package:finq/presentation/journeys/home/widgets/trasaction_type_tab.dart
 import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'delegates/home_chart_delegate.dart';
+import 'delegates/home_transaction_list_delegate.dart';
 import 'widgets/date_range_picker_widget.dart';
 import 'widgets/expandable_fab.dart';
 
@@ -32,8 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeMainBloc homeMainBloc;
   late DateSelectionCubit dateSelectionCubit;
 
-  // TransactionUiListFilter dropdownValue = TransactionUiListFilter.DAILY;
-  // DateTimeRange currentDateRange = FinQDateUtil.getCurrentMonthDateRange();
   final HomeChartWidgetDelegate chartDelegate = HomeChartWidgetDelegate();
   final HomeTransactionListDelegate transactionListDelegate =
       HomeTransactionListDelegate();
@@ -73,51 +71,54 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
       child: SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: BlocBuilder<DateSelectionCubit, DateSelectionState>(
-              builder: (context, state) {
-                // debugPrint('HomeScreen ${state.currentDateRange} --- ${state.listFilter}');
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    HomeChartWidget(
+          body: BlocBuilder<DateSelectionCubit, DateSelectionState>(
+            builder: (context, state) {
+              return CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: HomeChartWidget(
                       currentDateRange: state.currentDateRange,
                       transactionListDelegate: transactionListDelegate,
-                      onDropdownChange: (String value) {
+                      onDropdownChange: (value) {
                         transactionListDelegate.onHomeScreenFilterChange!();
-                        debugPrint('HomeScree $value ');
                         context
                             .read<DateSelectionCubit>()
                             .changeDateSelectionState(value);
                       },
                     ),
-                    if (state.listFilter == TransactionUiListFilter.DAILY)
-                      DateRangePickerWidget(selectedDateRange: (dateRange) {
+                  ),
+                  if (state.listFilter == TransactionUiListFilter.DAILY)
+                    SliverToBoxAdapter(
+                      child:
+                          DateRangePickerWidget(selectedDateRange: (dateRange) {
                         context
                             .read<DateSelectionCubit>()
                             .changeDateRange(dateRange);
                       }),
-                    TransactionTypeTab(
+                    ),
+                  SliverToBoxAdapter(
+                    child: TransactionTypeTab(
                       currentDateRange: state.currentDateRange,
                       homeChartWidgetDelegate: chartDelegate,
                       homeChartDataBloc: homeChartDataBloc,
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    sliver: SliverToBoxAdapter(
                       child: Text(
                         '${state.listFilter.displayTitle} Transaction',
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),
-                    TransactionTableWidget()
-                  ],
-                );
-              },
-            ),
+                  ),
+                  SliverList(
+                      delegate:
+                          SliverChildListDelegate([TransactionTableWidget()]))
+                ],
+              );
+            },
           ),
           floatingActionButton: ExpandableFab(
             distance: 75,
