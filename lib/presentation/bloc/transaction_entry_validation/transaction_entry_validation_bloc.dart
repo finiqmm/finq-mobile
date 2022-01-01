@@ -12,32 +12,29 @@ part 'transaction_entry_validation_state.dart';
 class TransactionEntryValidationBloc
     extends Bloc<TransactionEntryValidationEvent, TransitionEntryValidateState>
     with TransactionEntryValidationMixin {
-  TransactionEntryValidationBloc() : super(TransactionEntryValidInitialState());
-
-  @override
-  Stream<TransitionEntryValidateState> mapEventToState(
-    TransactionEntryValidationEvent event,
-  ) async* {
-    if (event is TransactionEntryValidationSubmit) {
+  TransactionEntryValidationBloc()
+      : super(TransactionEntryValidInitialState()) {
+    on<TransactionEntryValidationSubmit>((event, emit) {
       if (!this.isInputValid(event.amount)) {
-        yield TransactionEntryValidationError(FieldError.InvalidAmount);
+        emit(TransactionEntryValidationError(FieldError.InvalidAmount));
         return;
       }
 
       if (!this.isDescriptionValid(event.description)) {
-        yield TransactionEntryValidationError(FieldError.InvalidDescription);
+        emit(TransactionEntryValidationError(FieldError.InvalidDescription));
         return;
       }
       if (!this.isCategoryValid(event.categoryName)) {
-        yield TransactionEntryValidationError(FieldError.InvalidDescription);
+        emit(TransactionEntryValidationError(FieldError.InvalidDescription));
         return;
       }
-      yield TransitionEntryValidateSuccess(
+
+      emit(TransitionEntryValidateSuccess(
           amount: double.parse(event.amount),
           categoryName: event.categoryName!,
           desc: event.description,
-          transactionDate: event.selectedDate
-          );
-    }
+          transactionDate: event.selectedDate));
+    });
   }
+  
 }

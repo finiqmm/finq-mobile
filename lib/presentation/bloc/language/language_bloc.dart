@@ -34,21 +34,5 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     });
   }
 
-  // @override
-  // Stream<LanguageState> mapEventToState(
-  //   LanguageEvent event,
-  // ) async* {
-  //   if (event is ToggleLanguageEvent) {
-  //     await updateLanguage(event.language.code);
-  //     add(LoadPreferredLanguageEvent());
-  //   } else if (event is LoadPreferredLanguageEvent) {
-  //     final response = await getPreferredLanguage(NoParams());
-  //     // debugPrint('Invoke Language $response');
 
-  //     yield response.fold(
-  //       (l) => LanguageError(),
-  //       (r) => LanguageLoaded(Locale(r)),
-  //     );
-  //   }
-  // }
 }

@@ -19,14 +19,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(response.fold((l) => ProfileLoaded(null), (r) => ProfileLoaded(r)));
     });
   }
-
-  // @override
-  // Stream<ProfileState> mapEventToState(
-  //   ProfileEvent event,
-  // ) async* {
-  //   if (event is LoadProfileEvent) {
-  //     final response = await getSignedInUser(NoParams());
-  //     yield response.fold((l) => ProfileLoaded(null), (r) => ProfileLoaded(r));
-  //   }
-  // }
 }

@@ -48,44 +48,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(UnAuthenticated());
     });
 
-    // if (event is SignOutPressedEvent) {
-    //     await signOut(NoParams());
-    //     yield UnAuthenticated();
-    //   }
+   
   }
-
-  // on<IsUserFinishedOnboarding>((event, emit) {
-  //   emit(FirstTimeUser);
-  // });
-
-  // Stream<AppState> mapEventToState(
-  //   AppEvent event,
-  // ) async* {
-
-  //   if (event is IsUserFinishedOnboarding) {
-  //     final response = await checkIfFirstTimeUser(NoParams());
-  //     yield response.fold((l) {
-  //       return FirstTimeUser();
-  //     }, (r) {
-  //       if (r) {
-  //         add(AuthCheckRequested());
-  //         return OnboardingPassed();
-  //       }
-  //       return FirstTimeUser();
-  //     });
-  //   }
-
-  //   if (event is AuthCheckRequested) {
-  //     final response = await getSignedInUser(NoParams());
-  //     yield response.fold((l) => UnAuthenticated(), (r) {
-  //       passcodeCubit.isAppLocked();
-  //       return Authenticated();
-  //     });
-  //   }
-
-  //   if (event is SignOutPressedEvent) {
-  //     await signOut(NoParams());
-  //     yield UnAuthenticated();
-  //   }
-  // }
 }
