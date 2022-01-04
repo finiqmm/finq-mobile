@@ -1,11 +1,9 @@
-import 'package:finq/common/constants/money_formatter.dart';
 import 'package:finq/common/constants/size_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
-import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/common_widget/rounded_profile_icon.dart';
+import 'package:finq/presentation/journeys/home/delegates/home_transaction_list_delegate.dart';
 import 'package:finq/presentation/journeys/home/widgets/chart_data_item.dart';
 import 'package:finq/presentation/models/transaction_ui_list_filter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finq/common/extension/size_extension.dart';
@@ -13,35 +11,32 @@ import 'package:fl_chart/fl_chart.dart';
 import 'pie_chart_sections.dart';
 
 class HomeChartWidget extends StatefulWidget {
-  final Function(String)? onDropdownChange;
+  final void Function(String)? onDropdownChange;
   final DateTimeRange currentDateRange;
+  final HomeTransactionListDelegate transactionListDelegate;
 
   const HomeChartWidget(
-      {Key? key, this.onDropdownChange, required this.currentDateRange})
+      {Key? key,
+      this.onDropdownChange,
+      required this.currentDateRange,
+      required this.transactionListDelegate})
       : super(key: key);
   @override
-  _HomeChartWidgetState createState() => _HomeChartWidgetState();
+  _HomeChartWidgetState createState() => _HomeChartWidgetState(transactionListDelegate);
 }
 
 class _HomeChartWidgetState extends State<HomeChartWidget> {
   int? touchedSectionIndex;
   String? selectedFilter;
   List<String> filters = ["Daily", "Weekly", "Monthly"];
+  int touchedIndex = -1;
 
-  @override
-  void initState() {
-    super.initState();
+  _HomeChartWidgetState(HomeTransactionListDelegate transactionListDelegate) {
+    transactionListDelegate.onHomeScreenFilterChange =
+        onHomeScreenFilterChange;
   }
 
-  @override
-  void didUpdateWidget(HomeChartWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget == oldWidget) return;
-
-    dispatchBloc();
-  }
-
-  void dispatchBloc() {
+  void onHomeScreenFilterChange() {
     debugPrint("Dispatch" + selectedFilter.toString());
     if (selectedFilter == null) return;
     transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
@@ -87,30 +82,26 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                         padding: const EdgeInsets.only(top: Sizes.dimen_24),
                         child: PieChart(
                           PieChartData(
-                            pieTouchData:
-                                PieTouchData(touchCallback: (pieTouchResponse) {
-                              setState(() {
-                                final desiredTouch = pieTouchResponse.touchInput
-                                        is! PointerExitEvent &&
-                                    pieTouchResponse.touchInput
-                                        is! PointerUpEvent;
-                                if (desiredTouch &&
-                                    pieTouchResponse.touchedSection != null) {
-                                  touchedSectionIndex = pieTouchResponse
-                                      .touchedSection!.touchedSectionIndex;
-                                } else {
-                                  touchedSectionIndex = -1;
-                                }
-                              });
-                            }),
-                            sectionsSpace: 3,
-                            centerSpaceRadius: 50,
-                            sections: getSections(
-                                touchedSectionIndex, state.chartItems),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                          ),
+                              pieTouchData: PieTouchData(
+                                touchCallback: (event, pieTouchResponse) {
+                                  setState(() {
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection ==
+                                            null) {
+                                      touchedSectionIndex = -1;
+                                      return;
+                                    }
+                                    touchedIndex = pieTouchResponse
+                                        .touchedSection!.touchedSectionIndex;
+                                  });
+                                },
+                              ),
+                              sectionsSpace: 3,
+                              centerSpaceRadius: 50,
+                              sections: getSections(
+                                  touchedSectionIndex, state.chartItems),
+                              borderData: FlBorderData(show: false)),
                           swapAnimationCurve: Curves.linear,
                           swapAnimationDuration: Duration(milliseconds: 150),
                         ),
@@ -188,10 +179,8 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
                     }).toList(),
                     isDense: true,
                     hint: Text("Daily",
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption!
-                            .copyWith(color: Theme.of(context).accentColor)),
+                        style: Theme.of(context).textTheme.caption!.copyWith(
+                            color: Theme.of(context).colorScheme.secondary)),
                     onChanged: (value) {
                       if (value == null) return;
                       if (value == selectedFilter) return;

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finq/domain/entities/no_params.dart';
-import 'package:finq/domain/usecases/onboarding/check_if_first_time_user.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:injectable/injectable.dart';
 import '../../../domain/usecases/use_case_imports.dart';
@@ -20,36 +19,35 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc(this.checkIfFirstTimeUser, this.getSignedInUser, this.signOut,
       this.passcodeCubit)
-      : super(AppInitial());
-
-  @override
-  Stream<AppState> mapEventToState(
-    AppEvent event,
-  ) async* {
-    if (event is IsUserFinishedOnboarding) {
+      : super(AppInitial()) {
+    on<IsUserFinishedOnboarding>((event, emit) async {
       final response = await checkIfFirstTimeUser(NoParams());
-      yield response.fold((l) {
-        return FirstTimeUser();
-      }, (r) {
-        if (r) {
-          add(AuthCheckRequested());
-          return OnboardingPassed();
-        }
-        return FirstTimeUser();
-      });
-    }
+      emit(response.fold((l) => FirstTimeUser(), (r) {
+        add(AuthCheckRequested());
+        return OnboardingPassed();
+      }));
+    });
+// if (event is AuthCheckRequested) {
+    //     final response = await getSignedInUser(NoParams());
+    //     yield response.fold((l) => UnAuthenticated(), (r) {
+    //       passcodeCubit.isAppLocked();
+    //       return Authenticated();
+    //     });
+    //   }
 
-    if (event is AuthCheckRequested) {
+    on<AuthCheckRequested>((event, emit)async{
       final response = await getSignedInUser(NoParams());
-      yield response.fold((l) => UnAuthenticated(), (r) {
-        passcodeCubit.isAppLocked();
-        return Authenticated();
-      });
-    }
+      emit(response.fold((l) => UnAuthenticated(), (r) {
+          passcodeCubit.isAppLocked();
+          return Authenticated();
+        }));
+    });
 
-    if (event is SignOutPressedEvent) {
+    on<SignOutPressedEvent>((event, emit) async {
       await signOut(NoParams());
-      yield UnAuthenticated();
-    }
+      emit(UnAuthenticated());
+    });
+
+   
   }
 }

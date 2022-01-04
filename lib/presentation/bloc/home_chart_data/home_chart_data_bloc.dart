@@ -21,26 +21,21 @@ class HomeChartDataBloc extends Bloc<HomeChartDataEvent, HomeChartDataState> {
 
   HomeChartDataBloc(
       {required this.getAllTransactionByFilterRange, required this.mapper})
-      : super(HomeChartDataInitial());
-
-  @override
-  Stream<HomeChartDataState> mapEventToState(HomeChartDataEvent event) async* {
-    if (event is HomeChartDataLoadEvent) {
-      yield* _mapHomeChartDataLoadedToState(event);
-    }
-  }
-
-  Stream<HomeChartDataState> _mapHomeChartDataLoadedToState(
-      HomeChartDataLoadEvent event) async* {
-    yield HomeChartDataLoading();
-    final response = await getAllTransactionByFilterRange(
-        TransactionTypeParams(event.type, event.dateTimeRange.start, event.dateTimeRange.end));
-    yield response.fold((l) => HomeChartDataEmpty(), (r) {
-      if (r.isNotEmpty) {
-        return HomeChartDataLoaded(chartItems: mapper.from(r));
-      } else {
-        return HomeChartDataEmpty();
-      }
+      : super(HomeChartDataInitial()) {
+    on<HomeChartDataLoadEvent>((event, emit) async {
+      emit(HomeChartDataLoading());
+      final response = await getAllTransactionByFilterRange(
+          TransactionTypeParams(
+              event.type, event.dateTimeRange.start, event.dateTimeRange.end));
+      emit(response.fold((l) => HomeChartDataEmpty(), (r) {
+        if (r.isNotEmpty) {
+          return HomeChartDataLoaded(chartItems: mapper.from(r));
+        } else {
+          return HomeChartDataEmpty();
+        }
+      }));
     });
   }
+
+  
 }

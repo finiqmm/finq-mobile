@@ -1,43 +1,42 @@
 import 'package:finq/common/constants/transaction_type.dart';
 import 'package:finq/common/constants/translation_constants.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/journeys/home/delegates/home_chart_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:finq/common/extension/int_extension.dart';
 import 'package:finq/common/extension/string_extension.dart';
 
-class TransactionTypeTab extends StatefulWidget {
+class TransactionTypeTab extends StatelessWidget {
   final DateTimeRange currentDateRange;
-
-  TransactionTypeTab({required this.currentDateRange});
-  @override
-  _TransactionTypeTabState createState() => _TransactionTypeTabState();
-}
-
-class _TransactionTypeTabState extends State<TransactionTypeTab> {
+  final HomeChartWidgetDelegate homeChartWidgetDelegate;
+  final HomeChartDataBloc homeChartDataBloc;
   int selectedIndex = 0;
-
-  @override
-  void didUpdateWidget(TransactionTypeTab oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    dispatchBloc();
+  TransactionTypeTab(
+      {Key? key,
+      required this.currentDateRange,
+      required this.homeChartWidgetDelegate,
+      required this.homeChartDataBloc})
+      : super(key: key) {
+    homeChartWidgetDelegate.onDateRangeChange = onDateRangeChange;
   }
 
-  void dispatchBloc() {
-    debugPrint('HomeScreen Dispatch ${widget.currentDateRange}');
-    context.read<HomeChartDataBloc>().add(HomeChartDataLoadEvent(
-        dateTimeRange: widget.currentDateRange,
+  void onDateRangeChange(DateTimeRange range) {
+    dispatchBloc(range: range);
+  }
+
+  void dispatchBloc({DateTimeRange? range}) {
+    homeChartDataBloc.add(HomeChartDataLoadEvent(
+        dateTimeRange: range ?? currentDateRange,
         type: selectedIndex == 0
             ? TransactionType.INCOME
             : TransactionType.EXPENSE));
-
-            
-
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Hello Transaction Type');
     return Container(
       margin: EdgeInsets.all(14.0),
       decoration: BoxDecoration(

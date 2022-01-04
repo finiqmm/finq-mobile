@@ -126,16 +126,8 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          description.hashCode,
-          $mrjc(
-              categoryType.hashCode,
-              $mrjc(
-                  amount.hashCode,
-                  $mrjc(
-                      transactionDate.hashCode, transactionType.hashCode))))));
+  int get hashCode => Object.hash(
+      id, description, categoryType, amount, transactionDate, transactionType);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -255,36 +247,42 @@ class $TransactionsTable extends Transactions
   final String? _alias;
   $TransactionsTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, true,
-      typeName: 'INTEGER',
+      type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
+  @override
   late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
       'description', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _categoryTypeMeta =
       const VerificationMeta('categoryType');
+  @override
   late final GeneratedColumn<String?> categoryType = GeneratedColumn<String?>(
       'category_type', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
   late final GeneratedColumn<double?> amount = GeneratedColumn<double?>(
       'amount', aliasedName, true,
-      typeName: 'REAL', requiredDuringInsert: false);
+      type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _transactionDateMeta =
       const VerificationMeta('transactionDate');
+  @override
   late final GeneratedColumn<DateTime?> transactionDate =
       GeneratedColumn<DateTime?>('transaction_date', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _transactionTypeMeta =
       const VerificationMeta('transactionType');
+  @override
   late final GeneratedColumnWithTypeConverter<TransactionType, int?>
       transactionType = GeneratedColumn<int?>(
               'transaction_type', aliasedName, false,
-              typeName: 'INTEGER', requiredDuringInsert: true)
+              type: const IntType(), requiredDuringInsert: true)
           .withConverter<TransactionType>($TransactionsTable.$converter0);
   @override
   List<GeneratedColumn> get $columns =>

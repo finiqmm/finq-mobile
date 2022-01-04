@@ -13,15 +13,10 @@ part 'profile_state.dart';
 @injectable
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetSignedInUser getSignedInUser;
-  ProfileBloc(this.getSignedInUser) : super(ProfileInitial());
-
-  @override
-  Stream<ProfileState> mapEventToState(
-    ProfileEvent event,
-  ) async* {
-    if (event is LoadProfileEvent) {
+  ProfileBloc(this.getSignedInUser) : super(ProfileInitial()) {
+    on<LoadProfileEvent>((event, emit)async {
       final response = await getSignedInUser(NoParams());
-      yield response.fold((l) => ProfileLoaded(null), (r) => ProfileLoaded(r));
-    }
+      emit(response.fold((l) => ProfileLoaded(null), (r) => ProfileLoaded(r)));
+    });
   }
 }

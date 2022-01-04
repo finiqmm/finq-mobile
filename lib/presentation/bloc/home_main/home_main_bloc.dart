@@ -20,14 +20,9 @@ class HomeMainBloc extends Bloc<HomeMainEvent, HomeMainState> {
       {required this.homeChartDataBloc,
       required this.totalAmountBloc,
       required this.transactionQueryBloc})
-      : super(HomeMainInitial());
-
-  @override
-  Stream<HomeMainState> mapEventToState(
-    HomeMainEvent event,
-  ) async* {
-    if (event is LoadHomeInitialData) {
-      totalAmountBloc.watchTotalAmount(LoadTotalAmount(
+      : super(HomeMainInitial()) {
+    on<LoadHomeInitialData>((event, emit) {
+       totalAmountBloc.watchTotalAmount(LoadTotalAmount(
           dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));
 
       homeChartDataBloc.add(HomeChartDataLoadEvent(
@@ -35,6 +30,22 @@ class HomeMainBloc extends Bloc<HomeMainEvent, HomeMainState> {
           type: TransactionType.INCOME));
       transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
           dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));
-    }
+    });
   }
+
+  // @override
+  // Stream<HomeMainState> mapEventToState(
+  //   HomeMainEvent event,
+  // ) async* {
+  //   if (event is LoadHomeInitialData) {
+  //     totalAmountBloc.watchTotalAmount(LoadTotalAmount(
+  //         dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));
+
+  //     homeChartDataBloc.add(HomeChartDataLoadEvent(
+  //         dateTimeRange: FinQDateUtil.getCurrentMonthDateRange(),
+  //         type: TransactionType.INCOME));
+  //     transactionQueryBloc.watchHomeTransactionList(LoadHomeTransactionList(
+  //         dateTimeRange: FinQDateUtil.getCurrentMonthDateRange()));
+  //   }
+  // }
 }
