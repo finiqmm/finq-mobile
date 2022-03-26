@@ -47,9 +47,9 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
         },
         child: AnimatedContainer(
           width: _clicked ? 55 : 300,
-          height: 45,
+          height: 55,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
+            borderRadius: BorderRadius.circular(_clicked ? 28 : 30.0),
             color: Theme.of(context).colorScheme.secondary,
           ),
           duration: Duration(milliseconds: 700),
@@ -57,23 +57,23 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
             duration: Duration(milliseconds: 700),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                    flex: 1,
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(FontAwesomeIcons.google,
-                            color: Colors.white))),
-                SizedBox(
-                  width: 10,
+                Icon(
+                  FontAwesomeIcons.google,
+                  color: Colors.white,
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Text(widget.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2!
-                          .copyWith(color: Colors.white)),
+                SizedBox(
+                  width: 5,
+                ),
+                Flexible(
+                  child: Text(
+                    widget.title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .copyWith(color: Colors.white),
+                  ),
                 )
               ],
             ),
@@ -84,10 +84,10 @@ class _AnimatedLoadingButtonState extends State<AnimatedLoadingButton> {
       AnimatedContainer(
         duration: Duration(milliseconds: 700),
         width: _clicked ? 55 : 0,
-        height: _clicked ? 45 : 0,
+        height: _clicked ? 55 : 0,
         curve: Curves.fastOutSlowIn,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(_clicked ? 70.0 : 30.0),
+          borderRadius: BorderRadius.circular(_clicked ? 28.0 : 30.0),
         ),
         child: AnimatedOpacity(
           duration: Duration(milliseconds: 700),
