@@ -77,23 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     fit: BoxFit.contain,
                   ),
                 ),
-
-                // ElevatedButton.icon(
-                //   onPressed: () => authBloc.add(SignInPressed()),
-                //   label: Padding(
-                //     padding: const EdgeInsets.all(16.0),
-                //     child: const Text(
-                //       'SIGN IN WITH GOOGLE',
-                //       style: TextStyle(color: Colors.white),
-                //     ),
-                //   ),
-                //   icon:
-                //       const Icon(FontAwesomeIcons.google, color: Colors.white),
-                // ),
                 SizedBox(
                   height: 30,
                 ),
-               
                 BlocListener<AuthBloc, AuthState>(
                     child: AnimatedLoadingButton(
                       title: 'SignIn With Google',
@@ -118,34 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       }
                     })
-
-                // BlocConsumer<AuthBloc, AuthState>(
-                //   listenWhen: (previous, current) =>
-                //       current is SignInSuccess || current is SignInError,
-                //   listener: (context, state) {
-                //     if (state is SignInSuccess) {
-                //       Navigator.of(context).pushNamedAndRemoveUntil(
-                //           RouteList.main, (route) => false);
-                //     }
-
-                //     if (state is SignInError) {
-                //       Fluttertoast.showToast(msg: state.message);
-                //       setState(() {
-                //         loginProgressComplete = !loginProgressComplete;
-                //       });
-                //     }
-                //   },
-                //   builder: (context, state) {
-                //     if (state is SignInLoading) {
-                //       // return CircularProgressIndicator();
-                //     }
-                //     if (state is SignInError) {
-                //       Fluttertoast.showToast(msg: state.message);
-                //       // return Text('Something went wrong');
-                //     }
-                //     return SizedBox.shrink();
-                //   },
-                // )
               ],
             )
           ],
