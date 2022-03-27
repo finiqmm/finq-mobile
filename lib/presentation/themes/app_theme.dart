@@ -18,9 +18,8 @@ abstract class ThemeManager {
         textTheme: theme.textTheme.data,
         cardColor: theme.colors.colorScheme?.onSecondary,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          selectedItemColor: theme.colors.colorScheme?.secondary,
-          unselectedItemColor: theme.colors.bottomNavBarNormalColor
-        ),
+            selectedItemColor: theme.colors.colorScheme?.secondary,
+            unselectedItemColor: theme.colors.bottomNavBarNormalColor),
         scaffoldBackgroundColor: theme.colors.scaffoldBackgroundColor,
         colorScheme: theme.colors.colorScheme);
   }

@@ -22,7 +22,8 @@ class HomeChartWidget extends StatefulWidget {
       required this.transactionListDelegate})
       : super(key: key);
   @override
-  _HomeChartWidgetState createState() => _HomeChartWidgetState(transactionListDelegate);
+  _HomeChartWidgetState createState() =>
+      _HomeChartWidgetState(transactionListDelegate);
 }
 
 class _HomeChartWidgetState extends State<HomeChartWidget> {
@@ -32,8 +33,7 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   int touchedIndex = -1;
 
   _HomeChartWidgetState(HomeTransactionListDelegate transactionListDelegate) {
-    transactionListDelegate.onHomeScreenFilterChange =
-        onHomeScreenFilterChange;
+    transactionListDelegate.onHomeScreenFilterChange = onHomeScreenFilterChange;
   }
 
   void onHomeScreenFilterChange() {
@@ -54,80 +54,63 @@ class _HomeChartWidgetState extends State<HomeChartWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
-      color: Colors.red.withOpacity(0.5),
       child: Stack(
         children: [
           BlocBuilder<HomeChartDataBloc, HomeChartDataState>(
             builder: (context, state) {
               if (state is HomeChartDataLoaded) {
-                return Container(
-
-
-                  // foregroundDecoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //         begin: Alignment.center,
-                  //         end: Alignment.bottomCenter,
-                  //         stops: [
-                  //       0.3,
-                  //       1
-                  //     ],
-                  //         colors: [
-                  //       Theme.of(context).primaryColor.withOpacity(0.1),
-                  //       Theme.of(context).primaryColor
-                  //     ])),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.only(top: Sizes.dimen_24),
-                        child: PieChart(
-                          PieChartData(
-                              pieTouchData: PieTouchData(
-                                touchCallback: (event, pieTouchResponse) {
-                                  setState(() {
-                                    if (!event.isInterestedForInteractions ||
-                                        pieTouchResponse == null ||
-                                        pieTouchResponse.touchedSection ==
-                                            null) {
-                                      touchedSectionIndex = -1;
-                                      return;
-                                    }
-                                    touchedIndex = pieTouchResponse
-                                        .touchedSection!.touchedSectionIndex;
-                                  });
-                                },
-                              ),
-                              sectionsSpace: 3,
-                              centerSpaceRadius: 50,
-                              sections: getSections(
-                                  touchedSectionIndex, state.chartItems),
-                              borderData: FlBorderData(show: false)),
-                          swapAnimationCurve: Curves.linear,
-                          swapAnimationDuration: Duration(milliseconds: 150),
-                        ),
-                      )),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: ListWheelScrollView(
-                                  useMagnifier: true,
-                                  itemExtent: 38,
-                                  children: state.chartItems
-                                      .map((e) => ChartDataItem(data: e))
-                                      .toList()),
+                return Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(top: Sizes.dimen_24),
+                      child: PieChart(
+                        PieChartData(
+                            pieTouchData: PieTouchData(
+                              touchCallback: (event, pieTouchResponse) {
+                                setState(() {
+                                  if (!event.isInterestedForInteractions ||
+                                      pieTouchResponse == null ||
+                                      pieTouchResponse.touchedSection == null) {
+                                    touchedSectionIndex = -1;
+                                    return;
+                                  }
+                                  touchedIndex = pieTouchResponse
+                                      .touchedSection!.touchedSectionIndex;
+                                });
+                              },
                             ),
-                            SizedBox(
-                              height: 24,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                            sectionsSpace: 3,
+                            centerSpaceRadius: 50,
+                            sections: getSections(
+                                touchedSectionIndex, state.chartItems),
+                            borderData: FlBorderData(show: false)),
+                        swapAnimationCurve: Curves.linear,
+                        swapAnimationDuration: Duration(milliseconds: 150),
+                      ),
+                    )),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: ListWheelScrollView(
+                                useMagnifier: true,
+                                itemExtent: 38,
+                                children: state.chartItems
+                                    .map((e) => ChartDataItem(data: e))
+                                    .toList()),
+                          ),
+                          SizedBox(
+                            height: 24,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                  // ),
                 );
               } else if (state is HomeChartDataLoading) {
                 return Align(

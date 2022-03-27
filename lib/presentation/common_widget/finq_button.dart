@@ -15,12 +15,14 @@ class FinQButton extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeIn,
       child: Container(
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_12.w)),
+          color: Theme.of(context).colorScheme.secondary
         ),
         padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
         margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h,horizontal: Sizes.dimen_4.w),
-        height: Sizes.dimen_16.h,
+        height: Sizes.dimen_48,
         child: TextButton(
           onPressed: onPressed,
           child: Text(

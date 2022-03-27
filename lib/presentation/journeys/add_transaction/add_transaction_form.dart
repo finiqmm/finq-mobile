@@ -199,6 +199,7 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.transactionActionModel.id == null)
+              
                 Flexible(
                   flex: 1,
                   fit: FlexFit.loose,
@@ -206,8 +207,8 @@ class _AddTrasactionFormState extends State<AddTrasactionForm> {
                     margin: EdgeInsets.symmetric(
                       vertical: Sizes.dimen_10.h,
                     ),
-                    height: Sizes.dimen_16.h,
                     width: double.infinity,
+                    height: Sizes.dimen_48,
                     child: ElevatedButton(
                       onPressed: () {
                         widget.onEntryUpsert(

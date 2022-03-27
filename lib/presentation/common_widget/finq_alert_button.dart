@@ -21,7 +21,7 @@ class FinQAlertButton extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
         margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h,horizontal: Sizes.dimen_4.w),
-        height: Sizes.dimen_16.h,
+        height: Sizes.dimen_48,
         child: TextButton(
           onPressed: onPressed,
           child: Text(
