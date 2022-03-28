@@ -3,6 +3,7 @@ import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
+import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class _FinqAppState extends State<FinqApp> {
   late final LanguageBloc _languageBloc;
   late final ThemeCubit _themeCubit;
   late final PincodeCubit _passcodeCubit;
+  late final BackupCubit _backupCubit;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _FinqAppState extends State<FinqApp> {
     _languageBloc = getItInstance<LanguageBloc>();
     _themeCubit = getItInstance<ThemeCubit>();
     _passcodeCubit = getItInstance<PincodeCubit>();
+    _backupCubit = getItInstance<BackupCubit>();
 
     _appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
@@ -45,6 +48,7 @@ class _FinqAppState extends State<FinqApp> {
     _languageBloc.close();
     _themeCubit.close();
     _passcodeCubit.close();
+    _backupCubit.close();
     super.dispose();
   }
 
@@ -64,6 +68,9 @@ class _FinqAppState extends State<FinqApp> {
         ),
         BlocProvider<PincodeCubit>.value(
           value: _passcodeCubit,
+        ),
+        BlocProvider<BackupCubit>.value(
+          value: _backupCubit,
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeBrightness>(

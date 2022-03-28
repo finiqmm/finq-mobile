@@ -1,4 +1,5 @@
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/database/db_util.dart';
 import 'package:finq/database/finq_db.dart';
 import 'package:finq/database/transactions_dao.dart';
 import 'package:flutter/material.dart';
@@ -20,37 +21,37 @@ abstract class TransactionDataSource {
 
 @LazySingleton(as: TransactionDataSource)
 class TransactionDataSourceImpl extends TransactionDataSource {
-  final TransactionsDao dao;
-  TransactionDataSourceImpl(this.dao);
+  final DbUtil dbUtil;
+  TransactionDataSourceImpl(this.dbUtil);
 
   @override
   Future<void> insertNewTransaction(TransactionsCompanion transaction) {
-    return dao.insertNewTransaction(transaction);
+    return dbUtil.transactionDao.insertNewTransaction(transaction);
   }
 
   @override
   Future<void> updateTransaction(TransactionsCompanion transaction) {
-    return dao.updateTransaction(transaction);
+    return dbUtil.transactionDao.updateTransaction(transaction);
   }
 
   @override
   Stream<List<Transaction>> getAllTransactionBetweenRange(
       DateTime startDate, DateTime endDate) {
-    return dao.watchTransactionsWithDates(startDate, endDate);
+    return dbUtil.transactionDao.watchTransactionsWithDates(startDate, endDate);
   }
 
   @override
   Future<List<Transaction>> getTransactionListByTypeFilter(
       TransactionType type, DateTime startDate, DateTime endDate) {
-    final response =
-        dao.getTransactionsByFilterAndRange(type, startDate, endDate);
+    final response = dbUtil.transactionDao
+        .getTransactionsByFilterAndRange(type, startDate, endDate);
     debugPrint('DataSource ${response.toString()}');
     return response;
   }
 
   @override
   Future<void> deleteTransaction(int id) {
-    return dao.deleteTransaction(id);
+    return dbUtil.transactionDao.deleteTransaction(id);
   }
 
   @override
@@ -59,8 +60,8 @@ class TransactionDataSourceImpl extends TransactionDataSource {
     // var expenseStream = dao.watchTotalExpenseAmount(startDate, endDate);
 
     return Rx.combineLatest([
-      dao.watchTotalIncomeAmount(startDate, endDate),
-      dao.watchTotalExpenseAmount(startDate, endDate)
+      dbUtil.transactionDao.watchTotalIncomeAmount(startDate, endDate),
+      dbUtil.transactionDao.watchTotalExpenseAmount(startDate, endDate)
     ], (values) => values.map((e) => e as double? ?? 0.0).toList());
   }
 }

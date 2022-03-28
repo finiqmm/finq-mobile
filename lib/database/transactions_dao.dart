@@ -1,16 +1,26 @@
 import 'package:finq/common/constants/transaction_type.dart';
+import 'package:finq/database/db_util.dart';
 import 'package:finq/database/finq_db.dart';
 import 'package:injectable/injectable.dart';
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift/drift.dart';
 
 part 'transactions_dao.g.dart';
 
-@LazySingleton()
-@UseDao(tables: [Transactions])
+@DriftAccessor(tables: [Transactions])
 class TransactionsDao extends DatabaseAccessor<FinqDb>
     with _$TransactionsDaoMixin {
   final FinqDb db;
+
   TransactionsDao(this.db) : super(db);
+  //static TransactionsDao? _instance;
+  // factory FinqDb() => _instance;
+
+  // static TransactionsDao getInstance() {
+  //   if (_instance == null) {
+  //     _instance = TransactionsDao._(FinqDb.getInstance());
+  //   }
+  //   return _instance!;
+  // }
 
   Future insertNewTransaction(TransactionsCompanion transactionItem) =>
       into(transactions).insert(transactionItem);
@@ -26,21 +36,23 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
 
   Stream<double?> watchTotalIncomeAmount(
           DateTime startDate, DateTime endDate) =>
-      db.sumofTransactionAmount(
+      db
+          .sumofTransactionAmount(
               startDate, endDate, TransactionType.INCOME.index)
           .watchSingleOrNull();
   Stream<double?> watchTotalExpenseAmount(
           DateTime startDate, DateTime endDate) =>
-      db.sumofTransactionAmount(
+      db
+          .sumofTransactionAmount(
               startDate, endDate, TransactionType.EXPENSE.index)
           .watchSingleOrNull();
 
   // Stream<double> watchTotalExpenseAmount(DateTime startDate, DateTime endDate){
   // }
-      // db
-      //     .sumofTransactionAmount(
-      //         startDate, endDate, TransactionType.EXPENSE.index)
-      //     .watchSingle();
+  // db
+  //     .sumofTransactionAmount(
+  //         startDate, endDate, TransactionType.EXPENSE.index)
+  //     .watchSingle();
 
   Future<double?> getTotalTransactionAmount(
           TransactionType type, DateTime startDate, DateTime endDate) =>

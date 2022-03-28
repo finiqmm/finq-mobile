@@ -21,8 +21,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       this.amount,
       required this.transactionDate,
       required this.transactionType});
-  factory Transaction.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String? prefix}) {
+  factory Transaction.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Transaction(
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
@@ -73,7 +72,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
 
   factory Transaction.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return Transaction(
       id: serializer.fromJson<int?>(json['id']),
       description: serializer.fromJson<String>(json['description']),
@@ -86,7 +85,7 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int?>(id),
       'description': serializer.toJson<String>(description),
@@ -243,9 +242,10 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
 
 class $TransactionsTable extends Transactions
     with TableInfo<$TransactionsTable, Transaction> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TransactionsTable(this._db, [this._alias]);
+  $TransactionsTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -335,13 +335,13 @@ class $TransactionsTable extends Transactions
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Transaction map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Transaction.fromData(data, _db,
+    return Transaction.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $TransactionsTable createAlias(String alias) {
-    return $TransactionsTable(_db, alias);
+    return $TransactionsTable(attachedDatabase, alias);
   }
 
   static TypeConverter<TransactionType, int> $converter0 =
