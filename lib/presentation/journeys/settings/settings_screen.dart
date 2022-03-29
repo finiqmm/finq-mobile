@@ -1,4 +1,5 @@
 import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
+import 'package:finq/presentation/bloc/backup/file_exist_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/bloc/profile/profile_bloc.dart';
 import 'package:finq/presentation/journeys/settings/settings_list.dart';
@@ -18,6 +19,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late final LanguageBloc _languageBloc;
   late final PincodeCubit _passcodeCubit;
+  late final FileExistCubit _backFileExistCubit;
 
   @override
   void initState() {
@@ -25,8 +27,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     _languageBloc = BlocProvider.of<LanguageBloc>(context);
     _passcodeCubit = BlocProvider.of<PincodeCubit>(context);
+    _backFileExistCubit = BlocProvider.of<FileExistCubit>(context);
     _languageBloc.add(LoadPreferredLanguageEvent());
     _passcodeCubit.isAppLocked();
+    _backFileExistCubit.isFileExist();
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:finq/common/constants/languages.dart';
 import 'package:finq/common/constants/route_constants.dart';
 import 'package:finq/common/screenutil/screenutil.dart';
 import 'package:finq/di/injectable.dart';
+import 'package:finq/domain/usecases/use_case_imports.dart';
 import 'package:finq/presentation/bloc/app/app_bloc.dart';
 import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Routes.dart';
 import 'app_localizations.dart';
+import 'bloc/backup/file_exist_cubit.dart';
 import 'fade_page_route_builder.dart';
 
 class FinqApp extends StatefulWidget {
@@ -27,6 +29,7 @@ class _FinqAppState extends State<FinqApp> {
   late final ThemeCubit _themeCubit;
   late final PincodeCubit _passcodeCubit;
   late final BackupCubit _backupCubit;
+  late final FileExistCubit _checkBackupDbExist;
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _FinqAppState extends State<FinqApp> {
     _themeCubit = getItInstance<ThemeCubit>();
     _passcodeCubit = getItInstance<PincodeCubit>();
     _backupCubit = getItInstance<BackupCubit>();
+    _checkBackupDbExist = getItInstance<FileExistCubit>();
 
     _appBloc.add(IsUserFinishedOnboarding());
     _languageBloc.add(LoadPreferredLanguageEvent());
@@ -49,6 +53,7 @@ class _FinqAppState extends State<FinqApp> {
     _themeCubit.close();
     _passcodeCubit.close();
     _backupCubit.close();
+    _checkBackupDbExist.close();
     super.dispose();
   }
 
@@ -72,6 +77,7 @@ class _FinqAppState extends State<FinqApp> {
         BlocProvider<BackupCubit>.value(
           value: _backupCubit,
         ),
+        BlocProvider<FileExistCubit>.value(value: _checkBackupDbExist)
       ],
       child: BlocBuilder<ThemeCubit, ThemeBrightness>(
         builder: (context, theme) {

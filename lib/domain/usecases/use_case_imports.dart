@@ -34,3 +34,4 @@ export 'transactions/get_total_transaction_amount.dart';
 
 //Backup
 export 'backup/backup_db.dart';
+export 'backup/check_backup_exist.dart';

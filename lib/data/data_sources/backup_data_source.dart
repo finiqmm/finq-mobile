@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 
 abstract class BackupDataSource {
   Future<void> uploadDbFile(String dbFilePath);
+  Future<bool> checkFileExist();
 }
 
 @LazySingleton(as: BackupDataSource)
@@ -30,6 +31,25 @@ class BackupDataSourceImpl implements BackupDataSource {
       } on FirebaseException catch (e) {
         debugPrint(e.message);
       }
+    }
+  }
+
+  @override
+  Future<bool> checkFileExist() async {
+    final currentUser = await applicationDataSource.getCacheUser();
+    if (currentUser == null) return false;
+    try {
+      final result = await firebaseStorage
+          .ref('${currentUser.id}/db.sqlite')
+          .getDownloadURL();
+      if (result.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } on FirebaseException catch (e) {
+      throw e;
+    } on Exception {
+      return false;
     }
   }
 }

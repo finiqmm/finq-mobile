@@ -5,6 +5,7 @@ import 'package:finq/data/data_sources/backup_data_source.dart';
 import 'package:finq/database/db_util.dart';
 import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
+import 'package:finq/presentation/bloc/backup/file_exist_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/common_widget/progress_loading_dialog.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
@@ -132,35 +133,23 @@ class SettingsList extends StatelessWidget {
                 title: "Backup",
                 onTap: () async {
                   context.read<BackupCubit>().onBackupDb();
-                  // showDialog(
-                  //     context: context,
-                  //     barrierDismissible: false,
-                  //     builder: (ctx) => ProgressLoadingDialog(loadingMsg: 'Loading...',));
-                  // showLoaderDialog(BuildContext context) {
-                  //   AlertDialog alert = AlertDialog(
-                  //     content: new Row(
-                  //       children: [
-                  //         CircularProgressIndicator(),
-                  //         Container(
-                  //             margin: EdgeInsets.only(left: 7),
-                  //             child: Text("Loading...")),
-                  //       ],
-                  //     ),
-                  //   );
-                  //   showDialog(
-                  //     barrierDismissible: false,
-                  //     context: context,
-                  //     builder: (BuildContext context) {
-                  //       return alert;
-                  //     },
-                  //   );
-                  // }
-                  // final path = await getItInstance<DbUtil>().backUpDatabase();
-                  // await getItInstance<BackupDataSource>().uploadDbFile(path);
+                },
+              ),
+              BlocBuilder<FileExistCubit, FileExistState>(
+                builder: (context, state) {
+                  if (state is BackupFileExistedState) {
+                    return SettingTiles(
+                      title: "Restore",
+                      onTap: () async {
+                        context.read<BackupCubit>().onBackupDb();
+                      },
+                    );
+                  }
+                  return SizedBox.shrink();
                 },
               ),
             ],
-            sectionTitle: 'Backup',
+            sectionTitle: 'Backup & Restore',
           ),
           SettingsSection(
             sectionTitles: [
