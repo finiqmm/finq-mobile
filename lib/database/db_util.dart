@@ -18,13 +18,18 @@ class DbUtil {
     final dbLocation = p.join(dbFolder, 'db.sqlite');
     final File file = File(dbLocation);
     return file.path;
-
-    // print('Hello -> ${file.absolute.path}  ${file.path}');
-    // final data = await File(file.path).readAsBytes();
-    // print(data);
   }
 
-  void closeDb() async {
+  Future<void> restoreDatabase(Function(File) io) async {
+    await closeDb();
+    final dbFolder = await getDatabasesPath();
+    final dbLocation = p.join(dbFolder, 'db.sqlite');
+    final File file = File(dbLocation);
+    io(file);
+    finqDb.toString();
+  }
+
+  Future<void> closeDb() async {
     await finqDb.close();
   }
 }

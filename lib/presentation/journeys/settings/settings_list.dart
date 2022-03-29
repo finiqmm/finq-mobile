@@ -5,6 +5,7 @@ import 'package:finq/data/data_sources/backup_data_source.dart';
 import 'package:finq/database/db_util.dart';
 import 'package:finq/di/injectable.dart';
 import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
+import 'package:finq/presentation/bloc/backup/cubit/restore_cubit.dart';
 import 'package:finq/presentation/bloc/backup/file_exist_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
 import 'package:finq/presentation/common_widget/progress_loading_dialog.dart';
@@ -141,7 +142,7 @@ class SettingsList extends StatelessWidget {
                     return SettingTiles(
                       title: "Restore",
                       onTap: () async {
-                        context.read<BackupCubit>().onBackupDb();
+                        context.read<RestoreCubit>().restore();
                       },
                     );
                   }
@@ -150,23 +151,6 @@ class SettingsList extends StatelessWidget {
               ),
             ],
             sectionTitle: 'Backup & Restore',
-          ),
-          SettingsSection(
-            sectionTitles: [
-              SettingTiles(
-                title: "Privacy policy",
-                onTap: () {},
-              ),
-              SettingTiles(
-                title: "Get Help",
-                onTap: () {},
-              ),
-              SettingTiles(
-                title: "About Us",
-                onTap: () {},
-              )
-            ],
-            sectionTitle: 'About',
           ),
         ],
       ),

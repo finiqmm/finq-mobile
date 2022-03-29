@@ -30,7 +30,17 @@ class BackupRepositoryImpl implements BackupRepository {
       final response = await backupDataSource.checkFileExist();
       return Right(response);
     } on Exception {
-      return Left(AppError(AppErrorType.unauthorised, "Can't backup"));
+      return Left(AppError(AppErrorType.database, "Can't backup"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, void>> downloadFile() async {
+    try {
+      final response = await backupDataSource.downloadBackupDb();
+      return Right(response);
+    } on Exception {
+      return Left(AppError(AppErrorType.database, "Can't restore"));
     }
   }
 }
