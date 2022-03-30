@@ -1,7 +1,7 @@
+import 'package:drift/drift.dart';
 import 'package:finq/database/finq_db.dart';
 import 'package:finq/domain/entities/transaction_entity.dart';
 import 'package:injectable/injectable.dart';
-import 'package:moor_flutter/moor_flutter.dart';
 
 @injectable
 class TransactionEntityMapper {

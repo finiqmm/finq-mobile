@@ -1,7 +1,14 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:finq/common/constants/languages.dart';
 import 'package:finq/common/constants/route_constants.dart';
+import 'package:finq/data/data_sources/backup_data_source.dart';
+import 'package:finq/database/db_util.dart';
+import 'package:finq/di/injectable.dart';
+import 'package:finq/presentation/bloc/backup/backup_cubit.dart';
+import 'package:finq/presentation/bloc/backup/cubit/restore_cubit.dart';
+import 'package:finq/presentation/bloc/backup/file_exist_cubit.dart';
 import 'package:finq/presentation/bloc/blocs.dart';
+import 'package:finq/presentation/common_widget/progress_loading_dialog.dart';
 import 'package:finq/presentation/journeys/passcode/passcode_option.dart';
 import 'package:finq/presentation/journeys/settings/language_chooser_dialog.dart';
 import 'package:finq/presentation/journeys/settings/setting_switch_tile.dart';
@@ -37,7 +44,8 @@ class SettingsList extends StatelessWidget {
                             context: context,
                             builder: (ctx) => LanguageChooserDialog(
                                   onChange: (val) {
-                                    context.read<LanguageBloc>()
+                                    context
+                                        .read<LanguageBloc>()
                                         .add(ToggleLanguageEvent(val));
                                   },
                                   langCode: countryCode,
@@ -123,19 +131,26 @@ class SettingsList extends StatelessWidget {
           SettingsSection(
             sectionTitles: [
               SettingTiles(
-                title: "Privacy policy",
-                onTap: () {},
+                title: "Backup",
+                onTap: () async {
+                  context.read<BackupCubit>().onBackupDb();
+                },
               ),
-              SettingTiles(
-                title: "Get Help",
-                onTap: () {},
+              BlocBuilder<FileExistCubit, FileExistState>(
+                builder: (context, state) {
+                  if (state is BackupFileExistedState) {
+                    return SettingTiles(
+                      title: "Restore",
+                      onTap: () async {
+                        context.read<RestoreCubit>().restore();
+                      },
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
               ),
-              SettingTiles(
-                title: "About Us",
-                onTap: () {},
-              )
             ],
-            sectionTitle: 'About',
+            sectionTitle: 'Backup & Restore',
           ),
         ],
       ),
