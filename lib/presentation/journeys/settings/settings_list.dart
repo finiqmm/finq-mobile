@@ -104,7 +104,7 @@ class SettingsList extends StatelessWidget {
               SettingTiles(
                 title: "Notification Settings",
                 onTap: () {
-                  AppSettings.openNotificationSettings();
+                  AppSettings.openAppSettings(type: AppSettingsType.notification);
                 },
               )
             ],

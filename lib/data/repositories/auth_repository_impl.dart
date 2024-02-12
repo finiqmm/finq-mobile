@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:finq/data/data_sources/application_data_source.dart';
 import 'package:finq/data/data_sources/auth_data_source.dart';
@@ -8,7 +10,6 @@ import 'package:finq/domain/repositories/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pedantic/pedantic.dart';
 
 
 @LazySingleton(as: AuthenticationRepository)

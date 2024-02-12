@@ -2,11 +2,134 @@
 
 part of 'finq_db.dart';
 
-// **************************************************************************
-// MoorGenerator
-// **************************************************************************
+// ignore_for_file: type=lint
+class $TransactionsTable extends Transactions
+    with TableInfo<$TransactionsTable, Transaction> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TransactionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, true,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _categoryTypeMeta =
+      const VerificationMeta('categoryType');
+  @override
+  late final GeneratedColumn<String> categoryType = GeneratedColumn<String>(
+      'category_type', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+      'amount', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _transactionDateMeta =
+      const VerificationMeta('transactionDate');
+  @override
+  late final GeneratedColumn<DateTime> transactionDate =
+      GeneratedColumn<DateTime>('transaction_date', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _transactionTypeMeta =
+      const VerificationMeta('transactionType');
+  @override
+  late final GeneratedColumnWithTypeConverter<TransactionType, int>
+      transactionType = GeneratedColumn<int>(
+              'transaction_type', aliasedName, false,
+              type: DriftSqlType.int, requiredDuringInsert: true)
+          .withConverter<TransactionType>(
+              $TransactionsTable.$convertertransactionType);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, description, categoryType, amount, transactionDate, transactionType];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'transactions';
+  @override
+  VerificationContext validateIntegrity(Insertable<Transaction> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('category_type')) {
+      context.handle(
+          _categoryTypeMeta,
+          categoryType.isAcceptableOrUnknown(
+              data['category_type']!, _categoryTypeMeta));
+    } else if (isInserting) {
+      context.missing(_categoryTypeMeta);
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
+    }
+    if (data.containsKey('transaction_date')) {
+      context.handle(
+          _transactionDateMeta,
+          transactionDate.isAcceptableOrUnknown(
+              data['transaction_date']!, _transactionDateMeta));
+    } else if (isInserting) {
+      context.missing(_transactionDateMeta);
+    }
+    context.handle(_transactionTypeMeta, const VerificationResult.success());
+    return context;
+  }
 
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Transaction map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Transaction(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      categoryType: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category_type'])!,
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}amount']),
+      transactionDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}transaction_date'])!,
+      transactionType: $TransactionsTable.$convertertransactionType.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.int, data['${effectivePrefix}transaction_type'])!),
+    );
+  }
+
+  @override
+  $TransactionsTable createAlias(String alias) {
+    return $TransactionsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<TransactionType, int, int>
+      $convertertransactionType =
+      const EnumIndexConverter<TransactionType>(TransactionType.values);
+}
+
 class Transaction extends DataClass implements Insertable<Transaction> {
   final int? id;
   final String description;
@@ -14,46 +137,28 @@ class Transaction extends DataClass implements Insertable<Transaction> {
   final double? amount;
   final DateTime transactionDate;
   final TransactionType transactionType;
-  Transaction(
+  const Transaction(
       {this.id,
       required this.description,
       required this.categoryType,
       this.amount,
       required this.transactionDate,
       required this.transactionType});
-  factory Transaction.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return Transaction(
-      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
-      categoryType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_type'])!,
-      amount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}amount']),
-      transactionDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}transaction_date'])!,
-      transactionType: $TransactionsTable.$converter0.mapToDart(const IntType()
-          .mapFromDatabaseResponse(
-              data['${effectivePrefix}transaction_type']))!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int?>(id);
+      map['id'] = Variable<int>(id);
     }
     map['description'] = Variable<String>(description);
     map['category_type'] = Variable<String>(categoryType);
     if (!nullToAbsent || amount != null) {
-      map['amount'] = Variable<double?>(amount);
+      map['amount'] = Variable<double>(amount);
     }
     map['transaction_date'] = Variable<DateTime>(transactionDate);
     {
-      final converter = $TransactionsTable.$converter0;
-      map['transaction_type'] =
-          Variable<int>(converter.mapToSql(transactionType)!);
+      map['transaction_type'] = Variable<int>(
+          $TransactionsTable.$convertertransactionType.toSql(transactionType));
     }
     return map;
   }
@@ -79,8 +184,8 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       categoryType: serializer.fromJson<String>(json['categoryType']),
       amount: serializer.fromJson<double?>(json['amount']),
       transactionDate: serializer.fromJson<DateTime>(json['transactionDate']),
-      transactionType:
-          serializer.fromJson<TransactionType>(json['transactionType']),
+      transactionType: $TransactionsTable.$convertertransactionType
+          .fromJson(serializer.fromJson<int>(json['transactionType'])),
     );
   }
   @override
@@ -92,22 +197,23 @@ class Transaction extends DataClass implements Insertable<Transaction> {
       'categoryType': serializer.toJson<String>(categoryType),
       'amount': serializer.toJson<double?>(amount),
       'transactionDate': serializer.toJson<DateTime>(transactionDate),
-      'transactionType': serializer.toJson<TransactionType>(transactionType),
+      'transactionType': serializer.toJson<int>(
+          $TransactionsTable.$convertertransactionType.toJson(transactionType)),
     };
   }
 
   Transaction copyWith(
-          {int? id,
+          {Value<int?> id = const Value.absent(),
           String? description,
           String? categoryType,
-          double? amount,
+          Value<double?> amount = const Value.absent(),
           DateTime? transactionDate,
           TransactionType? transactionType}) =>
       Transaction(
-        id: id ?? this.id,
+        id: id.present ? id.value : this.id,
         description: description ?? this.description,
         categoryType: categoryType ?? this.categoryType,
-        amount: amount ?? this.amount,
+        amount: amount.present ? amount.value : this.amount,
         transactionDate: transactionDate ?? this.transactionDate,
         transactionType: transactionType ?? this.transactionType,
       );
@@ -166,12 +272,12 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
         transactionDate = Value(transactionDate),
         transactionType = Value(transactionType);
   static Insertable<Transaction> custom({
-    Expression<int?>? id,
+    Expression<int>? id,
     Expression<String>? description,
     Expression<String>? categoryType,
-    Expression<double?>? amount,
+    Expression<double>? amount,
     Expression<DateTime>? transactionDate,
-    Expression<TransactionType>? transactionType,
+    Expression<int>? transactionType,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -204,7 +310,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int?>(id.value);
+      map['id'] = Variable<int>(id.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -213,15 +319,15 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
       map['category_type'] = Variable<String>(categoryType.value);
     }
     if (amount.present) {
-      map['amount'] = Variable<double?>(amount.value);
+      map['amount'] = Variable<double>(amount.value);
     }
     if (transactionDate.present) {
       map['transaction_date'] = Variable<DateTime>(transactionDate.value);
     }
     if (transactionType.present) {
-      final converter = $TransactionsTable.$converter0;
-      map['transaction_type'] =
-          Variable<int>(converter.mapToSql(transactionType.value)!);
+      map['transaction_type'] = Variable<int>($TransactionsTable
+          .$convertertransactionType
+          .toSql(transactionType.value));
     }
     return map;
   }
@@ -240,134 +346,28 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
   }
 }
 
-class $TransactionsTable extends Transactions
-    with TableInfo<$TransactionsTable, Transaction> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TransactionsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
-      'description', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _categoryTypeMeta =
-      const VerificationMeta('categoryType');
-  @override
-  late final GeneratedColumn<String?> categoryType = GeneratedColumn<String?>(
-      'category_type', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _amountMeta = const VerificationMeta('amount');
-  @override
-  late final GeneratedColumn<double?> amount = GeneratedColumn<double?>(
-      'amount', aliasedName, true,
-      type: const RealType(), requiredDuringInsert: false);
-  final VerificationMeta _transactionDateMeta =
-      const VerificationMeta('transactionDate');
-  @override
-  late final GeneratedColumn<DateTime?> transactionDate =
-      GeneratedColumn<DateTime?>('transaction_date', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _transactionTypeMeta =
-      const VerificationMeta('transactionType');
-  @override
-  late final GeneratedColumnWithTypeConverter<TransactionType, int?>
-      transactionType = GeneratedColumn<int?>(
-              'transaction_type', aliasedName, false,
-              type: const IntType(), requiredDuringInsert: true)
-          .withConverter<TransactionType>($TransactionsTable.$converter0);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, description, categoryType, amount, transactionDate, transactionType];
-  @override
-  String get aliasedName => _alias ?? 'transactions';
-  @override
-  String get actualTableName => 'transactions';
-  @override
-  VerificationContext validateIntegrity(Insertable<Transaction> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
-    }
-    if (data.containsKey('category_type')) {
-      context.handle(
-          _categoryTypeMeta,
-          categoryType.isAcceptableOrUnknown(
-              data['category_type']!, _categoryTypeMeta));
-    } else if (isInserting) {
-      context.missing(_categoryTypeMeta);
-    }
-    if (data.containsKey('amount')) {
-      context.handle(_amountMeta,
-          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
-    }
-    if (data.containsKey('transaction_date')) {
-      context.handle(
-          _transactionDateMeta,
-          transactionDate.isAcceptableOrUnknown(
-              data['transaction_date']!, _transactionDateMeta));
-    } else if (isInserting) {
-      context.missing(_transactionDateMeta);
-    }
-    context.handle(_transactionTypeMeta, const VerificationResult.success());
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Transaction map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Transaction.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $TransactionsTable createAlias(String alias) {
-    return $TransactionsTable(attachedDatabase, alias);
-  }
-
-  static TypeConverter<TransactionType, int> $converter0 =
-      const EnumIndexConverter<TransactionType>(TransactionType.values);
-}
-
 abstract class _$FinqDb extends GeneratedDatabase {
-  _$FinqDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  _$FinqDb(QueryExecutor e) : super(e);
   late final $TransactionsTable transactions = $TransactionsTable(this);
   late final TransactionsDao transactionsDao = TransactionsDao(this as FinqDb);
   Selectable<double?> sumofTransactionAmount(
-      DateTime startDate, DateTime endDate, int transType) {
+      DateTime startDate, DateTime endDate, TransactionType transType) {
     return customSelect(
-        'SELECT SUM(amount) FROM transactions WHERE transaction_date>=:startDate AND transaction_date<=:endDate AND transaction_type=:transType',
+        'SELECT SUM(amount) AS _c0 FROM transactions WHERE transaction_date >= ?1 AND transaction_date <= ?2 AND transaction_type = ?3',
         variables: [
           Variable<DateTime>(startDate),
           Variable<DateTime>(endDate),
-          Variable<int>(transType)
+          Variable<int>(
+              $TransactionsTable.$convertertransactionType.toSql(transType))
         ],
         readsFrom: {
           transactions,
-        }).map((QueryRow row) => row.read<double?>('SUM(amount)'));
+        }).map((QueryRow row) => row.readNullable<double>('_c0'));
   }
 
   @override
-  Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [transactions];
 }

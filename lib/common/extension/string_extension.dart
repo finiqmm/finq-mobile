@@ -18,7 +18,7 @@ extension BuildContenxtExt on BuildContext {
     var expense = double.tryParse(expenseAmount) ?? 0.0;
 
     if (income > expense) {
-      return Theme.of(this).accentColor;
+      return Theme.of(this).primaryColor;
     } else {
       return Colors.redAccent;
     }

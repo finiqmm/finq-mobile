@@ -1,9 +1,6 @@
 import 'package:finq/common/constants/transaction_type.dart';
-import 'package:finq/database/db_util.dart';
 import 'package:finq/database/finq_db.dart';
-import 'package:injectable/injectable.dart';
 import 'package:drift/drift.dart';
-
 part 'transactions_dao.g.dart';
 
 @DriftAccessor(tables: [Transactions])
@@ -38,13 +35,13 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
           DateTime startDate, DateTime endDate) =>
       db
           .sumofTransactionAmount(
-              startDate, endDate, TransactionType.INCOME.index)
+              startDate, endDate, TransactionType.INCOME)
           .watchSingleOrNull();
   Stream<double?> watchTotalExpenseAmount(
           DateTime startDate, DateTime endDate) =>
       db
           .sumofTransactionAmount(
-              startDate, endDate, TransactionType.EXPENSE.index)
+              startDate, endDate, TransactionType.EXPENSE)
           .watchSingleOrNull();
 
   // Stream<double> watchTotalExpenseAmount(DateTime startDate, DateTime endDate){
@@ -57,7 +54,7 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
   Future<double?> getTotalTransactionAmount(
           TransactionType type, DateTime startDate, DateTime endDate) =>
       db
-          .sumofTransactionAmount(startDate, endDate, type.index)
+          .sumofTransactionAmount(startDate, endDate, type)
           .getSingleOrNull();
 
   Future<List<Transaction>> getTransactionsByFilterAndRange(
@@ -79,4 +76,6 @@ class TransactionsDao extends DatabaseAccessor<FinqDb>
           ]))
         .watch();
   }
+
+
 }

@@ -24,6 +24,7 @@ class FinqApp extends StatelessWidget {
             builder: (context, state) {
               if (state is LanguageLoaded) {
                 return MaterialApp(
+                  
                   debugShowCheckedModeBanner: false,
                   title: 'Finq App',
                   theme: theme == ThemeBrightness.dark

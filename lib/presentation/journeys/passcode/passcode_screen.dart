@@ -81,7 +81,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                       enableInteractiveSelection: false,
                       decoration: UnderlineDecoration(
                         colorBuilder: PinListenColorBuilder(
-                            Colors.cyan, Theme.of(context).accentColor),
+                            Colors.cyan, Theme.of(context).primaryColor),
                       ),
                       onSubmit: (pin) {
                         if (pin.length != 4) {

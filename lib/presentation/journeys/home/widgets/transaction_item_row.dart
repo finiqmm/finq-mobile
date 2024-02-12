@@ -61,7 +61,7 @@ class TransactionItemRow extends StatelessWidget {
                         textStyle: Theme.of(context)
                             .textTheme
                             .caption!
-                            .copyWith(color: Theme.of(context).accentColor),
+                            .copyWith(color: Theme.of(context).primaryColor),
                       )
                     : SizedBox()),
             Expanded(

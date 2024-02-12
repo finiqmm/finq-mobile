@@ -52,7 +52,7 @@ class _TransactionChoiceChipState extends State<TransactionChoiceChip> {
           });
         }
       },
-      selectedColor: Theme.of(context).accentColor,
+      selectedColor: Theme.of(context).primaryColor,
     );
   }
 }

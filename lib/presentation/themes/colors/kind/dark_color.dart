@@ -46,9 +46,7 @@ class DarkColors implements IColors {
         .copyWith(
           primary: colors.denim,
         onPrimary: colors.white,
-        primaryVariant: colors.smalt,
         secondary: colors.pacificBlue,
-        secondaryVariant: colors.cobalt,
         onSecondary: colors.white,
         onSurface: colors.darkGrey);
     brightness = Brightness.dark;

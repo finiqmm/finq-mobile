@@ -14,6 +14,7 @@ abstract class ITheme {
 abstract class ThemeManager {
   static ThemeData createTheme(ITheme theme) {
     return ThemeData(
+      useMaterial3: false,
         fontFamily: theme.textTheme.fontFamily,
         textTheme: theme.textTheme.data,
         cardColor: theme.colors.colorScheme?.onSecondary,
