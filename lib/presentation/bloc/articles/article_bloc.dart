@@ -24,16 +24,4 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     });
   }
 
-  // @override
-  // Stream<ArticleState> mapEventToState(
-  //   ArticleEvent event,
-  // ) async* {
-  //   if (event is ArticleLoadEvent) {
-  //     yield ArticleLoadingState();
-  //     final response = await getArticle(NoParams());
-  //     debugPrint(response.toString());
-  //     yield response.fold((l) => ArticleErrorState(errorMessage: l.message),
-  //         (r) => ArticleLoadedState(articles: r));
-  //   }
-  // }
 }

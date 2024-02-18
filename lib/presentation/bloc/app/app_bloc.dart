@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -23,17 +22,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<IsUserFinishedOnboarding>((event, emit) async {
       final response = await checkIfFirstTimeUser(NoParams());
       emit(response.fold((l) => FirstTimeUser(), (r) {
+        /// TODO : trigger event from UI
         add(AuthCheckRequested());
         return OnboardingPassed();
       }));
     });
-// if (event is AuthCheckRequested) {
-    //     final response = await getSignedInUser(NoParams());
-    //     yield response.fold((l) => UnAuthenticated(), (r) {
-    //       passcodeCubit.isAppLocked();
-    //       return Authenticated();
-    //     });
-    //   }
 
     on<AuthCheckRequested>((event, emit)async{
       final response = await getSignedInUser(NoParams());
