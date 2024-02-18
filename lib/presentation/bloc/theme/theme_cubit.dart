@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:finq/domain/entities/no_params.dart';
 import 'package:finq/domain/usecases/use_case_imports.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 enum ThemeBrightness { light, dark }
@@ -20,7 +19,7 @@ class ThemeCubit extends Cubit<ThemeBrightness> {
 
   Future<void> toggleTheme() async {
     await updateTheme(state == ThemeBrightness.dark ? 'light' : 'dark');
-      loadPreferredTheme();
+    loadPreferredTheme();
   }
 
   void loadPreferredTheme() async {
